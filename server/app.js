@@ -1,12 +1,12 @@
 'use strict';
 
 /** Module dependencies. */
-const express      = require('express');
-const bodyParser   = require('body-parser');
+const express = require('express');
+const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
-const path         = require('path');
-const logger       = require('morgan');
-const routes       = require('./routes');
+const path = require('path');
+const logger = require('morgan');
+const routes = require('./routes');
 
 const port = process.env.PORT || 3000;
 
@@ -25,12 +25,18 @@ if (process.env.NODE_ENV !== 'production') {
 
   // setup middleware
   const compiler = webpack(config);
-  app.use(webpackDevMiddleware(compiler, { noInfo: true, publicPath: config.output.publicPath }));
+  app.use(
+    webpackDevMiddleware(compiler, {
+      noInfo: true,
+      publicPath: config.output.publicPath,
+    })
+  );
   app.use(webpackHotMiddleware(compiler));
 }
 
 app.set('port', port);
-app.use(logger('dev'))
+app
+  .use(logger('dev'))
   .use(cookieParser())
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))

@@ -1,28 +1,28 @@
 import React, { Component } from 'react';
-import { render }           from 'react-dom';
+import { render } from 'react-dom';
 import { createStore, combineReducers, applyMiddleware } from 'redux';
-import thunk        from 'redux-thunk';
+import thunk from 'redux-thunk';
 import { Provider } from 'react-redux';
 import { Router, Route, IndexRoute, hashHistory } from 'react-router';
-import { syncHistory, routeReducer }     from 'react-router-redux';
+import { syncHistory, routeReducer } from 'react-router-redux';
 import { createHistory } from 'history';
 import reducer from './reducers';
-import App     from './components/App';
-import Login   from './components/Login';
-import User    from './components/User';
-import Error   from './components/Error';
+import App from './components/App';
+import Login from './components/Login';
+import User from './components/User';
+import Error from './components/Error';
 
 // load our css. there probably is a better way to do this
 // but for now this is our move
 require('./style.less');
 
 // Sync dispatched route actions to the history
-const reduxRouterMiddleware = syncHistory(hashHistory)
+const reduxRouterMiddleware = syncHistory(hashHistory);
 const createStoreWithMiddleware = applyMiddleware(
   thunk,
   reduxRouterMiddleware
-)(createStore)
-const store = createStoreWithMiddleware(reducer)
+)(createStore);
+const store = createStoreWithMiddleware(reducer);
 
 class Root extends Component {
   render() {

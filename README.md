@@ -24,7 +24,7 @@ and [React-Router-Redux][rrr]. phew!
 
 The only real config this requires is in `client/index.js`:
 
-~~~js
+```js
 class Root extends Component {
   render() {
     return (
@@ -40,7 +40,7 @@ class Root extends Component {
     );
   }
 }
-~~~
+```
 
 Here, we initialize redux with our store, initialize react router with its
 history object. Everything else is a fairly traditional React app - the
@@ -84,16 +84,16 @@ There are three scripts - `start`, `dev`, and `build`.
 
 To run the production bundle:
 
-~~~bash
+```bash
 $ npm run build
 $ npm start
-~~~
+```
 
 To run in dev mode (with hot reloading, and un-minified source maps):
 
-~~~bash
+```bash
 $ npm run dev
-~~~
+```
 
 ## Further Reading
 
@@ -102,18 +102,18 @@ The application structure is a simplified version of my
 It can certainly be awesome-ified (and maybe a little more complicated) by
 doing some of the fun tricks in there.
 
-  - [Spotify's Getting Started Guide][sgs]
-  - [Spotify's Web API Authorization Guide][sag]
-  - [Spotify Web API Node][swn]
-  - [Spotify Web API JS/Client][swj]
-  - [Spotify's Web API Auth Exampls][wae]
-  - [My Pull Request enhancing Spotify's examples][spr]
-  - [React Router][rr]
-  - [React Router Redux][rrr]
-  - [React][r]
-  - [Redux][rx]
-  - [Better NPM Run][bnr]
-  - [React + Redux + Webpack Boilerplate][bp]
+- [Spotify's Getting Started Guide][sgs]
+- [Spotify's Web API Authorization Guide][sag]
+- [Spotify Web API Node][swn]
+- [Spotify Web API JS/Client][swj]
+- [Spotify's Web API Auth Exampls][wae]
+- [My Pull Request enhancing Spotify's examples][spr]
+- [React Router][rr]
+- [React Router Redux][rrr]
+- [React][r]
+- [Redux][rx]
+- [Better NPM Run][bnr]
+- [React + Redux + Webpack Boilerplate][bp]
 
 [sgs]: https://developer.spotify.com/web-api/tutorial/
 [sag]: https://developer.spotify.com/web-api/authorization-guide/
@@ -121,9 +121,9 @@ doing some of the fun tricks in there.
 [swj]: https://github.com/JMPerez/spotify-web-api-js
 [wae]: https://github.com/spotify/web-api-auth-examples
 [spr]: https://github.com/spotify/web-api-auth-examples/pull/7
-[rr]:  https://github.com/rackt/react-router
+[rr]: https://github.com/rackt/react-router
 [rrr]: https://github.com/rackt/react-router-redux
-[r]:   https://facebook.github.io/react/
-[rx]:  http://redux.js.org/
+[r]: https://facebook.github.io/react/
+[rx]: http://redux.js.org/
 [bnr]: https://www.npmjs.com/package/better-npm-run
-[bp]:  https://github.com/kauffecup/react-redux-webpack-boilerplate
+[bp]: https://github.com/kauffecup/react-redux-webpack-boilerplate
