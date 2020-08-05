@@ -1,6 +1,6 @@
-@accent-color: #648f00;
-@error-color: #fb654a;
-@secondary-text-color: #c1c1c1;
+$accent-color: #648f00;
+$error-color: #fb654a;
+$secondary-text-color: #c1c1c1;
 
 // get the page ready
 * {
@@ -71,18 +71,18 @@ ul {
 a {
   &:visited,
   &:link {
-    color: @secondary-text-color;
+    color: $secondary-text-color;
   }
   &:hover,
   &:active {
-    color: @accent-color;
+    color: $accent-color;
   }
 }
 
 // let the real CSS begin
 .spotify-login {
   h1 {
-    background-color: @accent-color;
+    background-color: $accent-color;
     color: #fff;
     padding: 20px 50px;
   }
@@ -98,7 +98,7 @@ a {
     text-align: center;
     .login-btn .spotify-btn {
       .main {
-        fill: @accent-color;
+        fill: $accent-color;
       }
       &:hover .main {
         fill: black;
@@ -106,7 +106,7 @@ a {
     }
   }
   .error {
-    color: @error-color;
+    color: $error-color;
     &,
     h2 {
       font-weight: bold;

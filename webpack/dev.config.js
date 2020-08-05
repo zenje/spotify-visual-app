@@ -2,7 +2,7 @@ const path = require('path');
 const webpack = require('webpack');
 
 module.exports = {
-  devtool: 'cheap-module-eval-source-map',
+  mode: 'development',
   entry: [
     'webpack-hot-middleware/client',
     'babel-polyfill',
@@ -14,34 +14,20 @@ module.exports = {
     publicPath: '/',
   },
   module: {
-    loaders: [
+    rules: [
       { test: /\.svg$/, loaders: ['raw-loader'] },
-      // take all less files, compile them, and bundle them in with our js bundle
       {
-        test: /\.less$/,
-        loader: 'style!css!autoprefixer?browsers=last 2 version!less',
+        test: /\.s[ac]ss$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react'],
-          plugins: [
-            [
-              'react-transform',
-              {
-                transforms: [
-                  {
-                    transform: 'react-transform-hmr',
-                    imports: ['react'],
-                    // this is important for Webpack HMR:
-                    locals: ['module'],
-                  },
-                ],
-              },
-            ],
-          ],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: ['@babel/preset-env', '@babel/preset-react'],
+          },
         },
       },
     ],
@@ -52,8 +38,6 @@ module.exports = {
         NODE_ENV: JSON.stringify('development'),
       },
     }),
-    new webpack.optimize.OccurenceOrderPlugin(),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NoErrorsPlugin(),
   ],
 };

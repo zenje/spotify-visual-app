@@ -79,6 +79,10 @@ class User extends Component {
               <span>Product</span>
               <span>{product}</span>
             </li>
+            <li>
+              <span>Access token</span>
+              <span>{accessToken}</span>
+            </li>
           </ul>
         </div>
       </div>
