@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+//import { useParams } from 'react-router-dom';
 import { getMyInfo, setTokens } from '../actions/actions';
 
 /**
@@ -11,14 +12,20 @@ class User extends Component {
   componentDidMount() {
     // params injected via react-router, dispatch injected via connect
     const { dispatch, params } = this.props;
-    const { accessToken, refreshToken } = params;
+    const { accessToken, refreshToken } = this.props.match.params;
+    console.log('ACCESSTOKEN ' + accessToken);
+    //const { accessToken, refreshToken } = params;
     dispatch(setTokens({ accessToken, refreshToken }));
     dispatch(getMyInfo());
   }
 
   /** Render the user's info */
   render() {
-    const { accessToken, refreshToken, user } = this.props;
+    console.log('this.props');
+    console.log(this.props);
+    const { accessToken, refreshToken } = this.props.match.params;
+    const { user } = this.props;
+    console.log('accessToken ' + accessToken);
     const {
       loading,
       display_name,
@@ -89,5 +96,15 @@ class User extends Component {
     );
   }
 }
+const mapStateToProps = (state, ownProps) => {
+  console.log('user state');
+  console.log(state);
+  return {
+    accessToken: state.accessToken,
+    refreshToken: state.refreshToken,
+    user: state.user,
+  };
+};
 
-export default connect((state) => state)(User);
+export default connect(mapStateToProps)(User);
+//export default connect((state) => state)(User);

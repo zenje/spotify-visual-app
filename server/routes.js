@@ -6,13 +6,13 @@ const express = require('express');
 const router = new express.Router();
 
 // configure the express server
-const CLIENT_ID = process.env.client_id;
-const CLIENT_SECRET = process.env.client_secret;
+const CLIENT_ID = process.env.CLIENT_ID;
+const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const REDIRECT_URI =
-  process.env.redirect_uri || 'http://localhost:3000/callback';
+  process.env.REDIRECT_URI || 'http://localhost:3000/callback';
 const STATE_KEY = 'spotify_auth_state';
 // your application requests authorization
-const scopes = ['user-read-private', 'user-read-email'];
+const scopes = ['user-read-private', 'user-read-email', 'user-top-read'];
 
 // configure spotify
 const spotifyApi = new Spotify({
@@ -66,8 +66,18 @@ router.get('/callback', (req, res) => {
           console.log(body);
         });
 
+        // test another api call
+        spotifyApi.getMyTopArtists({ time_range: 'long_term' }).then(
+          function (data) {
+            console.log('Artist albums', data.body);
+          },
+          function (err) {
+            console.error(err);
+          }
+        );
+
         // we can also pass the token to the browser to make requests from there
-        res.redirect(`/#/user/${access_token}/${refresh_token}`);
+        res.redirect(`/user/${access_token}/${refresh_token}`);
       })
       .catch((err) => {
         res.redirect('/#/error/invalid token');

@@ -33,11 +33,13 @@ module.exports = {
     ],
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        NODE_ENV: JSON.stringify('development'),
-      },
-    }),
+    // map .env variables to process.env
+    new webpack.EnvironmentPlugin([
+      'NODE_ENV',
+      'CLIENT_ID',
+      'CLIENT_SECRET',
+      'REDIRECT_URI',
+    ]),
     new webpack.HotModuleReplacementPlugin(),
   ],
 };

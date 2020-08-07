@@ -43,7 +43,12 @@ app
   .use(express.static(path.resolve(__dirname, '../public')))
   .use('/', routes);
 
-// Start her up, boys
+// important! for making express play nicely with react-router
+app.get('*', (req, res) => {
+  res.sendFile(path.resolve(__dirname, '../public', 'index.html'));
+});
+
+// start up the server
 app.listen(app.get('port'), () => {
   console.log('Express server listening on port ' + app.get('port'));
 });
