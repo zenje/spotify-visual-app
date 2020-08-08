@@ -27,15 +27,20 @@ const Root = ({ store }) => (
     <BrowserRouter>
       <App>
         <Switch>
-          <Route exact path="/" component={Login} />
-          <Route path="/user/:accessToken/:refreshToken" component={User} />
-          <Route path="/error/:errorMsg" component={Error} />
+          <Route exact path="/">
+            <Login />
+          </Route>
+          <Route path="/user/:accessToken/:refreshToken">
+            <User />
+          </Route>
+          <Route path="/error/:errorMsg">
+            <Error />
+          </Route>
         </Switch>
       </App>
     </BrowserRouter>
   </Provider>
 );
 
-// render town
 const rootElement = document.getElementById('root');
 render(<Root store={store} />, rootElement);
