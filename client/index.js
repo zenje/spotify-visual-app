@@ -9,8 +9,9 @@ import {
   Router,
   Switch,
   Link,
-  useLocation,
+  Redirect,
 } from 'react-router-dom';
+import Cookies from 'js-cookie';
 import { syncHistory, routeReducer } from 'react-router-redux';
 import { createHistory } from 'history';
 import configureStore from './configureStore';
@@ -22,13 +23,20 @@ import './style.scss';
 
 const store = configureStore;
 
+let accessToken = Cookies.get('spotifyAccessToken');
+let refreshToken = Cookies.get('spotifyRefreshToken');
+
 const Root = ({ store }) => (
   <Provider store={store}>
     <BrowserRouter>
       <App>
         <Switch>
           <Route exact path="/">
-            <Login />
+            {accessToken ? (
+              <Redirect to={`/user/${accessToken}/${refreshToken}`} />
+            ) : (
+              <Login />
+            )}
           </Route>
           <Route path="/user/:accessToken/:refreshToken">
             <User />

@@ -1,4 +1,6 @@
 import Spotify from 'spotify-web-api-js';
+import Cookies from 'js-cookie';
+
 const spotifyApi = new Spotify();
 
 // our constants
@@ -10,7 +12,10 @@ export const SPOTIFY_ME_FAILURE = 'SPOTIFY_ME_FAILURE';
 /** set the app's access and refresh tokens */
 export function setTokens({ accessToken, refreshToken }) {
   if (accessToken) {
+    const inOneHour = 1 / 24;
     spotifyApi.setAccessToken(accessToken);
+    Cookies.set('spotifyAccessToken', accessToken, { expires: inOneHour });
+    Cookies.set('spotifyRefreshToken', refreshToken, { expires: inOneHour });
   }
   return { type: SPOTIFY_TOKENS, accessToken, refreshToken };
 }
