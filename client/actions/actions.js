@@ -1,5 +1,6 @@
 import Spotify from 'spotify-web-api-js';
 import Cookies from 'js-cookie';
+import { useHistory } from 'react-router-dom';
 
 const spotifyApi = new Spotify();
 
@@ -10,7 +11,7 @@ export const SPOTIFY_ME_SUCCESS = 'SPOTIFY_ME_SUCCESS';
 export const SPOTIFY_ME_FAILURE = 'SPOTIFY_ME_FAILURE';
 
 /** set the app's access and refresh tokens */
-export function setTokens({ accessToken, refreshToken }) {
+export const setTokens = ({ accessToken, refreshToken }) => {
   if (accessToken) {
     const inOneHour = 1 / 24;
     spotifyApi.setAccessToken(accessToken);
@@ -18,10 +19,10 @@ export function setTokens({ accessToken, refreshToken }) {
     Cookies.set('spotifyRefreshToken', refreshToken, { expires: inOneHour });
   }
   return { type: SPOTIFY_TOKENS, accessToken, refreshToken };
-}
+};
 
 /* get the user's info from the /me api */
-export function getMyInfo() {
+export const getMyInfo = () => {
   return (dispatch) => {
     dispatch({ type: SPOTIFY_ME_BEGIN });
     spotifyApi
@@ -30,7 +31,24 @@ export function getMyInfo() {
         dispatch({ type: SPOTIFY_ME_SUCCESS, data: data });
       })
       .catch((e) => {
-        dispatch({ type: SPOTIFY_ME_FAILURE, error: e });
+        console.log('ERROR');
+        console.log(e);
+        dispatch({ type: SPOTIFY_ME_FAILURE, error: 'Error!' });
       });
   };
-}
+};
+
+export const getTopArtists = () => {
+  return (dispatch) => {
+    console.log('getTopArtists');
+    console.log(spotifyApi);
+    spotifyApi.getMyTopArtists({ time_range: 'long_term', limit: 50 }).then(
+      function (data) {
+        console.log('Top artists', data);
+      },
+      function (err) {
+        console.error(err);
+      }
+    );
+  };
+};

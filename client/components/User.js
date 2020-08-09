@@ -1,14 +1,17 @@
 import React, { Component, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getMyInfo, setTokens } from '../actions/actions';
+import { getMyInfo, setTokens, getTopArtists } from '../actions/actions';
+import Button from '@material-ui/core/Button';
+import ArtistsGrid from './ArtistsGrid';
 
 /**
  * Our user page
  * Displays the user's information
  */
-function User({ user, getMyInfo, setTokens }) {
+function User({ user, getMyInfo, setTokens, getTopArtists, showArtistsGrid }) {
   let { accessToken, refreshToken } = useParams();
+  showArtistsGrid = false;
 
   /** When we mount, get the tokens from react-router and initiate loading the info */
   useEffect(() => {
@@ -33,6 +36,10 @@ function User({ user, getMyInfo, setTokens }) {
   if (loading) {
     return <h2>Loading...</h2>;
   }
+
+  const displayArtistsGrid = () => {
+    showArtistsGrid = true;
+  };
 
   return (
     <div className="user">
@@ -78,12 +85,18 @@ function User({ user, getMyInfo, setTokens }) {
             <span>Product</span>
             <span>{product}</span>
           </li>
-          <li>
-            <span>Access token</span>
-            <span>{accessToken}</span>
-          </li>
         </ul>
       </div>
+      <Button
+        variant="contained"
+        onClick={() => {
+          alert('clicked');
+          displayArtistsGrid();
+        }}
+      >
+        Get Top Artists
+      </Button>
+      <ArtistsGrid />
     </div>
   );
 }
@@ -96,6 +109,7 @@ const mapStateToProps = ({ accessToken, refreshToken, user }, ownProps) => {
 const actionCreators = {
   getMyInfo,
   setTokens,
+  getTopArtists,
 };
 
 export default connect(mapStateToProps, actionCreators)(User);

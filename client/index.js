@@ -41,9 +41,6 @@ const Root = ({ store }) => (
           <Route path="/user/:accessToken/:refreshToken">
             <User />
           </Route>
-          <Route path="/error/:errorMsg">
-            <Error />
-          </Route>
         </Switch>
       </App>
     </BrowserRouter>

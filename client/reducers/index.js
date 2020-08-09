@@ -23,12 +23,14 @@ const initialState = {
     type: null,
     uri: null,
   },
+  topArtists: {},
 };
 
 /**
  * Our reducer
  */
 export default function reduce(state = initialState, action) {
+  console.log('action ' + action);
   switch (action.type) {
     // when we get the tokens... set the tokens!
     case SPOTIFY_TOKENS:
@@ -49,7 +51,17 @@ export default function reduce(state = initialState, action) {
 
     // currently no failure state :(
     case SPOTIFY_ME_FAILURE:
+      return Object.assign({}, state, {
+        user: Object.assign({}, state.user, { loading: false }),
+      });
+
+    /*
+	  case SPOTIFY_TOP_ARTISTS_BEGIN:
       return state;
+      
+    case SPOTIFY_TOP_ARTISTS_SUCCESS:
+      return state;
+	*/
 
     default:
       return state;
