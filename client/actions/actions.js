@@ -1,6 +1,7 @@
 import Spotify from 'spotify-web-api-js';
 import Cookies from 'js-cookie';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 
 const spotifyApi = new Spotify();
 
@@ -11,12 +12,14 @@ export const SPOTIFY_ME_SUCCESS = 'SPOTIFY_ME_SUCCESS';
 export const SPOTIFY_ME_FAILURE = 'SPOTIFY_ME_FAILURE';
 
 /** set the app's access and refresh tokens */
-export const setTokens = ({ accessToken, refreshToken }) => {
+export const setTokens = ({ accessToken, refreshToken, setCookies }) => {
   if (accessToken) {
-    const inOneHour = 1 / 24;
+    if (setCookies) {
+      const inOneHour = 1 / 24;
+      Cookies.set('spotifyAccessToken', accessToken, { expires: inOneHour });
+      Cookies.set('spotifyRefreshToken', refreshToken, { expires: inOneHour });
+    }
     spotifyApi.setAccessToken(accessToken);
-    Cookies.set('spotifyAccessToken', accessToken, { expires: inOneHour });
-    Cookies.set('spotifyRefreshToken', refreshToken, { expires: inOneHour });
   }
   return { type: SPOTIFY_TOKENS, accessToken, refreshToken };
 };
@@ -33,7 +36,8 @@ export const getMyInfo = () => {
       .catch((e) => {
         console.log('ERROR');
         console.log(e);
-        dispatch({ type: SPOTIFY_ME_FAILURE, error: 'Error!' });
+        //axios.get(`http://167.99.167.0:3000/refreshTokens/`);
+        //dispatch({ type: SPOTIFY_ME_FAILURE, error: 'Error!' });
       });
   };
 };
@@ -45,6 +49,7 @@ export const getTopArtists = () => {
     spotifyApi.getMyTopArtists({ time_range: 'long_term', limit: 50 }).then(
       function (data) {
         console.log('Top artists', data);
+        dispatch({ type: SPOTIFY_ME_SUCCESS, data: data });
       },
       function (err) {
         console.error(err);

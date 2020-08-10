@@ -10,12 +10,14 @@ import ArtistsGrid from './ArtistsGrid';
  * Displays the user's information
  */
 function User({ user, getMyInfo, setTokens, getTopArtists, showArtistsGrid }) {
-  let { accessToken, refreshToken } = useParams();
+  let { accessToken, refreshToken, setCookies } = useParams();
   showArtistsGrid = false;
 
   /** When we mount, get the tokens from react-router and initiate loading the info */
   useEffect(() => {
-    setTokens({ accessToken, refreshToken });
+    if (setCookies) {
+      setTokens({ accessToken, refreshToken });
+    }
     getMyInfo();
   }, []);
 

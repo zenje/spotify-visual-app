@@ -25,6 +25,7 @@ const store = configureStore;
 
 let accessToken = Cookies.get('spotifyAccessToken');
 let refreshToken = Cookies.get('spotifyRefreshToken');
+let setCookies = false;
 
 const Root = ({ store }) => (
   <Provider store={store}>
@@ -33,12 +34,14 @@ const Root = ({ store }) => (
         <Switch>
           <Route exact path="/">
             {accessToken ? (
-              <Redirect to={`/user/${accessToken}/${refreshToken}`} />
+              <Redirect
+                to={`/user/${accessToken}/${refreshToken}/${setCookies}`}
+              />
             ) : (
               <Login />
             )}
           </Route>
-          <Route path="/user/:accessToken/:refreshToken">
+          <Route path="/user/:accessToken/:refreshToken/:setCookies">
             <User />
           </Route>
         </Switch>

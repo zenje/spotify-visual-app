@@ -8,7 +8,7 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 import IconButton from '@material-ui/core/IconButton';
-import artistsTestData from './artistsTestData';
+import a from './artistsTestData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tileData = artistsTestData.artistsTestData.items.map((item, idx) => ({
+const tileData = a.items.map((item, idx) => ({
   img: item.images ? item.images[0].url : undefined,
   title: item.name,
   featured: idx < 12,
