@@ -7,8 +7,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import IconButton from '@material-ui/core/IconButton';
-import a from './artistsTestData';
+import testData from './artistsTestData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -20,7 +19,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     width: '100%',
-    // Promote the list into his own layer on Chrome. This cost memory but helps keeping high FPS.
+    // Promote the list into own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)',
   },
   titleBar: {
@@ -33,53 +32,63 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const tileData = a.items.map((item, idx) => ({
+/*
+const tileData = testData.items.map((item, idx) => ({
   img: item.images ? item.images[0].url : undefined,
   title: item.name,
   featured: idx < 12,
 }));
+*/
 
-function ArtistsGrid({ getTopArtists }) {
+const getTileData = (topArtists) => {
+  if (topArtists && topArtists.items) {
+    return topArtists.items.map((item, idx) => ({
+      img: item.images ? item.images[0].url : undefined,
+      title: item.name,
+      featured: idx < 12,
+    }));
+  }
+  return [];
+};
+
+function ArtistsGrid({ timeRange, topArtists, getTopArtists }) {
   console.log('ArtistsGrid');
-  console.log(tileData);
+  //console.log(tileData);
 
   useEffect(() => {
-    //getTopArtists();
+    console.log('load top artists, timeRange ' + timeRange);
+    getTopArtists(timeRange);
   }, []);
 
   const classes = useStyles();
-
   const theme = useTheme();
   const screenLarge = useMediaQuery(theme.breakpoints.up('md'));
   const screenMedium = useMediaQuery(theme.breakpoints.up('sm'));
 
   const getGridListColsRows = () => {
     let values = {
-      gridListCols: 24,
-      gridListTileColsFeatured: 6,
-      gridListTileRowsFeatured: 3,
-      gridListTileCols: 4,
-      gridListTileRows: 2,
+      cols: 24,
+      tileColsFeatured: 6,
+      tileRowsFeatured: 3,
+      tileCols: 4,
+      tileRows: 2,
     };
     if (screenLarge) {
       console.log('>md');
-      values.gridListCols = 24;
+      return values;
     } else if (screenMedium) {
+      return Object.assign({}, values, { cols: 18, tileCols: 3, tileRows: 2 });
       console.log('>sm');
-      values.gridListCols = 18;
-      values.gridListTileCols = 3;
-      values.gridListTileRows = 2;
     } else {
       console.log('<sm');
-      values.gridListCols = 12;
-      values.gridListTileCols = 3;
-      values.gridListTileRows = 2;
+      return Object.assign({}, values, { cols: 12, tileCols: 3, tileRows: 2 });
     }
-
     return values;
   };
 
   let colsRows = getGridListColsRows();
+  let tileData = getTileData(topArtists);
+  console.log('tileData', tileData);
 
   return (
     <div className={classes.root}>
@@ -87,23 +96,15 @@ function ArtistsGrid({ getTopArtists }) {
         align="center"
         cellHeight={90}
         spacing={5}
-        cols={colsRows.gridListCols}
+        cols={colsRows.cols}
         className={classes.gridList}
       >
         {tileData.map((tile) => (
           <GridListTile
             align="center"
             key={tile.img}
-            cols={
-              tile.featured
-                ? colsRows.gridListTileColsFeatured
-                : colsRows.gridListTileCols
-            }
-            rows={
-              tile.featured
-                ? colsRows.gridListTileRowsFeatured
-                : colsRows.gridListTileRows
-            }
+            cols={tile.featured ? colsRows.tileColsFeatured : colsRows.tileCols}
+            rows={tile.featured ? colsRows.tileRowsFeatured : colsRows.tileRows}
           >
             <img src={tile.img} alt={tile.title} />
             <GridListTileBar
@@ -119,8 +120,12 @@ function ArtistsGrid({ getTopArtists }) {
   );
 }
 
+const mapStateToProps = ({ topArtists }, ownProps) => {
+  return { topArtists };
+};
+
 const actionCreators = {
   getTopArtists,
 };
 
-export default connect(null, actionCreators)(ArtistsGrid);
+export default connect(mapStateToProps, actionCreators)(ArtistsGrid);
