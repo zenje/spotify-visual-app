@@ -3,13 +3,13 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getMyInfo, setTokens } from '../actions/actions';
 import Button from '@material-ui/core/Button';
-import ArtistsGrid from './ArtistsGrid';
+import ArtistsGridWrapper from './ArtistsGridWrapper';
 
 /**
  * Our user page
  * Displays the user's information
  */
-function User({ user, getMyInfo, setTokens, getTopArtists, showArtistsGrid }) {
+function User({ user, getMyInfo, setTokens, showArtistsGrid }) {
   let { accessToken, refreshToken, setCookies } = useParams();
   showArtistsGrid = false;
 
@@ -96,7 +96,7 @@ function User({ user, getMyInfo, setTokens, getTopArtists, showArtistsGrid }) {
       >
         Get Top Artists
       </Button>
-      <ArtistsGrid />
+      <ArtistsGridWrapper />
     </div>
   );
 }

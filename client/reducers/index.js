@@ -54,8 +54,10 @@ export default function reduce(state = initialState, action) {
       return state;
 
     case types.SPOTIFY_TOP_ARTISTS_SUCCESS:
+      const topArtistsWithTimeRanges = Object.assign({}, state.topArtists);
+      topArtistsWithTimeRanges[action.timeRange] = action.data;
       return Object.assign({}, state, {
-        topArtists: action.data,
+        topArtists: topArtistsWithTimeRanges,
       });
 
     default:

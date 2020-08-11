@@ -2,6 +2,7 @@ import Spotify from 'spotify-web-api-js';
 import Cookies from 'js-cookie';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
+import { TIME_RANGES } from '../constants';
 import * as types from './actionTypes';
 
 const spotifyApi = new Spotify();
@@ -26,7 +27,7 @@ export const getMyInfo = () => {
     spotifyApi
       .getMe()
       .then((data) => {
-        dispatch({ type: types.SPOTIFY_ME_SUCCESS, data: data });
+        dispatch({ type: types.SPOTIFY_ME_SUCCESS, data });
       })
       .catch((e) => {
         console.log('ERROR');
@@ -37,11 +38,11 @@ export const getMyInfo = () => {
   };
 };
 
-export const getTopArtists = (timeRange = 'long_term') => {
+export const getTopArtists = (timeRange = TIME_RANGES.LONG_TERM.timeRange) => {
   return (dispatch) => {
     spotifyApi.getMyTopArtists({ time_range: timeRange, limit: 50 }).then(
       (data) => {
-        dispatch({ type: types.SPOTIFY_TOP_ARTISTS_SUCCESS, data: data });
+        dispatch({ type: types.SPOTIFY_TOP_ARTISTS_SUCCESS, timeRange, data });
       },
       (err) => {
         console.error(err);

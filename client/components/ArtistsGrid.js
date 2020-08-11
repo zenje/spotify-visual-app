@@ -7,7 +7,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import testData from './artistsTestData';
+// import testData from './artistsTestData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -40,9 +40,9 @@ const tileData = testData.items.map((item, idx) => ({
 }));
 */
 
-const getTileData = (topArtists) => {
-  if (topArtists && topArtists.items) {
-    return topArtists.items.map((item, idx) => ({
+const getTileData = (topArtists, timeRange) => {
+  if (topArtists && topArtists[timeRange] && topArtists[timeRange].items) {
+    return topArtists[timeRange].items.map((item, idx) => ({
       img: item.images ? item.images[0].url : undefined,
       title: item.name,
       featured: idx < 12,
@@ -52,13 +52,12 @@ const getTileData = (topArtists) => {
 };
 
 function ArtistsGrid({ timeRange, topArtists, getTopArtists }) {
-  console.log('ArtistsGrid');
-  //console.log(tileData);
-
   useEffect(() => {
-    console.log('load top artists, timeRange ' + timeRange);
-    getTopArtists(timeRange);
-  }, []);
+    if (!topArtists[timeRange]) {
+      // only fetch top artists if time range data has not yet been loaded
+      getTopArtists(timeRange);
+    }
+  }, [timeRange]);
 
   const classes = useStyles();
   const theme = useTheme();
@@ -87,8 +86,7 @@ function ArtistsGrid({ timeRange, topArtists, getTopArtists }) {
   };
 
   let colsRows = getGridListColsRows();
-  let tileData = getTileData(topArtists);
-  console.log('tileData', tileData);
+  let tileData = getTileData(topArtists, timeRange);
 
   return (
     <div className={classes.root}>
