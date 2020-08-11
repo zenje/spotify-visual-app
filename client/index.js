@@ -1,54 +1,16 @@
-import React, { Component, useEffect } from 'react';
+import React from 'react';
 import { render } from 'react-dom';
-import { createStore, combineReducers, applyMiddleware } from 'redux';
 import { Provider } from 'react-redux';
-import {
-  BrowserRouter,
-  HashRouter,
-  Route,
-  Router,
-  Switch,
-  Link,
-  Redirect,
-} from 'react-router-dom';
-import Cookies from 'js-cookie';
-import { syncHistory, routeReducer } from 'react-router-redux';
-import { createHistory } from 'history';
+
 import configureStore from './configureStore';
-import App from './components/App';
-import Login from './components/Login';
-import User from './components/User';
-import Error from './components/Error';
+import Root from './components/Root';
 import './style.scss';
 
 const store = configureStore;
 
-let accessToken = Cookies.get('spotifyAccessToken');
-let refreshToken = Cookies.get('spotifyRefreshToken');
-let setCookies = false;
-
-const Root = ({ store }) => (
+render(
   <Provider store={store}>
-    <BrowserRouter>
-      <App>
-        <Switch>
-          <Route exact path="/">
-            {accessToken ? (
-              <Redirect
-                to={`/user/${accessToken}/${refreshToken}/${setCookies}`}
-              />
-            ) : (
-              <Login />
-            )}
-          </Route>
-          <Route path="/user/:accessToken/:refreshToken/:setCookies">
-            <User />
-          </Route>
-        </Switch>
-      </App>
-    </BrowserRouter>
-  </Provider>
+    <Root />
+  </Provider>,
+  document.getElementById('root')
 );
-
-const rootElement = document.getElementById('root');
-render(<Root store={store} />, rootElement);
