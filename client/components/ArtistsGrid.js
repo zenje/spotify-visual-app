@@ -1,12 +1,13 @@
 import React, { Component, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { getTopArtists } from '../actions/actions';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import { getTopArtists } from '../actions/actions';
+import { fetchArtistExtract } from '../actions/wikipediaActions';
 // import testData from './artistsTestData';
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +52,40 @@ const getTileData = (topArtists, timeRange) => {
   return [];
 };
 
-function ArtistsGrid({ timeRange, topArtists, getTopArtists }) {
+/*
+const collectGenres = (topArtists, timeRange) => {
+  let allGenres = {};
+  if (topArtists && topArtists[timeRange] && topArtists[timeRange].items) {
+    topArtists[timeRange].items.forEach((item, idx) => {
+      let artist = item.name;
+      let genres = item.genres;
+      genres.forEach((genre) => {
+        if (value && value.length > 0) {
+          value.push(artist);
+          allGenres[genre] = value;
+        } else {
+          allGenres[genre] = [artist];
+        }
+        //(allGenres[genre] = allGenres[genre] || []).push(artist);
+        if (!allGenres[genre]) {
+          allGenres[genre] = 0;
+        } else {
+          allGenres[genre]++;
+        }
+        const count = allGenres[genre];
+        allGenres[genre] = count ? count + 1 : 1;
+      });
+    });
+  }
+  return allGenres;
+};*/
+
+function ArtistsGrid({
+  timeRange,
+  topArtists,
+  getTopArtists,
+  fetchArtistExtract,
+}) {
   useEffect(() => {
     if (!topArtists[timeRange]) {
       // only fetch top artists if time range data has not yet been loaded
@@ -87,6 +121,10 @@ function ArtistsGrid({ timeRange, topArtists, getTopArtists }) {
 
   let colsRows = getGridListColsRows();
   let tileData = getTileData(topArtists, timeRange);
+  //let genres = collectGenres(topArtists, timeRange);
+  //console.log('genres');
+  //console.log(JSON.stringify(genres));
+  //console.log(genres);
 
   return (
     <div className={classes.root}>
@@ -103,6 +141,10 @@ function ArtistsGrid({ timeRange, topArtists, getTopArtists }) {
             key={tile.img}
             cols={tile.featured ? colsRows.tileColsFeatured : colsRows.tileCols}
             rows={tile.featured ? colsRows.tileRowsFeatured : colsRows.tileRows}
+            onClick={() => {
+              alert('clicked ' + tile.title);
+              fetchArtistExtract(tile.title);
+            }}
           >
             <img src={tile.img} alt={tile.title} />
             <GridListTileBar
@@ -124,6 +166,7 @@ const mapStateToProps = ({ topArtists }, ownProps) => {
 
 const actionCreators = {
   getTopArtists,
+  fetchArtistExtract,
 };
 
 export default connect(mapStateToProps, actionCreators)(ArtistsGrid);
