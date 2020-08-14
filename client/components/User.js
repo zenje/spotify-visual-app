@@ -3,7 +3,9 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { getMyInfo, setTokens } from '../actions/actions';
 import Button from '@material-ui/core/Button';
+
 import ArtistsGridWrapper from './ArtistsGridWrapper';
+import Welcome from './Welcome';
 
 /**
  * Our user page
@@ -41,6 +43,13 @@ function User({ user, getMyInfo, setTokens, showArtistsGrid }) {
     showArtistsGrid = true;
   };
 
+  return (
+    <div>
+      <Welcome user={display_name} />
+      <ArtistsGridWrapper />
+    </div>
+  );
+  /*
   return (
     <div className="user">
       <h2>{`Logged in as ${display_name}`}</h2>
@@ -99,6 +108,7 @@ function User({ user, getMyInfo, setTokens, showArtistsGrid }) {
       <ArtistsGridWrapper />
     </div>
   );
+  */
 }
 
 const mapStateToProps = ({ accessToken, refreshToken, user }, ownProps) => {

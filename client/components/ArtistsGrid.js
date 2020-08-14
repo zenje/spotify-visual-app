@@ -2,6 +2,7 @@ import React, { Component, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
+import VisibilitySensor from 'react-visibility-sensor';
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -128,34 +129,45 @@ function ArtistsGrid({
 
   return (
     <div className={classes.root}>
-      <GridList
-        align="center"
-        cellHeight={90}
-        spacing={5}
-        cols={colsRows.cols}
-        className={classes.gridList}
-      >
-        {tileData.map((tile) => (
-          <GridListTile
+      <VisibilitySensor partialVisibility>
+        {({ isVisible }) => (
+          <GridList
             align="center"
-            key={tile.img}
-            cols={tile.featured ? colsRows.tileColsFeatured : colsRows.tileCols}
-            rows={tile.featured ? colsRows.tileRowsFeatured : colsRows.tileRows}
-            onClick={() => {
-              alert('clicked ' + tile.title);
-              fetchArtistExtract(tile.title);
-            }}
+            cellHeight={90}
+            spacing={5}
+            cols={colsRows.cols}
+            className={classes.gridList}
           >
-            <img src={tile.img} alt={tile.title} />
-            <GridListTileBar
-              title={tile.title}
-              titlePosition="bottom"
-              actionPosition="right"
-              className={classes.titleBar}
-            />
-          </GridListTile>
-        ))}
-      </GridList>
+            {tileData.map((tile, index) => (
+              <GridListTile
+                align="center"
+                key={tile.img}
+                cols={
+                  tile.featured ? colsRows.tileColsFeatured : colsRows.tileCols
+                }
+                rows={
+                  tile.featured ? colsRows.tileRowsFeatured : colsRows.tileRows
+                }
+                onClick={() => {
+                  alert('clicked ' + tile.title);
+                  fetchArtistExtract(tile.title);
+                }}
+                //className="fadeInUp"
+                className={isVisible ? 'fadeInUp' : 'fadeInUpNotVisible'}
+                style={{ animationDelay: `${index * 100}ms` }}
+              >
+                <img src={tile.img} alt={tile.title} />
+                <GridListTileBar
+                  title={tile.title}
+                  titlePosition="bottom"
+                  actionPosition="right"
+                  className={classes.titleBar}
+                />
+              </GridListTile>
+            ))}
+          </GridList>
+        )}
+      </VisibilitySensor>
     </div>
   );
 }

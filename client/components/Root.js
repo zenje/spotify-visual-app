@@ -13,22 +13,18 @@ const setCookies = false;
 
 const Root = () => (
   <BrowserRouter>
-    <App>
-      <Switch>
-        <Route exact path="/">
-          {accessToken ? (
-            <Redirect
-              to={`/user/${accessToken}/${refreshToken}/${setCookies}`}
-            />
-          ) : (
-            <Login />
-          )}
-        </Route>
-        <Route path="/user/:accessToken/:refreshToken/:setCookies">
-          <User />
-        </Route>
-      </Switch>
-    </App>
+    <Switch>
+      <Route exact path="/">
+        {accessToken ? (
+          <Redirect to={`/user/${accessToken}/${refreshToken}/${setCookies}`} />
+        ) : (
+          <Login />
+        )}
+      </Route>
+      <Route path="/user/:accessToken/:refreshToken/:setCookies">
+        <User />
+      </Route>
+    </Switch>
   </BrowserRouter>
 );
 
