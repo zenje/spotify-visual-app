@@ -42,6 +42,7 @@ export const getTopArtists = (timeRange = TIME_RANGES.LONG_TERM.timeRange) => {
   return (dispatch) => {
     spotifyApi.getMyTopArtists({ time_range: timeRange, limit: 50 }).then(
       (data) => {
+        console.log(data);
         dispatch({ type: types.SPOTIFY_TOP_ARTISTS_SUCCESS, timeRange, data });
       },
       (err) => {

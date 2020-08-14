@@ -1,3 +1,5 @@
+import * as types from './actionTypes';
+
 const API_ENDPOINT_BASE = 'https://en.wikipedia.org';
 const ARTIST_IDENTIFIERS = [
   'band',
@@ -6,27 +8,47 @@ const ARTIST_IDENTIFIERS = [
   'singer',
   'songwriter',
   'music',
+  'duo',
 ];
 const DISCOGRAPHY = 'discography';
 
 export const fetchArtistExtract = (artistName) => {
   return async (dispatch) => {
-    artistName = artistName;
-    let pageId = await fetchArtistPageId(artistName, `${artistName} (band)`);
-    if (!pageId) {
-      // try another query if not found
-      pageId = await fetchArtistPageId(artistName, `${artistName} (singer)`);
+    function onSuccess(success) {
+      const payload = {
+        artistName,
+        extract: success,
+      };
+      dispatch({ type: types.SPOTIFY_FETCH_ARTIST_SUCCESS, payload });
+      return success;
+    }
+    function onError(error) {
+      dispatch({ type: types.SPOTIFY_FETCH_ARTIST_FAILURE, error });
+      return error;
     }
 
-    if (pageId) {
-      console.log('PAGEID IS ' + pageId);
-
-      const pageExtract = await fetchPageExtract(pageId);
-      if (pageExtract) {
-        console.log('PAGEEXTRACT');
-        console.log(pageExtract);
+    try {
+      let pageId = await fetchArtistPageId(artistName, `${artistName} (band)`);
+      if (!pageId) {
+        // try another query if not found
+        pageId = await fetchArtistPageId(artistName, `${artistName} (singer)`);
       }
+
+      if (pageId) {
+        console.log('PAGEID IS ' + pageId);
+
+        const pageExtract = await fetchPageExtract(pageId);
+        if (pageExtract) {
+          console.log('PAGEEXTRACT');
+          console.log(pageExtract);
+          return onSuccess(pageExtract);
+        }
+      }
+    } catch (error) {
+      onError(error);
     }
+
+    return onError('Artist info not found');
   };
 };
 
@@ -45,7 +67,7 @@ const fetchPageExtract = async (pageId) => {
   return await fetch(pageEndpoint)
     .then((response) => response.json())
     .then((data) => {
-      return data.query.pages[pageId];
+      return data.query.pages[pageId].extract;
     })
     .catch((e) => console.log('An error occurred ' + e));
 };

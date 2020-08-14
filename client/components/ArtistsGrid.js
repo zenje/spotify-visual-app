@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -7,8 +7,11 @@ import VisibilitySensor from 'react-visibility-sensor';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+
 import { getTopArtists } from '../actions/actions';
 import { fetchArtistExtract } from '../actions/wikipediaActions';
+
+import ArtistOverlay from './ArtistOverlay';
 // import testData from './artistsTestData';
 
 const useStyles = makeStyles((theme) => ({
@@ -86,6 +89,7 @@ function ArtistsGrid({
   topArtists,
   getTopArtists,
   fetchArtistExtract,
+  selectedArtist,
 }) {
   useEffect(() => {
     if (!topArtists[timeRange]) {
@@ -127,6 +131,14 @@ function ArtistsGrid({
   //console.log(JSON.stringify(genres));
   //console.log(genres);
 
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
     <div className={classes.root}>
       <VisibilitySensor partialVisibility>
@@ -149,10 +161,11 @@ function ArtistsGrid({
                   tile.featured ? colsRows.tileRowsFeatured : colsRows.tileRows
                 }
                 onClick={() => {
-                  alert('clicked ' + tile.title);
-                  fetchArtistExtract(tile.title);
+                  if (selectedArtist.name !== tile.title) {
+                    fetchArtistExtract(tile.title);
+                  }
+                  handleOpen();
                 }}
-                //className="fadeInUp"
                 className={isVisible ? 'fadeInUp' : 'fadeInUpNotVisible'}
                 style={{ animationDelay: `${index * 100}ms` }}
               >
@@ -168,12 +181,18 @@ function ArtistsGrid({
           </GridList>
         )}
       </VisibilitySensor>
+      <ArtistOverlay
+        open={open}
+        handleOpen={handleOpen}
+        handleClose={handleClose}
+        artist={selectedArtist}
+      />
     </div>
   );
 }
 
-const mapStateToProps = ({ topArtists }, ownProps) => {
-  return { topArtists };
+const mapStateToProps = ({ topArtists, selectedArtist }, ownProps) => {
+  return { topArtists, selectedArtist };
 };
 
 const actionCreators = {

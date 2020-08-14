@@ -1,5 +1,6 @@
 import React, { Component, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
+import ArtistOverlay from './ArtistOverlay';
 
 function Welcome({ user }) {
   const props = useSpring({
@@ -14,6 +15,7 @@ function Welcome({ user }) {
   return (
     <div className="welcome">
       <animated.h1 style={props}>{`Welcome, ${user}`}</animated.h1>
+      <ArtistOverlay />
     </div>
   );
 }

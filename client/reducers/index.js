@@ -19,6 +19,11 @@ const initialState = {
     uri: null,
   },
   topArtists: {},
+  selectedArtist: {
+    name: null,
+    image: null,
+    extract: null,
+  },
 };
 
 /**
@@ -58,6 +63,14 @@ export default function reduce(state = initialState, action) {
       topArtistsWithTimeRanges[action.timeRange] = action.data;
       return Object.assign({}, state, {
         topArtists: topArtistsWithTimeRanges,
+      });
+
+    case types.SPOTIFY_FETCH_ARTIST_SUCCESS:
+      return Object.assign({}, state, {
+        selectedArtist: {
+          name: action.payload.artistName,
+          extract: action.payload.extract,
+        },
       });
 
     default:
