@@ -7,11 +7,16 @@ import VisibilitySensor from 'react-visibility-sensor';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
+import { BounceLoader } from 'halogenium';
 
 import { getTopArtists } from '../actions/actions';
-import { fetchArtistExtract } from '../actions/wikipediaActions';
+import {
+  fetchArtistExtract,
+  closeArtistOverlay,
+} from '../actions/wikipediaActions';
 
 import ArtistOverlay from './ArtistOverlay';
+import ArtistLoader from './loaders/ArtistLoader';
 // import testData from './artistsTestData';
 
 const useStyles = makeStyles((theme) => ({
@@ -46,12 +51,16 @@ const tileData = testData.items.map((item, idx) => ({
 */
 
 const getTileData = (topArtists, timeRange) => {
+  console.log('GETTILEDATA ' + timeRange);
   if (topArtists && topArtists[timeRange] && topArtists[timeRange].items) {
-    return topArtists[timeRange].items.map((item, idx) => ({
+    let tileData = topArtists[timeRange].items.map((item, idx) => ({
       img: item.images ? item.images[0].url : undefined,
       title: item.name,
       featured: idx < 12,
     }));
+    console.log('tileData');
+    console.log(tileData);
+    return tileData;
   }
   return [];
 };
@@ -90,13 +99,26 @@ function ArtistsGrid({
   getTopArtists,
   fetchArtistExtract,
   selectedArtist,
+  isArtistLoading,
+  isArtistOverlayOpen,
+  closeArtistOverlay,
 }) {
+  console.log('ARTISTSGRID BEGIN------------');
+
+  // TODO - don't pass in entire topArtists object
+  let [tileData, setTileData] = useState([]);
   useEffect(() => {
     if (!topArtists[timeRange]) {
       // only fetch top artists if time range data has not yet been loaded
       getTopArtists(timeRange);
     }
   }, [timeRange]);
+  useEffect(() => {
+    let data = getTileData(topArtists, timeRange);
+    if (data) {
+      setTileData(data);
+    }
+  }, [topArtists]);
 
   const classes = useStyles();
   const theme = useTheme();
@@ -125,22 +147,19 @@ function ArtistsGrid({
   };
 
   let colsRows = getGridListColsRows();
-  let tileData = getTileData(topArtists, timeRange);
+  //let tileData = getTileData(topArtists, timeRange);
   //let genres = collectGenres(topArtists, timeRange);
   //console.log('genres');
   //console.log(JSON.stringify(genres));
   //console.log(genres);
 
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => {
-    setOpen(true);
-  };
-  const handleClose = () => {
-    setOpen(false);
+  const handleArtistClose = () => {
+    closeArtistOverlay();
   };
 
   return (
     <div className={classes.root}>
+      {isArtistLoading && <ArtistLoader />}
       <VisibilitySensor partialVisibility>
         {({ isVisible }) => (
           <GridList
@@ -161,10 +180,8 @@ function ArtistsGrid({
                   tile.featured ? colsRows.tileRowsFeatured : colsRows.tileRows
                 }
                 onClick={() => {
-                  if (selectedArtist.name !== tile.title) {
-                    fetchArtistExtract(tile.title);
-                  }
-                  handleOpen();
+                  console.log('clicked ' + tile.title);
+                  fetchArtistExtract(tile.title);
                 }}
                 className={isVisible ? 'fadeInUp' : 'fadeInUpNotVisible'}
                 style={{ animationDelay: `${index * 100}ms` }}
@@ -182,22 +199,25 @@ function ArtistsGrid({
         )}
       </VisibilitySensor>
       <ArtistOverlay
-        open={open}
-        handleOpen={handleOpen}
-        handleClose={handleClose}
+        open={isArtistOverlayOpen}
+        handleClose={handleArtistClose}
         artist={selectedArtist}
       />
     </div>
   );
 }
 
-const mapStateToProps = ({ topArtists, selectedArtist }, ownProps) => {
-  return { topArtists, selectedArtist };
+const mapStateToProps = (
+  { topArtists, selectedArtist, isArtistLoading, isArtistOverlayOpen },
+  ownProps
+) => {
+  return { topArtists, selectedArtist, isArtistLoading, isArtistOverlayOpen };
 };
 
 const actionCreators = {
   getTopArtists,
   fetchArtistExtract,
+  closeArtistOverlay,
 };
 
 export default connect(mapStateToProps, actionCreators)(ArtistsGrid);

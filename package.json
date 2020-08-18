@@ -39,6 +39,7 @@
     "eslint-config-airbnb": "^1.0.2",
     "eslint-plugin-react": "^3.16.1",
     "express": "^4.13.4",
+    "halogenium": "^2.3.0",
     "history": "^1.17.0",
     "js-cookie": "^2.2.1",
     "morgan": "^1.6.1",
@@ -53,7 +54,8 @@
     "react-transform-hmr": "^1.0.2",
     "redbox-react": "^1.2.2",
     "redux": "^3.2.1",
-    "redux-thunk": "^1.0.3"
+    "redux-thunk": "^1.0.3",
+    "styled-components": "^5.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.0",
@@ -62,7 +64,6 @@
     "@reduxjs/toolkit": "^1.4.0",
     "autoprefixer": "^6.3.0",
     "autoprefixer-loader": "^3.2.0",
-    "axios": "^0.19.2",
     "babel": "^6.3.26",
     "babel-loader": "^8.1.0",
     "babel-plugin-react-transform": "^2.0.0",

@@ -1,7 +1,6 @@
 import Spotify from 'spotify-web-api-js';
 import Cookies from 'js-cookie';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import { TIME_RANGES } from '../constants';
 import * as types from './actionTypes';
 
@@ -32,7 +31,6 @@ export const getMyInfo = () => {
       .catch((e) => {
         console.log('ERROR');
         console.log(e);
-        //axios.get(`http://167.99.167.0:3000/refreshTokens/`);
         //dispatch({ type: SPOTIFY_ME_FAILURE, error: 'Error!' });
       });
   };
@@ -44,10 +42,12 @@ export const getTopArtists = (timeRange = TIME_RANGES.LONG_TERM.timeRange) => {
       (data) => {
         console.log(data);
         dispatch({ type: types.SPOTIFY_TOP_ARTISTS_SUCCESS, timeRange, data });
+        console.log('end SPOTIFY SUCCESS');
       },
       (err) => {
         console.error(err);
       }
     );
+    console.log('end GETTOP)ARTISTS');
   };
 };

@@ -19,6 +19,8 @@ const initialState = {
     uri: null,
   },
   topArtists: {},
+  isArtistLoading: false,
+  isArtistOverlayOpen: false,
   selectedArtist: {
     name: null,
     image: null,
@@ -65,12 +67,29 @@ export default function reduce(state = initialState, action) {
         topArtists: topArtistsWithTimeRanges,
       });
 
+    case types.SPOTIFY_FETCH_ARTIST_BEGIN:
+      return Object.assign({}, state, { isArtistLoading: true });
+
     case types.SPOTIFY_FETCH_ARTIST_SUCCESS:
       return Object.assign({}, state, {
+        isArtistLoading: false,
+        isArtistOverlayOpen: true,
         selectedArtist: {
           name: action.payload.artistName,
           extract: action.payload.extract,
         },
+      });
+
+    case types.SPOTIFY_FETCH_ARTIST_OPEN:
+      return Object.assign({}, state, {
+        isArtistLoading: false,
+        isArtistOverlayOpen: true,
+      });
+
+    case types.SPOTIFY_FETCH_ARTIST_CLOSE:
+      return Object.assign({}, state, {
+        isArtistLoading: false,
+        isArtistOverlayOpen: false,
       });
 
     default:

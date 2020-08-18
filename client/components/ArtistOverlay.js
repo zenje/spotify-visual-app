@@ -48,16 +48,17 @@ const Fade = forwardRef((props, ref) => {
   );
 });
 
+/*
 Fade.propTypes = {
   children: PropTypes.element,
   in: PropTypes.bool.isRequired,
   onEnter: PropTypes.func,
   onExited: PropTypes.func,
-};
+};*/
 
-export default function SpringModal(props) {
+export default function ArtistOverlay(props) {
   const classes = useStyles();
-  let { open, handleOpen, handleClose, artist } = props;
+  let { open, handleClose, artist } = props;
   artist = artist || {};
   let { name, extract } = artist;
 

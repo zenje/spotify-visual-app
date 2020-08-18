@@ -13,7 +13,7 @@ const ARTIST_IDENTIFIERS = [
 const DISCOGRAPHY = 'discography';
 
 export const fetchArtistExtract = (artistName) => {
-  return async (dispatch) => {
+  return async (dispatch, getState) => {
     function onSuccess(success) {
       const payload = {
         artistName,
@@ -25,6 +25,15 @@ export const fetchArtistExtract = (artistName) => {
     function onError(error) {
       dispatch({ type: types.SPOTIFY_FETCH_ARTIST_FAILURE, error });
       return error;
+    }
+
+    dispatch(loadArtistOverlay());
+
+    const prevState = getState();
+    // if artist is already loaded, then just open the overlay
+    if (prevState.selectedArtist.name === artistName) {
+      dispatch(openArtistOverlay());
+      return;
     }
 
     try {
@@ -115,6 +124,18 @@ const findArtistPageIdFromSearchResults = (artistName, searchResults) => {
   }
 
   return pageId;
+};
+
+export const loadArtistOverlay = () => {
+  return { type: types.SPOTIFY_FETCH_ARTIST_BEGIN };
+};
+
+export const openArtistOverlay = () => {
+  return { type: types.SPOTIFY_FETCH_ARTIST_OPEN };
+};
+
+export const closeArtistOverlay = () => {
+  return { type: types.SPOTIFY_FETCH_ARTIST_CLOSE };
 };
 
 /**
