@@ -9,7 +9,7 @@ const spotifyApi = new Spotify();
 /** set the app's access and refresh tokens */
 export const setTokens = (accessToken, refreshToken, setCookies) => {
   if (accessToken) {
-    if (setCookies) {
+    if (setCookies === 'true') {
       const inOneHour = 1 / 24;
       Cookies.set('spotifyAccessToken', accessToken, { expires: inOneHour });
       Cookies.set('spotifyRefreshToken', refreshToken, { expires: inOneHour });
