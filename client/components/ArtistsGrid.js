@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import VisibilitySensor from 'react-visibility-sensor';
@@ -29,6 +29,7 @@ const useStyles = makeStyles((theme) => ({
   },
   gridList: {
     width: '100%',
+    minHeight: '100vh',
     // Promote the list into own layer on Chrome. This cost memory but helps keeping high FPS.
     transform: 'translateZ(0)',
   },
@@ -49,21 +50,6 @@ const tileData = testData.items.map((item, idx) => ({
   featured: idx < 12,
 }));
 */
-
-const getTileData = (topArtists, timeRange) => {
-  console.log('GETTILEDATA ' + timeRange);
-  if (topArtists && topArtists[timeRange] && topArtists[timeRange].items) {
-    let tileData = topArtists[timeRange].items.map((item, idx) => ({
-      img: item.images ? item.images[0].url : undefined,
-      title: item.name,
-      featured: idx < 12,
-    }));
-    console.log('tileData');
-    console.log(tileData);
-    return tileData;
-  }
-  return [];
-};
 
 /*
 const collectGenres = (topArtists, timeRange) => {
@@ -93,32 +79,27 @@ const collectGenres = (topArtists, timeRange) => {
   return allGenres;
 };*/
 
-function ArtistsGrid({
-  timeRange,
-  topArtists,
-  getTopArtists,
-  fetchArtistExtract,
-  selectedArtist,
-  isArtistLoading,
-  isArtistOverlayOpen,
-  closeArtistOverlay,
-}) {
+export default function ArtistsGrid(props) {
   console.log('ARTISTSGRID BEGIN------------');
 
-  // TODO - don't pass in entire topArtists object
-  let [tileData, setTileData] = useState([]);
+  const dispatch = useDispatch();
+  const timeRange = props.timeRange;
+  const isArtistLoading = useSelector((state) => state.isArtistLoading);
+  const isArtistOverlayOpen = useSelector((state) => state.isArtistOverlayOpen);
+  const selectedArtist = useSelector((state) => state.selectedArtist);
+  const tileData = useSelector((state) => {
+    if (state.topArtists && state.topArtists[timeRange]) {
+      return state.topArtists[timeRange];
+    }
+    return [];
+  });
+
   useEffect(() => {
-    if (!topArtists[timeRange]) {
+    if (tileData.length == 0) {
       // only fetch top artists if time range data has not yet been loaded
-      getTopArtists(timeRange);
+      dispatch(getTopArtists(timeRange));
     }
   }, [timeRange]);
-  useEffect(() => {
-    let data = getTileData(topArtists, timeRange);
-    if (data) {
-      setTileData(data);
-    }
-  }, [topArtists]);
 
   const classes = useStyles();
   const theme = useTheme();
@@ -154,7 +135,7 @@ function ArtistsGrid({
   //console.log(genres);
 
   const handleArtistClose = () => {
-    closeArtistOverlay();
+    dispatch(closeArtistOverlay());
   };
 
   return (
@@ -181,10 +162,9 @@ function ArtistsGrid({
                 }
                 onClick={() => {
                   console.log('clicked ' + tile.title);
-                  fetchArtistExtract(tile.title);
+                  dispatch(fetchArtistExtract(tile.title));
                 }}
-                className={isVisible ? 'fadeInUp' : 'fadeInUpNotVisible'}
-                style={{ animationDelay: `${index * 100}ms` }}
+                className="fadeInUp"
               >
                 <img src={tile.img} alt={tile.title} />
                 <GridListTileBar
@@ -206,18 +186,3 @@ function ArtistsGrid({
     </div>
   );
 }
-
-const mapStateToProps = (
-  { topArtists, selectedArtist, isArtistLoading, isArtistOverlayOpen },
-  ownProps
-) => {
-  return { topArtists, selectedArtist, isArtistLoading, isArtistOverlayOpen };
-};
-
-const actionCreators = {
-  getTopArtists,
-  fetchArtistExtract,
-  closeArtistOverlay,
-};
-
-export default connect(mapStateToProps, actionCreators)(ArtistsGrid);

@@ -28,6 +28,23 @@ const initialState = {
   },
 };
 
+const extractArtistData = (artistData) => {
+  console.log('extractArtistData!');
+  if (artistData && artistData.length > 0) {
+    let tileData = artistData.map((item, idx) => ({
+      img: item.images ? item.images[0].url : undefined,
+      title: item.name,
+      featured: idx < 12,
+      href: item.href,
+      followers: item.followers.total,
+    }));
+    console.log('tileData');
+    console.log(tileData);
+    return tileData;
+  }
+  return [];
+};
+
 /**
  * Our reducer
  */
@@ -62,7 +79,9 @@ export default function reduce(state = initialState, action) {
 
     case types.SPOTIFY_TOP_ARTISTS_SUCCESS:
       const topArtistsWithTimeRanges = Object.assign({}, state.topArtists);
-      topArtistsWithTimeRanges[action.timeRange] = action.data;
+      topArtistsWithTimeRanges[action.timeRange] = extractArtistData(
+        action.data.items || []
+      );
       return Object.assign({}, state, {
         topArtists: topArtistsWithTimeRanges,
       });
