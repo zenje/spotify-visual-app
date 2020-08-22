@@ -58,9 +58,9 @@ Fade.propTypes = {
 
 export default function ArtistOverlay(props) {
   const classes = useStyles();
-  let { open, handleClose, artist } = props;
+  let { artist, handleClose, open } = props;
   artist = artist || {};
-  let { name, extract } = artist;
+  let { extract, followers, img, name } = artist;
 
   return (
     <div>
@@ -78,6 +78,8 @@ export default function ArtistOverlay(props) {
       >
         <Fade in={open}>
           <div className={classes.paper}>
+            <img src={img} />
+            <span>{`Followers: ${followers}`}</span>
             <h2 id="spring-modal-title">{name}</h2>
             <p id="spring-modal-description">{extract}</p>
           </div>

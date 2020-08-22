@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import VisibilitySensor from 'react-visibility-sensor';
+import { Spring } from 'react-spring/renderprops';
 
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
@@ -79,6 +80,29 @@ const collectGenres = (topArtists, timeRange) => {
   return allGenres;
 };*/
 
+const SpringGridListTile = (props) => {
+  const { isVisible, delay } = props;
+  const transition = isVisible
+    ? `transform 300ms linear ${delay}, opacity 300ms linear ${delay}`
+    : null;
+  return (
+    <Spring
+      to={{
+        opacity: isVisible ? 1 : 0,
+        transform: isVisible ? 'translateY(0)' : 'translateY(100px)',
+      }}
+    >
+      {({ opacity, transform }) => (
+        <GridListTile
+          {...props}
+          style={{ ...props.style, opacity, transform, transition }}
+        />
+      )}
+    </Spring>
+  );
+};
+SpringGridListTile.muiName = GridListTile.muiName;
+
 export default function ArtistsGrid(props) {
   console.log('ARTISTSGRID BEGIN------------');
 
@@ -138,45 +162,50 @@ export default function ArtistsGrid(props) {
     dispatch(closeArtistOverlay());
   };
 
+  const [isVisible, setVisibility] = useState(false);
+  const onChange = (visiblity) => {
+    console.log('ONCHANGE ' + visiblity);
+    setVisibility(visiblity);
+  };
+
   return (
     <div className={classes.root}>
       {isArtistLoading && <ArtistLoader />}
-      <VisibilitySensor partialVisibility>
-        {({ isVisible }) => (
-          <GridList
-            align="center"
-            cellHeight={90}
-            spacing={5}
-            cols={colsRows.cols}
-            className={classes.gridList}
-          >
-            {tileData.map((tile, index) => (
-              <GridListTile
-                align="center"
-                key={tile.img}
-                cols={
-                  tile.featured ? colsRows.tileColsFeatured : colsRows.tileCols
-                }
-                rows={
-                  tile.featured ? colsRows.tileRowsFeatured : colsRows.tileRows
-                }
-                onClick={() => {
-                  console.log('clicked ' + tile.title);
-                  dispatch(fetchArtistExtract(tile.title));
-                }}
-                className="fadeInUp"
-              >
-                <img src={tile.img} alt={tile.title} />
-                <GridListTileBar
-                  title={tile.title}
-                  titlePosition="bottom"
-                  actionPosition="right"
-                  className={classes.titleBar}
-                />
-              </GridListTile>
-            ))}
-          </GridList>
-        )}
+      <VisibilitySensor partialVisibility scrollDelay={0} onChange={onChange}>
+        <GridList
+          align="center"
+          cellHeight={90}
+          spacing={5}
+          cols={colsRows.cols}
+          className={classes.gridList}
+        >
+          {tileData.map((tile, index) => (
+            <SpringGridListTile
+              isVisible={isVisible}
+              align="center"
+              key={tile.img}
+              cols={
+                tile.featured ? colsRows.tileColsFeatured : colsRows.tileCols
+              }
+              rows={
+                tile.featured ? colsRows.tileRowsFeatured : colsRows.tileRows
+              }
+              onClick={() => {
+                console.log('clicked ' + tile.title);
+                dispatch(fetchArtistExtract(tile.title, index, timeRange));
+              }}
+              delay={`${(1 + index) * 80}ms`}
+            >
+              <img src={tile.img} alt={tile.title} />
+              <GridListTileBar
+                title={tile.title}
+                titlePosition="bottom"
+                actionPosition="right"
+                className={classes.titleBar}
+              />
+            </SpringGridListTile>
+          ))}
+        </GridList>
       </VisibilitySensor>
       <ArtistOverlay
         open={isArtistOverlayOpen}

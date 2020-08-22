@@ -78,26 +78,31 @@ export default function reduce(state = initialState, action) {
       return state;
 
     case types.SPOTIFY_TOP_ARTISTS_SUCCESS:
-      const topArtistsWithTimeRanges = Object.assign({}, state.topArtists);
-      topArtistsWithTimeRanges[action.timeRange] = extractArtistData(
+      const topArtistsByTimeRange = Object.assign({}, state.topArtists);
+      topArtistsByTimeRange[action.timeRange] = extractArtistData(
         action.data.items || []
       );
       return Object.assign({}, state, {
-        topArtists: topArtistsWithTimeRanges,
+        topArtists: topArtistsByTimeRange,
       });
 
     case types.SPOTIFY_FETCH_ARTIST_BEGIN:
       return Object.assign({}, state, { isArtistLoading: true });
 
-    case types.SPOTIFY_FETCH_ARTIST_SUCCESS:
+    case types.SPOTIFY_FETCH_ARTIST_SUCCESS: {
+      const { artistIndex, artistName, extract, timeRange } = action.payload;
+      const artistInfo = state.topArtists[timeRange][artistIndex];
       return Object.assign({}, state, {
         isArtistLoading: false,
         isArtistOverlayOpen: true,
         selectedArtist: {
-          name: action.payload.artistName,
-          extract: action.payload.extract,
+          name: artistName,
+          extract,
+          img: artistInfo.img,
+          followers: artistInfo.followers,
         },
       });
+    }
 
     case types.SPOTIFY_FETCH_ARTIST_OPEN:
       return Object.assign({}, state, {

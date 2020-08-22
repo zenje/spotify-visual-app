@@ -12,11 +12,13 @@ const ARTIST_IDENTIFIERS = [
 ];
 const DISCOGRAPHY = 'discography';
 
-export const fetchArtistExtract = (artistName) => {
+export const fetchArtistExtract = (artistName, artistIndex, timeRange) => {
   return async (dispatch, getState) => {
     function onSuccess(success) {
       const payload = {
+        artistIndex,
         artistName,
+        timeRange,
         extract: success,
       };
       dispatch({ type: types.SPOTIFY_FETCH_ARTIST_SUCCESS, payload });
@@ -29,9 +31,10 @@ export const fetchArtistExtract = (artistName) => {
 
     dispatch(loadArtistOverlay());
 
-    const prevState = getState();
+    const state = getState();
+    const stateArtistName = state.selectedArtist.name;
     // if artist is already loaded, then just open the overlay
-    if (prevState.selectedArtist.name === artistName) {
+    if (stateArtistName === artistName) {
       dispatch(openArtistOverlay());
       return;
     }
