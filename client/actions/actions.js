@@ -48,6 +48,37 @@ export const getTopArtists = (timeRange = TIME_RANGES.LONG_TERM.timeRange) => {
         console.error(err);
       }
     );
-    console.log('end GETTOP)ARTISTS');
+  };
+};
+
+export const getCurrentPlayingTrack = () => {
+  return (dispatch) => {
+    spotifyApi.getMyCurrentPlayingTrack().then(
+      (data) => {
+        console.log('getCurrentPlayingTrack data');
+        console.log(data);
+      },
+      (err) => {
+        console.log('getMyCurrentPlayingTrack ERROR');
+        console.log(err);
+        console.error(err);
+      }
+    );
+  };
+};
+
+export const getMyRecentlyPlayedTracks = () => {
+  return (dispatch) => {
+    spotifyApi.getMyRecentlyPlayedTracks().then(
+      (data) => {
+        console.log('getMyRecentlyPlayedTracks data');
+        console.log(data);
+      },
+      (err) => {
+        console.log('getMyRecentlyPlayedTracks ERROR');
+        console.log(err);
+        console.error(err);
+      }
+    );
   };
 };

@@ -1,17 +1,30 @@
 import React, { Component, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { getMyInfo, setTokens } from '../actions/actions';
+import {
+  getMyInfo,
+  getCurrentPlayingTrack,
+  getMyRecentlyPlayedTracks,
+  setTokens,
+} from '../actions/actions';
 import Button from '@material-ui/core/Button';
 
 import ArtistsGridWrapper from './ArtistsGridWrapper';
+import CurrentTrack from './CurrentTrack';
 import Welcome from './Welcome';
 
 /**
  * Our user page
  * Displays the user's information
  */
-function User({ user, getMyInfo, setTokens, showArtistsGrid }) {
+function User({
+  user,
+  getMyInfo,
+  getCurrentPlayingTrack,
+  getMyRecentlyPlayedTracks,
+  setTokens,
+  showArtistsGrid,
+}) {
   let { accessToken, refreshToken, setCookies } = useParams();
   showArtistsGrid = false;
 
@@ -19,6 +32,8 @@ function User({ user, getMyInfo, setTokens, showArtistsGrid }) {
   useEffect(() => {
     setTokens(accessToken, refreshToken, setCookies);
     getMyInfo();
+    getCurrentPlayingTrack();
+    getMyRecentlyPlayedTracks();
   }, []);
 
   /** Render the user's info */
@@ -46,6 +61,11 @@ function User({ user, getMyInfo, setTokens, showArtistsGrid }) {
   return (
     <div>
       <Welcome user={display_name} />
+      <CurrentTrack
+        artist={'Summer Salt'}
+        song={'Heart and My Car'}
+        img={'https://i.scdn.co/image/ab67616d0000b273d3f12993a820865791b73722'}
+      />
       <ArtistsGridWrapper />
     </div>
   );
@@ -118,6 +138,8 @@ const mapStateToProps = ({ accessToken, refreshToken, user }, ownProps) => {
 // mapDispatchToProps - automatically calls bindActionCreators
 const actionCreators = {
   getMyInfo,
+  getCurrentPlayingTrack,
+  getMyRecentlyPlayedTracks,
   setTokens,
 };
 
