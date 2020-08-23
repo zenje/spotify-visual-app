@@ -1,13 +1,12 @@
 import React from 'react';
 import styled from 'styled-components';
 
+import MusicBar from './MusicBar';
+
 const Wrapper = styled.div`
   background-color: palevioletred;
   color: white;
-  width: 500px;
-  height: 300px;
   text-align: center;
-  margin: 0 auto;
   display: flex;
 `;
 
@@ -18,27 +17,32 @@ const Left = styled.div`
 
 const Right = styled.div`
   float: left;
-  overflow: hidden;
+  width: 50%;
 `;
 
 const Image = styled.img`
-  width: 250px;
-  height: 250px;
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   border-radius: 50%;
 `;
 
+const StyledMusicBar = styled(MusicBar)`
+  margin: 0 auto;
+`;
+
 export default function CurrentTrack(props) {
-  let { artist, img, song } = props;
+  let { artist, className, img, song } = props;
 
   return (
-    <Wrapper>
+    <Wrapper className={className}>
       <Left>
         <Image src={img} />
       </Left>
       <Right>
         <div>{artist}</div>
         <div>{song}</div>
+        <StyledMusicBar barWidth={25} />
       </Right>
     </Wrapper>
   );

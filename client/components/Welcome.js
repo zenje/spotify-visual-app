@@ -12,6 +12,13 @@ const Wrapper = styled.div`
   text-align: center;
 `;
 
+const StyledCurrentTrack = styled(CurrentTrack)`
+  max-width: 90%;
+  width: 500px;
+  height: 250px;
+  margin: 0 auto;
+`;
+
 function Welcome(props) {
   const { user, currentTrack } = props;
   const { artist, song, img } = currentTrack;
@@ -27,7 +34,7 @@ function Welcome(props) {
   return (
     <Wrapper>
       <animated.h1 style={welcomeAnimation}>{`Welcome, ${user}`}</animated.h1>
-      <CurrentTrack artist={artist} song={song} img={img} />
+      <StyledCurrentTrack artist={artist} song={song} img={img} />
     </Wrapper>
   );
 }
