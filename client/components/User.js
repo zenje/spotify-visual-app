@@ -1,22 +1,23 @@
 import React, { Component, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import styled from 'styled-components';
+import Button from '@material-ui/core/Button';
+import Container from '@material-ui/core/Container';
+
 import {
   getMyInfo,
   getCurrentPlayingTrack,
   getMyRecentlyPlayedTracks,
   setTokens,
 } from '../actions/actions';
-import Button from '@material-ui/core/Button';
-
 import ArtistsGridWrapper from './ArtistsGridWrapper';
-import CurrentTrack from './CurrentTrack';
 import Welcome from './Welcome';
 
-/**
- * Our user page
- * Displays the user's information
- */
+const StyledContainer = styled(Container)`
+  background-color: lightgrey;
+`;
+
 function User({
   user,
   getMyInfo,
@@ -59,15 +60,18 @@ function User({
   };
 
   return (
-    <div>
-      <Welcome user={display_name} />
-      <CurrentTrack
-        artist={'Summer Salt'}
-        song={'Heart and My Car'}
-        img={'https://i.scdn.co/image/ab67616d0000b273d3f12993a820865791b73722'}
+    <StyledContainer>
+      <Welcome
+        user={display_name}
+        currentTrack={{
+          artist: 'Summer Salt',
+          song: 'Heart and My Car',
+          img:
+            'https://i.scdn.co/image/ab67616d0000b273d3f12993a820865791b73722',
+        }}
       />
       <ArtistsGridWrapper />
-    </div>
+    </StyledContainer>
   );
   /*
   return (

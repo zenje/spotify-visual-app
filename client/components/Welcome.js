@@ -1,9 +1,21 @@
 import React, { Component, useEffect } from 'react';
 import { useSpring, animated } from 'react-spring';
-import ArtistOverlay from './ArtistOverlay';
+import styled from 'styled-components';
 
-function Welcome({ user }) {
-  const props = useSpring({
+import CurrentTrack from './CurrentTrack';
+
+const Wrapper = styled.div`
+  color: palevioletred;
+  width: 100%;
+  height: 100vh;
+  padding-top: 25vh;
+  text-align: center;
+`;
+
+function Welcome(props) {
+  const { user, currentTrack } = props;
+  const { artist, song, img } = currentTrack;
+  const welcomeAnimation = useSpring({
     opacity: 1,
     fontSize: '100px',
     from: {
@@ -13,10 +25,10 @@ function Welcome({ user }) {
   });
 
   return (
-    <div className="welcome">
-      <animated.h1 style={props}>{`Welcome, ${user}`}</animated.h1>
-      <ArtistOverlay />
-    </div>
+    <Wrapper>
+      <animated.h1 style={welcomeAnimation}>{`Welcome, ${user}`}</animated.h1>
+      <CurrentTrack artist={artist} song={song} img={img} />
+    </Wrapper>
   );
 }
 
