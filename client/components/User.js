@@ -12,7 +12,7 @@ import {
   setTokens,
 } from '../actions/actions';
 import ArtistsGridWrapper from './ArtistsGridWrapper';
-import Welcome from './Welcome';
+import Welcome from './Welcome/index';
 
 const StyledContainer = styled(Container)`
   background-color: lightgrey;
