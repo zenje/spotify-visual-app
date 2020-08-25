@@ -11,12 +11,9 @@ import {
   getMyRecentlyPlayedTracks,
   setTokens,
 } from '../actions/actions';
+import theme from '../styles/theme';
 import ArtistsGridWrapper from './ArtistsGridWrapper';
 import Welcome from './Welcome/index';
-
-const StyledContainer = styled(Container)`
-  background-color: lightgrey;
-`;
 
 function User({
   user,
@@ -60,7 +57,7 @@ function User({
   };
 
   return (
-    <StyledContainer>
+    <Container>
       <Welcome
         user={display_name}
         currentTrack={{
@@ -71,7 +68,7 @@ function User({
         }}
       />
       <ArtistsGridWrapper />
-    </StyledContainer>
+    </Container>
   );
   /*
   return (

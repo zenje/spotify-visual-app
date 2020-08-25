@@ -1,11 +1,21 @@
-import styled, { css, keyframes } from 'styled-components';
+import styled, { keyframes } from 'styled-components';
+
+const BAR_WIDTH = 22;
 
 export const Bars = styled.div`
   position: relative;
 `;
 
+const Bar = styled.div`
+  float: left;
+  width: ${BAR_WIDTH}%;
+  position: absolute;
+  bottom: 0;
+  background-color: ${(props) => props.theme.colors.primary || 'white'};
+`;
+
 const bar1 = keyframes`
-  0% {
+  0%, 100% {
     transform: scaleY(1);
     transform-origin: 0% 100%;
   }
@@ -17,27 +27,15 @@ const bar1 = keyframes`
     transform: scaleY(0.95);
     transform-origin: 0% 100%;
   }
-  100% {
-    transform: scaleY(1);
-    transform-origin: 0% 100%;
-  }
   `;
 
-const Bar = styled.div`
-  float: left;
-  width: 22%;
-  position: absolute;
-  bottom: 0;
-`;
-
 export const Bar1 = styled(Bar)`
-  background-color: yellow;
   height: 60%;
   animation: ${bar1} 1s infinite;
 `;
 
 const bar2 = keyframes`
-  0% {
+  0%, 100% {
     transform: scaleY(1);
     transform-origin: 0% 100%;
   }
@@ -49,22 +47,16 @@ const bar2 = keyframes`
     transform: scaleY(0.95);
     transform-origin: 0% 100%;
   }
-  100% {
-    transform: scaleY(1);
-    transform-origin: 0% 100%;
-  }
   `;
 
 export const Bar2 = styled(Bar)`
-  left: 24%;
-  float: left;
-  background-color: orange;
+  left: ${BAR_WIDTH + 2}%;
   height: 100%;
   animation: ${bar2} 0.8s infinite;
 `;
 
 const bar3 = keyframes`
-  0% {
+  0%, 100% {
     transform: scaleY(1);
     transform-origin: 0% 100%;
   }
@@ -76,22 +68,16 @@ const bar3 = keyframes`
     transform: scaleY(0.95);
     transform-origin: 0% 100%;
   }
-  100% {
-    transform: scaleY(1);
-    transform-origin: 0% 100%;
-  }
   `;
 
 export const Bar3 = styled(Bar)`
-  left: 48%;
-  float: left;
-  background-color: red;
+  left: ${(BAR_WIDTH + 2) * 2}%;
   height: 50%;
   animation: ${bar3} 1.2s infinite;
 `;
 
 const bar4 = keyframes`
-  0% {
+  0%, 100% {
     transform: scaleY(1);
     transform-origin: 0% 100%;
   }
@@ -107,16 +93,11 @@ const bar4 = keyframes`
     transform: scaleY(0.99);
     transform-origin: 0% 100%;
   }
-  100% {
-    transform: scaleY(1);
-    transform-origin: 0% 100%;
-  }
   `;
 
 export const Bar4 = styled(Bar)`
+  left: ${(BAR_WIDTH + 2) * 3}%;
   left: 72%;
-  float: left;
-  background-color: green;
   height: 35%;
   animation: ${bar4} 0.6s infinite;
 `;

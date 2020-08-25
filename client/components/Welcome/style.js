@@ -1,8 +1,10 @@
-import styled from 'styled-components';
-import CurrentTrack from '../CurrentTrack/index';
+import styled, { keyframes } from 'styled-components';
+import { useSpring, animated } from 'react-spring';
+
+import theme from '../../styles/theme';
+import CurrentTrack from '../CurrentTrack';
 
 export const Wrapper = styled.div`
-  color: palevioletred;
   width: 100%;
   height: 100vh;
   display: flex;
@@ -12,17 +14,57 @@ export const Wrapper = styled.div`
   overflow-wrap: break-word;
 `;
 
+export const WelcomeBanner = styled.div`
+  background-color: white;
+  margin-top: 10vh;
+  //background-image: linear-gradient(135deg, ${theme.colors.highlight} 2.38%, #ffffff 2.38%, #ffffff 50%, ${theme.colors.highlight} 50%, ${theme.colors.highlight} 52.38%, #ffffff 52.38%, #ffffff 100%);
+  //background-size: 29.70px 29.70px;
+  -webkit-box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
+  -moz-box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
+  box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
+  color: ${theme.colors.highlight};
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+`;
+
 export const StyledCurrentTrack = styled(CurrentTrack)`
-  max-width: 90%;
-  width: 500px;
   margin: 0 auto;
 `;
 
-export const animation = {
-  opacity: 1,
-  fontSize: '5em',
-  from: {
-    opacity: 0,
-    fontSize: '1em',
-  },
+const sparkleBob = keyframes`
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-25%);
+  }
+  `;
+
+export const Sparkle = styled.div`
+  padding: 0 2%;
+  animation: ${sparkleBob} 0.8s ease-in-out infinite;
+  line-height: 100%; // keep height from expanding vertically
+`;
+
+export const welcomeAnimation = (windowWidth) => {
+  const getFontSize = () => {
+    if (windowWidth > 768) {
+      return '5em';
+    } else if (windowWidth > 320) {
+      return '3em';
+    }
+    return '2em';
+  };
+
+  return useSpring({
+    opacity: 1,
+    fontSize: getFontSize(),
+    from: {
+      opacity: 0,
+      fontSize: '1em',
+    },
+  });
 };
+
+export const AnimatedWelcome = animated(WelcomeBanner);
