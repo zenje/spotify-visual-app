@@ -3,6 +3,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import VisibilitySensor from 'react-visibility-sensor';
+import styled, { keyframes } from 'styled-components';
 import { Spring } from 'react-spring/renderprops';
 
 import GridList from '@material-ui/core/GridList';
@@ -18,7 +19,7 @@ import {
 
 import ArtistOverlay from './ArtistOverlay';
 import ArtistLoader from './loaders/ArtistLoader';
-// import testData from './artistsTestData';
+import testData from './artistsTestData';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,13 +45,11 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-/*
-const tileData = testData.items.map((item, idx) => ({
+/*const tileData = testData.items.map((item, idx) => ({
   img: item.images ? item.images[0].url : undefined,
   title: item.name,
   featured: idx < 12,
-}));
-*/
+}));*/
 
 /*
 const collectGenres = (topArtists, timeRange) => {
@@ -80,7 +79,7 @@ const collectGenres = (topArtists, timeRange) => {
   return allGenres;
 };*/
 
-const SpringGridListTile = (props) => {
+/*const SpringGridListTile = (props) => {
   const { isVisible, delay } = props;
   const transition = isVisible
     ? `transform 300ms linear ${delay}, opacity 300ms linear ${delay}`
@@ -101,7 +100,38 @@ const SpringGridListTile = (props) => {
     </Spring>
   );
 };
-SpringGridListTile.muiName = GridListTile.muiName;
+SpringGridListTile.muiName = GridListTile.muiName;*/
+
+const fadeInUp = keyframes`
+  0% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  `;
+
+const fadeInUp2 = keyframes`
+  100% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  0% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  `;
+
+const StyledGridListTile = styled(GridListTile)`
+  animation-duration: 0.45s;
+  animation-delay: ${(props) => props.index * 100}ms;
+  animation-fill-mode: both;
+  animation-name: ${(props) => (props.isVisible ? fadeInUp : fadeInUp2)};
+`;
 
 export default function ArtistsGrid(props) {
   console.log('ARTISTSGRID BEGIN------------');
@@ -164,14 +194,14 @@ export default function ArtistsGrid(props) {
 
   const [isVisible, setVisibility] = useState(false);
   const onChange = (visiblity) => {
-    console.log('ONCHANGE ' + visiblity);
+    console.log('ONCHANGE!!!!!! ' + visiblity);
     setVisibility(visiblity);
   };
 
   return (
     <div className={classes.root}>
       {isArtistLoading && <ArtistLoader />}
-      <VisibilitySensor partialVisibility scrollDelay={0} onChange={onChange}>
+      <VisibilitySensor partialVisibility onChange={onChange}>
         <GridList
           align="center"
           cellHeight={90}
@@ -180,8 +210,7 @@ export default function ArtistsGrid(props) {
           className={classes.gridList}
         >
           {tileData.map((tile, index) => (
-            <SpringGridListTile
-              isVisible={isVisible}
+            <StyledGridListTile
               align="center"
               key={tile.img}
               cols={
@@ -194,7 +223,8 @@ export default function ArtistsGrid(props) {
                 console.log('clicked ' + tile.title);
                 dispatch(fetchArtistExtract(tile.title, index, timeRange));
               }}
-              delay={`${(1 + index) * 80}ms`}
+              isVisible={isVisible}
+              index={index}
             >
               <img src={tile.img} alt={tile.title} />
               <GridListTileBar
@@ -203,7 +233,7 @@ export default function ArtistsGrid(props) {
                 actionPosition="right"
                 className={classes.titleBar}
               />
-            </SpringGridListTile>
+            </StyledGridListTile>
           ))}
         </GridList>
       </VisibilitySensor>

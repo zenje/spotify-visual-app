@@ -4,6 +4,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
+import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 
 import {
   getMyInfo,
@@ -56,19 +57,24 @@ function User({
     showArtistsGrid = true;
   };
 
+  let parallax;
   return (
-    <Container>
-      <Welcome
-        user={display_name}
-        currentTrack={{
-          artist: 'Summer Salt',
-          song: 'Heart and My Car',
-          img:
-            'https://i.scdn.co/image/ab67616d0000b273d3f12993a820865791b73722',
-        }}
-      />
-      <ArtistsGridWrapper />
-    </Container>
+    <Parallax pages={4} ref={(ref) => (parallax = ref)}>
+      <ParallaxLayer offset={0}>
+        <Welcome
+          user={display_name}
+          currentTrack={{
+            artist: 'Summer Salt',
+            song: 'Heart and My Car',
+            img:
+              'https://i.scdn.co/image/ab67616d0000b273d3f12993a820865791b73722',
+          }}
+        />
+      </ParallaxLayer>
+      <ParallaxLayer offset={1}>
+        <ArtistsGridWrapper />
+      </ParallaxLayer>
+    </Parallax>
   );
   /*
   return (

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-
 import Button from '@material-ui/core/Button';
+
 import ArtistsGrid from './ArtistsGrid';
 import { TIME_RANGES } from '../constants';
 
@@ -23,7 +23,7 @@ function ArtistsGridWrapper() {
           {item.text}
         </Button>
       ))}
-      <ArtistsGrid timeRange={timeRange} />
+      <ArtistsGrid timeRange={timeRange} />}
     </div>
   );
 }

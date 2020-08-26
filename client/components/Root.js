@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
 import Cookies from 'js-cookie';
 import { ThemeProvider } from 'styled-components';
+import { StylesProvider } from '@material-ui/core/styles';
 
 import theme from '../styles/theme';
 import GlobalStyle from '../styles/global';
@@ -15,25 +16,27 @@ const refreshToken = Cookies.get('spotifyRefreshToken');
 const setCookies = false;
 
 const Root = () => (
-  <ThemeProvider theme={theme}>
-    <GlobalStyle />
-    <BrowserRouter>
-      <Switch>
-        <Route exact path="/">
-          {accessToken ? (
-            <Redirect
-              to={`/user/${accessToken}/${refreshToken}/${setCookies}`}
-            />
-          ) : (
-            <Login />
-          )}
-        </Route>
-        <Route path="/user/:accessToken/:refreshToken/:setCookies">
-          <User />
-        </Route>
-      </Switch>
-    </BrowserRouter>
-  </ThemeProvider>
+  <StylesProvider injectFirst>
+    <ThemeProvider theme={theme}>
+      <GlobalStyle />
+      <BrowserRouter>
+        <Switch>
+          <Route exact path="/">
+            {accessToken ? (
+              <Redirect
+                to={`/user/${accessToken}/${refreshToken}/${setCookies}`}
+              />
+            ) : (
+              <Login />
+            )}
+          </Route>
+          <Route path="/user/:accessToken/:refreshToken/:setCookies">
+            <User />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </ThemeProvider>
+  </StylesProvider>
 );
 
 export default Root;

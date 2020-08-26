@@ -1,5 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { useSpring, animated } from 'react-spring';
+import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 
 import theme from '../../styles/theme';
 import CurrentTrack from '../CurrentTrack';
@@ -16,6 +17,7 @@ export const Wrapper = styled.div`
 
 export const WelcomeBanner = styled.div`
   background-color: white;
+  width: 90%;
   margin-top: 10vh;
   //background-image: linear-gradient(135deg, ${theme.colors.highlight} 2.38%, #ffffff 2.38%, #ffffff 50%, ${theme.colors.highlight} 50%, ${theme.colors.highlight} 52.38%, #ffffff 52.38%, #ffffff 100%);
   //background-size: 29.70px 29.70px;
@@ -26,10 +28,6 @@ export const WelcomeBanner = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: center;
-`;
-
-export const StyledCurrentTrack = styled(CurrentTrack)`
-  margin: 0 auto;
 `;
 
 const sparkleBob = keyframes`
@@ -68,3 +66,19 @@ export const welcomeAnimation = (windowWidth) => {
 };
 
 export const AnimatedWelcome = animated(WelcomeBanner);
+
+const fadeInDown = keyframes`
+  0% {
+     opacity: 0;
+     transform: translateY(-20px);
+  }
+  100% {
+     opacity: 1;
+     transform: translateY(0);
+   }
+   `;
+
+export const StyledCurrentTrack = styled(CurrentTrack)`
+  margin: 0 auto;
+  animation: ${fadeInDown} 0.5s ease-in-out;
+`;
