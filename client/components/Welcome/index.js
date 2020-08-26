@@ -4,6 +4,7 @@ import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 
 import {
   AnimatedWelcome,
+  CurrentTrackShadow,
   Sparkle,
   StyledCurrentTrack,
   welcomeAnimation,
@@ -23,6 +24,9 @@ export default function Welcome(props) {
           {`welcome, ${user}`}
           <Sparkle>✨</Sparkle>
         </AnimatedWelcome>
+      </ParallaxLayer>
+      <ParallaxLayer offset={0.33} speed={0.7}>
+        <CurrentTrackShadow />
       </ParallaxLayer>
       <ParallaxLayer offset={0.3} speed={0.5}>
         <StyledCurrentTrack artist={artist} img={img} song={song} />

@@ -82,3 +82,28 @@ export const StyledCurrentTrack = styled(CurrentTrack)`
   margin: 0 auto;
   animation: ${fadeInDown} 0.5s ease-in-out;
 `;
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+   }
+   `;
+
+export const CurrentTrackShadow = styled.div`
+  //background-color: ${theme.colors.highlight};
+  background-image: linear-gradient(135deg, #ffffff 2.38%, ${theme.colors.highlight} 2.38%, ${theme.colors.highlight} 50%, #ffffff 50%, #ffffff 52.38%, ${theme.colors.highlight} 52.38%, ${theme.colors.highlight} 100%);
+  background-size: 29.70px 29.70px;
+  margin: 0 auto;
+  width: 250px;
+  height: 500px;
+  @media (min-width: 768px) {
+    flex-direction: row;
+    width: 500px;
+    height: 250px;
+  }
+  transform: translateX(20px);
+  animation: ${fadeIn} 1s ease-in-out;
+`;
