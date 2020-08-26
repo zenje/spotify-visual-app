@@ -98,10 +98,13 @@ export const CurrentTrackShadow = styled.div`
   background-size: 29.70px 29.70px;
   margin: 0 auto;
   width: 250px;
-  height: 500px;
+  height: 350px;
+  @media (min-width: 600px) {
+    width: 525px;
+    height: 250px;
+  }
   @media (min-width: 768px) {
-    flex-direction: row;
-    width: 500px;
+    width: 650px;
     height: 250px;
   }
   transform: translateX(20px);

@@ -12,3 +12,9 @@ export const TIME_RANGES = {
     timeRange: 'short_term',
   },
 };
+
+export const TRACK_STATUS = {
+  PLAYING: 'now playing',
+  PAUSED: 'paused',
+  LAST_PLAYED: 'last played',
+};

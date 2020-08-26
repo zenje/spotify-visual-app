@@ -18,6 +18,7 @@ import Welcome from './Welcome/index';
 
 function User({
   user,
+  currentTrack,
   getMyInfo,
   getCurrentPlayingTrack,
   getMyRecentlyPlayedTracks,
@@ -27,12 +28,17 @@ function User({
   let { accessToken, refreshToken, setCookies } = useParams();
   showArtistsGrid = false;
 
-  /** When we mount, get the tokens from react-router and initiate loading the info */
   useEffect(() => {
     setTokens(accessToken, refreshToken, setCookies);
     getMyInfo();
+
+    // poll current-track every 5 seconds
     getCurrentPlayingTrack();
+    const interval = setInterval(getCurrentPlayingTrack, 5000);
     getMyRecentlyPlayedTracks();
+
+    // clean-up
+    return () => clearInterval(interval);
   }, []);
 
   /** Render the user's info */
@@ -61,15 +67,7 @@ function User({
   return (
     <Parallax pages={4} ref={(ref) => (parallax = ref)}>
       <ParallaxLayer offset={0}>
-        <Welcome
-          user={display_name}
-          currentTrack={{
-            artist: 'Summer Salt',
-            song: 'Heart and My Car',
-            img:
-              'https://i.scdn.co/image/ab67616d0000b273d3f12993a820865791b73722',
-          }}
-        />
+        <Welcome user={display_name} currentTrack={currentTrack} />
       </ParallaxLayer>
       <ParallaxLayer offset={1}>
         <ArtistsGridWrapper />
@@ -138,8 +136,11 @@ function User({
   */
 }
 
-const mapStateToProps = ({ accessToken, refreshToken, user }, ownProps) => {
-  return { accessToken, refreshToken, user };
+const mapStateToProps = (
+  { accessToken, refreshToken, user, currentTrack },
+  ownProps
+) => {
+  return { accessToken, refreshToken, user, currentTrack };
 };
 
 // mapDispatchToProps - automatically calls bindActionCreators

@@ -1,4 +1,5 @@
 import * as types from '../actions/actionTypes';
+import { TRACK_STATUS } from '../constants';
 
 /** The initial state; no tokens and no user info */
 const initialState = {
@@ -17,6 +18,12 @@ const initialState = {
     product: null,
     type: null,
     uri: null,
+  },
+  currentTrack: {
+    artist: null,
+    name: null,
+    img: null,
+    status: null,
   },
   topArtists: {},
   isArtistLoading: false,
@@ -72,6 +79,26 @@ export default function reduce(state = initialState, action) {
     case types.SPOTIFY_ME_FAILURE:
       return Object.assign({}, state, {
         user: Object.assign({}, state.user, { loading: false }),
+      });
+
+    case types.SPOTIFY_CURRENT_TRACK_BEGIN:
+      return state;
+
+    case types.SPOTIFY_CURRENT_TRACK_SUCCESS:
+      const item = action.data.item;
+      const artist = item.artists[0].name; // TODO - handle more than 1 artist
+      const img = item.album.images[0].url;
+      const name = item.name;
+      const status = action.data.is_playing
+        ? TRACK_STATUS.PLAYING
+        : TRACK_STATUS.PAUSED;
+      return Object.assign({}, state, {
+        currentTrack: {
+          artist,
+          img,
+          name,
+          status,
+        },
       });
 
     case types.SPOTIFY_TOP_ARTISTS_BEGIN:

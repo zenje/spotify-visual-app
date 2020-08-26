@@ -57,6 +57,7 @@ export const getCurrentPlayingTrack = () => {
       (data) => {
         console.log('getCurrentPlayingTrack data');
         console.log(data);
+        dispatch({ type: types.SPOTIFY_CURRENT_TRACK_SUCCESS, data });
       },
       (err) => {
         console.log('getMyCurrentPlayingTrack ERROR');
