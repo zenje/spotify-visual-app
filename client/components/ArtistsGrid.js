@@ -130,7 +130,8 @@ const StyledGridListTile = styled(GridListTile)`
   animation-duration: 0.45s;
   animation-delay: ${(props) => props.index * 100}ms;
   animation-fill-mode: both;
-  animation-name: ${(props) => (props.isVisible ? fadeInUp : fadeInUp2)};
+  // use transient prop $isVisible - not passed down to DOM
+  animation-name: ${(props) => (props.$isVisible ? fadeInUp : fadeInUp2)};
 `;
 
 export default function ArtistsGrid(props) {
@@ -223,7 +224,7 @@ export default function ArtistsGrid(props) {
                 console.log('clicked ' + tile.title);
                 dispatch(fetchArtistExtract(tile.title, index, timeRange));
               }}
-              isVisible={isVisible}
+              $isVisible={isVisible}
               index={index}
             >
               <img src={tile.img} alt={tile.title} />
