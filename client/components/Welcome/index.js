@@ -6,7 +6,8 @@ import {
   AnimatedWelcome,
   CurrentTrackShadow,
   Sparkle,
-  StyledCurrentTrack,
+  StyledCurrentTrack as CurrentTrack,
+  StyledRecentTracks as RecentTracks,
   welcomeAnimation,
   Wrapper,
 } from './style';
@@ -25,16 +26,14 @@ export default function Welcome(props) {
           <Sparkle>✨</Sparkle>
         </AnimatedWelcome>
       </ParallaxLayer>
-      <ParallaxLayer offset={0.33} speed={0.7}>
+      <ParallaxLayer offset={size.width < 600 ? 0.23 : 0.33} speed={0.7}>
         <CurrentTrackShadow />
       </ParallaxLayer>
-      <ParallaxLayer offset={0.3} speed={0.5}>
-        <StyledCurrentTrack
-          artist={artist}
-          name={name}
-          img={img}
-          status={status}
-        />
+      <ParallaxLayer offset={size.width < 600 ? 0.2 : 0.3} speed={0.5}>
+        <CurrentTrack artist={artist} name={name} img={img} status={status} />
+      </ParallaxLayer>
+      <ParallaxLayer offset={size.height < 700 ? 0.99 : 0.7} speed={0.3}>
+        <RecentTracks />
       </ParallaxLayer>
     </Wrapper>
   );

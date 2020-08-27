@@ -4,6 +4,7 @@ import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 
 import theme from '../../styles/theme';
 import CurrentTrack from '../CurrentTrack';
+import RecentTracks from '../RecentTracks';
 
 export const Wrapper = styled.div`
   width: 100%;
@@ -16,14 +17,14 @@ export const Wrapper = styled.div`
 `;
 
 export const WelcomeBanner = styled.div`
-  background-color: white;
+background-color: white;
   width: 90%;
   margin-top: 10vh;
   //background-image: linear-gradient(135deg, ${theme.colors.highlight} 2.38%, #ffffff 2.38%, #ffffff 50%, ${theme.colors.highlight} 50%, ${theme.colors.highlight} 52.38%, #ffffff 52.38%, #ffffff 100%);
   //background-size: 29.70px 29.70px;
-  -webkit-box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
-  -moz-box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
-  box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
+  //-webkit-box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
+  //-moz-box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
+  //box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
   color: ${theme.colors.highlight};
   display: flex;
   flex-direction: row;
@@ -48,15 +49,15 @@ export const Sparkle = styled.div`
 export const welcomeAnimation = (windowWidth) => {
   const getFontSize = () => {
     if (windowWidth > 768) {
-      return '5em';
-    } else if (windowWidth > 320) {
+      return '4em';
+    } else if (windowWidth > 600) {
       return '3em';
     }
     return '2em';
   };
 
   return useSpring({
-    opacity: 1,
+    opacity: 0.8,
     fontSize: getFontSize(),
     from: {
       opacity: 0,
@@ -108,5 +109,25 @@ export const CurrentTrackShadow = styled.div`
     height: 250px;
   }
   transform: translateX(20px);
-  animation: ${fadeIn} 1s ease-in-out;
+  animation: ${fadeIn} 1s ease-in;
+`;
+
+const fadeInUp = keyframes`
+  0% {
+     opacity: 0;
+     transform: translateY(20px);
+  }
+  66% {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  100% {
+     opacity: 1;
+     transform: translateY(0);
+   }
+   `;
+
+export const StyledRecentTracks = styled(RecentTracks)`
+  margin: 0 auto;
+  animation: ${fadeInUp} 1.5s ease-in-out;
 `;

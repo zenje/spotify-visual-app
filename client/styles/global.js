@@ -6,6 +6,7 @@ export const GlobalStyle = createGlobalStyle`
     background-color: ${(props) => props.theme.colors.background};
     font-family: 'Space Mono', monospace;
     font-size: 16px;
+    color: ${(props) => props.theme.colors.text};
   }
   `;
 export default GlobalStyle;

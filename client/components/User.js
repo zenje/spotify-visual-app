@@ -1,6 +1,7 @@
 import React, { Component, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useWindowSize } from '../hooks/useWindowSize';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 import Container from '@material-ui/core/Container';
@@ -26,6 +27,7 @@ function User({
   showArtistsGrid,
 }) {
   let { accessToken, refreshToken, setCookies } = useParams();
+  const size = useWindowSize();
   showArtistsGrid = false;
 
   useEffect(() => {
@@ -69,7 +71,7 @@ function User({
       <ParallaxLayer offset={0}>
         <Welcome user={display_name} currentTrack={currentTrack} />
       </ParallaxLayer>
-      <ParallaxLayer offset={1}>
+      <ParallaxLayer offset={size.width < 600 ? 1.5 : 1}>
         <ArtistsGridWrapper />
       </ParallaxLayer>
     </Parallax>

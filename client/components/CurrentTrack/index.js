@@ -41,7 +41,7 @@ export default function CurrentTrack(props) {
           <Image src={img} />
         </Left>
         <Right>
-          <Status>&lt;{status}&gt;</Status>
+          <Status>&lt; {status} &gt;</Status>
           <ArtistTrackWrapper>
             <Artist>{artist}</Artist>
             <Track>{name}</Track>
