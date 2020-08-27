@@ -18,3 +18,5 @@ export const TRACK_STATUS = {
   PAUSED: 'paused',
   LAST_PLAYED: 'last played',
 };
+
+export const RECENT_TRACKS_LIMIT = 5;

@@ -19,7 +19,7 @@ const setCookies = false;
 const Root = () => (
   <>
     <Helmet>
-      <title>fun with spotify</title>
+      <title>fun with spotify ✨</title>
       <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       <link
         rel="stylesheet"

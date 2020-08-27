@@ -25,6 +25,8 @@ const initialState = {
     img: null,
     status: null,
   },
+  recentTracks: [],
+  isNewCurrentTrack: false,
   topArtists: {},
   isArtistLoading: false,
   isArtistOverlayOpen: false,
@@ -48,6 +50,20 @@ const extractArtistData = (artistData) => {
     console.log('tileData');
     console.log(tileData);
     return tileData;
+  }
+  return [];
+};
+
+const condenseRecentTracks = (data) => {
+  if (data && data.length > 0) {
+    return data.map((item) => {
+      const { track } = item;
+      return {
+        artist: track.artists[0].name,
+        img: track.album.images ? track.album.images[2].url : undefined,
+        name: track.name,
+      };
+    });
   }
   return [];
 };
@@ -99,6 +115,17 @@ export default function reduce(state = initialState, action) {
           name,
           status,
         },
+        isNewCurrentTrack: state.currentTrack.name !== name,
+      });
+
+    case types.SPOTIFY_RECENT_TRACKS_BEGIN:
+      return state;
+
+    case types.SPOTIFY_RECENT_TRACKS_SUCCESS:
+      const items = action.data.items;
+      return Object.assign({}, state, {
+        recentTracks: condenseRecentTracks(items),
+        isNewCurrentTrack: false,
       });
 
     case types.SPOTIFY_TOP_ARTISTS_BEGIN:

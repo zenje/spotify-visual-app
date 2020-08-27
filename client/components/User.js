@@ -20,6 +20,8 @@ import Welcome from './Welcome/index';
 function User({
   user,
   currentTrack,
+  recentTracks,
+  isNewCurrentTrack,
   getMyInfo,
   getCurrentPlayingTrack,
   getMyRecentlyPlayedTracks,
@@ -28,20 +30,27 @@ function User({
 }) {
   let { accessToken, refreshToken, setCookies } = useParams();
   const size = useWindowSize();
-  showArtistsGrid = false;
 
   useEffect(() => {
     setTokens(accessToken, refreshToken, setCookies);
     getMyInfo();
 
-    // poll current-track every 5 seconds
+    // poll current-track every 5s
     getCurrentPlayingTrack();
-    const interval = setInterval(getCurrentPlayingTrack, 5000);
     getMyRecentlyPlayedTracks();
+    const interval = setInterval(getCurrentPlayingTrack, 5000);
 
     // clean-up
     return () => clearInterval(interval);
   }, []);
+
+  useEffect(() => {
+    if (isNewCurrentTrack) {
+      console.log('getMyRecentlyPlayedTracks AGAIN');
+      // after 10s, update recently played tracks
+      setTimeout(getMyRecentlyPlayedTracks, 10000);
+    }
+  }, [isNewCurrentTrack]);
 
   /** Render the user's info */
   const {
@@ -61,15 +70,15 @@ function User({
     return <h2>Loading...</h2>;
   }
 
-  const displayArtistsGrid = () => {
-    showArtistsGrid = true;
-  };
-
   let parallax;
   return (
     <Parallax pages={4} ref={(ref) => (parallax = ref)}>
       <ParallaxLayer offset={0}>
-        <Welcome user={display_name} currentTrack={currentTrack} />
+        <Welcome
+          user={display_name}
+          currentTrack={currentTrack}
+          recentTracks={recentTracks}
+        />
       </ParallaxLayer>
       <ParallaxLayer offset={size.width < 600 ? 1.5 : 1}>
         <ArtistsGridWrapper />
@@ -139,10 +148,24 @@ function User({
 }
 
 const mapStateToProps = (
-  { accessToken, refreshToken, user, currentTrack },
+  {
+    accessToken,
+    refreshToken,
+    user,
+    currentTrack,
+    recentTracks,
+    isNewCurrentTrack,
+  },
   ownProps
 ) => {
-  return { accessToken, refreshToken, user, currentTrack };
+  return {
+    accessToken,
+    refreshToken,
+    user,
+    currentTrack,
+    recentTracks,
+    isNewCurrentTrack,
+  };
 };
 
 // mapDispatchToProps - automatically calls bindActionCreators

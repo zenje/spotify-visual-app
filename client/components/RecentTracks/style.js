@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { RECENT_TRACKS_LIMIT } from '../../constants';
 
 export const Wrapper = styled.div`
   width: 280px;
@@ -22,6 +23,25 @@ export const Tracks = styled.div`
   padding: 0 2%;
 `;
 
+const getFadedTrackStyle = () => {
+  let style;
+  let opacity = 1;
+  const opacityMin = 0.2;
+  let opacityInterval = (opacity - opacityMin) / RECENT_TRACKS_LIMIT;
+
+  for (let i = 0; i < RECENT_TRACKS_LIMIT; i++) {
+    let child = i + 1;
+    opacity = opacity - opacityInterval;
+    style += `
+      &:nth-child(${child}) {
+        opacity: ${opacity};
+      }
+    `;
+  }
+  return style;
+};
+
+const fadedTrackStyle = getFadedTrackStyle();
 export const Track = styled.div`
   display: flex;
   flex-direction: row;
@@ -31,12 +51,7 @@ export const Track = styled.div`
     width: 25px;
     height: 25px;
   }
-  &:nth-child(2) {
-    opacity: 0.6;
-  }
-  &:nth-child(3) {
-    opacity: 0.3;
-  }
+  ${fadedTrackStyle}
 `;
 
 export const TrackName = styled.div`

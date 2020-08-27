@@ -1,7 +1,7 @@
 import Spotify from 'spotify-web-api-js';
 import Cookies from 'js-cookie';
 import { useHistory } from 'react-router-dom';
-import { TIME_RANGES } from '../constants';
+import { RECENT_TRACKS_LIMIT, TIME_RANGES } from '../constants';
 import * as types from './actionTypes';
 
 const spotifyApi = new Spotify();
@@ -68,12 +68,13 @@ export const getCurrentPlayingTrack = () => {
   };
 };
 
-export const getMyRecentlyPlayedTracks = () => {
+export const getMyRecentlyPlayedTracks = (limit = RECENT_TRACKS_LIMIT) => {
   return (dispatch) => {
-    spotifyApi.getMyRecentlyPlayedTracks().then(
+    spotifyApi.getMyRecentlyPlayedTracks({ limit }).then(
       (data) => {
         console.log('getMyRecentlyPlayedTracks data');
         console.log(data);
+        dispatch({ type: types.SPOTIFY_RECENT_TRACKS_SUCCESS, data });
       },
       (err) => {
         console.log('getMyRecentlyPlayedTracks ERROR');
