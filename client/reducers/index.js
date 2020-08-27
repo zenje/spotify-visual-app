@@ -60,12 +60,20 @@ const condenseRecentTracks = (data) => {
       const { track } = item;
       return {
         artist: track.artists[0].name,
-        img: track.album.images ? track.album.images[2].url : undefined,
+        img: track.album.images ? track.album.images[0].url : undefined,
         name: track.name,
       };
     });
   }
   return [];
+};
+
+const getLastPlayedTrack = (state) => {
+  const { recentTracks } = state;
+  if (recentTracks && recentTracks.length > 0) {
+    return recentTracks[0];
+  }
+  return {};
 };
 
 /**
@@ -117,6 +125,18 @@ export default function reduce(state = initialState, action) {
         },
         isNewCurrentTrack: state.currentTrack.name !== name,
       });
+
+    case types.SPOTIFY_CURRENT_TRACK_NOT_PLAYING:
+      if (state.currentTrack.name) {
+        return state;
+      } else {
+        let lastPlayedTrack = getLastPlayedTrack(state);
+        lastPlayedTrack.status = TRACK_STATUS.LAST_PLAYED;
+        return Object.assign({}, state, {
+          currentTrack: lastPlayedTrack,
+          isNewCurrentTrack: false,
+        });
+      }
 
     case types.SPOTIFY_RECENT_TRACKS_BEGIN:
       return state;

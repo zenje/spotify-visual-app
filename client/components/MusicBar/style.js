@@ -14,6 +14,8 @@ const Bar = styled.div`
   background-color: ${(props) => props.theme.colors.primary || 'white'};
 `;
 
+const getPlayState = (props) => (props.isPaused ? 'paused' : 'running');
+
 const bar1 = keyframes`
   0%, 100% {
     transform: scaleY(1);
@@ -32,6 +34,7 @@ const bar1 = keyframes`
 export const Bar1 = styled(Bar)`
   height: 60%;
   animation: ${bar1} 1s infinite;
+  animation-play-state: ${(props) => getPlayState(props)};
 `;
 
 const bar2 = keyframes`
@@ -53,6 +56,7 @@ export const Bar2 = styled(Bar)`
   left: ${BAR_WIDTH + 2}%;
   height: 100%;
   animation: ${bar2} 0.8s infinite;
+  animation-play-state: ${(props) => getPlayState(props)};
 `;
 
 const bar3 = keyframes`
@@ -74,6 +78,7 @@ export const Bar3 = styled(Bar)`
   left: ${(BAR_WIDTH + 2) * 2}%;
   height: 50%;
   animation: ${bar3} 1.2s infinite;
+  animation-play-state: ${(props) => getPlayState(props)};
 `;
 
 const bar4 = keyframes`
@@ -100,4 +105,5 @@ export const Bar4 = styled(Bar)`
   left: 72%;
   height: 35%;
   animation: ${bar4} 0.6s infinite;
+  animation-play-state: ${(props) => getPlayState(props)};
 `;

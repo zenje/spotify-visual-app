@@ -35,9 +35,9 @@ function User({
     setTokens(accessToken, refreshToken, setCookies);
     getMyInfo();
 
-    // poll current-track every 5s
-    getCurrentPlayingTrack();
     getMyRecentlyPlayedTracks();
+    // poll current-track every 5s
+    setTimeout(getCurrentPlayingTrack, 500); // ?
     const interval = setInterval(getCurrentPlayingTrack, 5000);
 
     // clean-up

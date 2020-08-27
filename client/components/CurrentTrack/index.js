@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
 import { useWindowSize } from '../../hooks/useWindowSize';
+import { TRACK_STATUS } from '../../constants';
 import {
   Artist,
   ArtistTrackWrapper,
@@ -47,10 +48,14 @@ export default function CurrentTrack(props) {
             <Track>{name}</Track>
           </ArtistTrackWrapper>
           <MusicBarWrapper>
-            <MusicBar />
+            <MusicBar isPaused={isPaused(status)} />
           </MusicBarWrapper>
         </Right>
       </Wrapper>
     );
   }
 }
+
+const isPaused = (status) => {
+  return status === TRACK_STATUS.PAUSED || status === TRACK_STATUS.LAST_PLAYED;
+};
