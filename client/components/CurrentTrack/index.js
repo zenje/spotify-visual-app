@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import * as Vibrant from 'node-vibrant';
 import { TRACK_STATUS } from '../../constants';
 import {
   Artist,
   ArtistTrackWrapper,
-  Image,
+  getImage,
   Left,
   MusicBarWrapper,
   Right,
@@ -38,9 +39,7 @@ export default function CurrentTrack(props) {
 
   return (
     <Wrapper className={className}>
-      <Left>
-        <Image src={img} />
-      </Left>
+      <Left>{getImage(img)}</Left>
       <Right>
         {size.width >= 600 ? (
           <Status color={statusColor}>&lt; {status} &gt;</Status>

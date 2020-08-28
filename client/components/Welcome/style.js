@@ -3,6 +3,7 @@ import { useSpring, animated } from 'react-spring';
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 
 import theme from '../../styles/theme';
+import { CURRENT_TRACK_SIZE } from '../../constants';
 import CurrentTrack from '../CurrentTrack';
 import RecentTracks from '../RecentTracks';
 
@@ -98,15 +99,12 @@ export const CurrentTrackShadow = styled.div`
   background-image: linear-gradient(135deg, #ffffff 2.38%, ${theme.colors.highlight} 2.38%, ${theme.colors.highlight} 50%, #ffffff 50%, #ffffff 52.38%, ${theme.colors.highlight} 52.38%, ${theme.colors.highlight} 100%);
   background-size: 29.70px 29.70px;
   margin: 0 auto;
-  width: 250px;
-  height: 350px;
+  ${CURRENT_TRACK_SIZE.SMALL}
   @media (min-width: 600px) {
-    width: 525px;
-    height: 250px;
+    ${CURRENT_TRACK_SIZE.MEDIUM}
   }
   @media (min-width: 768px) {
-    width: 650px;
-    height: 250px;
+    ${CURRENT_TRACK_SIZE.LARGE}
   }
   transform: translateX(20px);
   animation: ${fadeIn} 1s ease-in;

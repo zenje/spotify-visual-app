@@ -1,36 +1,58 @@
-import styled from 'styled-components';
+import React, { useEffect, useState } from 'react';
+import styled, { keyframes } from 'styled-components';
+import { animated, useTransition } from 'react-spring';
+import { CURRENT_TRACK_SIZE } from '../../constants';
 import MusicBar from '../MusicBar';
 
 export const Wrapper = styled.div`
   background-color: white;
-  //background-color: ${(props) => props.theme.colors.highlight};
-  color: ${(props) => props.theme.colors.text};
   text-align: center;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 250px;
-  height: 350px;
+  ${CURRENT_TRACK_SIZE.SMALL}
   @media (min-width: 600px) {
     flex-direction: row;
-    width: 525px;
-    height: 250px;
+    ${CURRENT_TRACK_SIZE.MEDIUM}
   }
   @media (min-width: 768px) {
-    width: 650px;
-    height: 250px;
-  }
-  `;
-
-export const Image = styled.img`
-  object-fit: cover;
-  width: 100%;
-  height: 100%;
-  @media (min-width: 600px) {
-    width: 110%;
-    height: 110%;
+    ${CURRENT_TRACK_SIZE.LARGE}
   }
 `;
+
+const fadeIn = keyframes`
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+   }
+`;
+
+export const Image = styled.img`
+  // necessary to break flexbox because useTransition adds new img to DOM, pushing position
+  position: absolute;
+  object-fit: cover;
+  width: 250px;
+  height: 250px;
+  @media (min-width: 600px) {
+    width: 280px;
+    height: 280px;
+  }
+`;
+
+const AnimatedImage = animated(Image);
+export const getImage = (img) => {
+  const transitions = useTransition(img, img, {
+    from: { opacity: 0 },
+    enter: { opacity: 1 },
+    leave: { opacity: 0 },
+    config: { duration: 2000 },
+  });
+  return transitions.map(({ item, key, props }) => (
+    <AnimatedImage key={key} src={item} style={props} />
+  ));
+};
 
 export const Left = styled.div`
   flex: 2.5;
@@ -48,11 +70,11 @@ export const Right = styled.div`
   padding: 2%;
   @media (min-width: 600px) {
     flex-direction: column;
-    padding-left: 7%;
+    padding-left: 8%;
   }
   @media (min-width: 768px) {
     flex: 1.5;
-    padding-left: 6%;
+    padding-left: 8%;
   }
 `;
 

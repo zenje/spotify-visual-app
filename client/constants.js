@@ -20,3 +20,12 @@ export const TRACK_STATUS = {
 };
 
 export const RECENT_TRACKS_LIMIT = 5;
+
+export const CURRENT_TRACK_SIZE = {
+  SMALL: `width: 250px;
+          height: 350px;`,
+  MEDIUM: `width: 550px;
+          height: 250px;`,
+  LARGE: `width: 650px;
+          height: 250px;`,
+};
