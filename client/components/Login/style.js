@@ -1,4 +1,4 @@
-import styled, {keyframes} from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Container from '@material-ui/core/Container';
 
 export const StyledContainer = styled(Container)`
@@ -41,7 +41,7 @@ export const Wrapper = styled.div`
 
 export const SpotifyWrapper = styled.div`
   text-align: center;
-  `;
+`;
 
 export const SpotifySVG = styled.div`
   display: inline-block;
