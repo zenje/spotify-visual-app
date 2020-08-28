@@ -135,9 +135,21 @@ export default function reduce(state = initialState, action) {
       }
 
     case types.SPOTIFY_CURRENT_TRACK_NOT_PLAYING:
-      if (state.currentTrack.name) {
-        return state;
+      let { currentTrack } = state;
+      if (currentTrack.name) {
+        if (currentTrack.status === TRACK_STATUS.LAST_PLAYED) {
+          // handle continual fetching where track has been loaded, but nothing is playing
+          return state;
+        } else {
+          // handle podcast scenario
+          return Object.assign({}, state, {
+            currentTrack: Object.assign({}, state.currentTrack, {
+              status: TRACK_STATUS.LAST_PLAYED,
+            }),
+          });
+        }
       } else {
+        // extract last played track from recent tracks
         let lastPlayedTrack = getLastPlayedTrack(state);
         lastPlayedTrack.status = TRACK_STATUS.LAST_PLAYED;
         return Object.assign({}, state, {
