@@ -2,14 +2,22 @@ import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import * as Vibrant from 'node-vibrant';
-import { TRACK_STATUS } from '../../constants';
+import {
+  CURRENT_TRACK_IMAGE_LENGTH,
+  TRACK_STATUS,
+  SKELETON_GREY,
+} from '../../constants';
+import Typography from '@material-ui/core/Typography';
 import {
   Artist,
   ArtistTrackWrapper,
+  CenteredSkeleton,
   getImage,
+  Image,
   Left,
   MusicBarWrapper,
   Right,
+  SkeletonImage,
   Status,
   Track,
   StyledMusicBar as MusicBar,
@@ -17,14 +25,19 @@ import {
 } from './style';
 
 export default function CurrentTrack(props) {
-  let { artist, className, img, name, status } = props;
+  let { artist, className, img, isLoading, name, status } = props;
   const size = useWindowSize();
-
+  let [isInitallyLoadingColors, setIsInitallyLoadingColors] = useState(true);
   let [artistColor, setArtistColor] = useState(undefined);
   let [trackColor, setTrackColor] = useState(undefined);
-  let [musicBarPrimaryColor, setMusicBarPrimaryColor] = useState(undefined);
-  let [musicBarSecondaryColor, setMusicBarSecondaryColor] = useState(undefined);
+  let [musicBarPrimaryColor, setMusicBarPrimaryColor] = useState(SKELETON_GREY);
+  let [musicBarSecondaryColor, setMusicBarSecondaryColor] = useState(
+    SKELETON_GREY
+  );
   let [statusColor, setStatusColor] = useState(undefined);
+  const image = getImage(img); // must be called outside of conditional render because it calls useState hooks
+  const showSkeleton = isLoading || isInitallyLoadingColors;
+  const skeletonImageLength = getSkeletonImageLength(size);
 
   useEffect(() => {
     setColors(
@@ -33,26 +46,51 @@ export default function CurrentTrack(props) {
       setTrackColor,
       setMusicBarPrimaryColor,
       setMusicBarSecondaryColor,
-      setStatusColor
+      setStatusColor,
+      setIsInitallyLoadingColors
     );
   }, [img]);
 
   return (
     <Wrapper className={className}>
-      <Left>{getImage(img)}</Left>
+      <Left>
+        {showSkeleton ? (
+          <SkeletonImage
+            variant="rect"
+            width={skeletonImageLength}
+            height={skeletonImageLength}
+          />
+        ) : (
+          image
+        )}
+      </Left>
       <Right>
         {size.width >= 600 ? (
-          <Status color={statusColor}>&lt; {status} &gt;</Status>
+          showSkeleton ? (
+            <CenteredSkeleton variant="text" width="30%" />
+          ) : (
+            <Status color={statusColor}>&lt; {status} &gt;</Status>
+          )
         ) : null}
         <ArtistTrackWrapper>
-          <Artist color={artistColor}>{artist}</Artist>
-          <Track color={trackColor}>{name}</Track>
+          {showSkeleton ? (
+            <Typography variant="h3">
+              <CenteredSkeleton width="50%" />
+            </Typography>
+          ) : (
+            <Artist color={artistColor}>{artist}</Artist>
+          )}
+          {showSkeleton ? (
+            <CenteredSkeleton variant="text" width="45%" />
+          ) : (
+            <Track color={trackColor}>{name}</Track>
+          )}
         </ArtistTrackWrapper>
         <MusicBarWrapper>
           <MusicBar
             primary={musicBarPrimaryColor}
             secondary={musicBarSecondaryColor}
-            isPaused={isPaused(status)}
+            isPaused={isPaused(status, showSkeleton)}
           />
         </MusicBarWrapper>
       </Right>
@@ -60,8 +98,18 @@ export default function CurrentTrack(props) {
   );
 }
 
-const isPaused = (status) => {
-  return status === TRACK_STATUS.PAUSED || status === TRACK_STATUS.LAST_PLAYED;
+const isPaused = (status, isLoading) => {
+  return (
+    isLoading ||
+    status === TRACK_STATUS.PAUSED ||
+    status === TRACK_STATUS.LAST_PLAYED
+  );
+};
+
+const getSkeletonImageLength = (size) => {
+  return size.width >= 600
+    ? CURRENT_TRACK_IMAGE_LENGTH.MEDIUM
+    : CURRENT_TRACK_IMAGE_LENGTH.SMALL;
 };
 
 const setColors = async (
@@ -70,7 +118,8 @@ const setColors = async (
   setTrackColor,
   setMusicBarPrimaryColor,
   setMusicBarSecondaryColor,
-  setStatusColor
+  setStatusColor,
+  setIsInitallyLoadingColors
 ) => {
   if (img) {
     let palette;
@@ -84,5 +133,6 @@ const setColors = async (
     setMusicBarPrimaryColor(palette['LightVibrant'].getHex());
     setMusicBarSecondaryColor(palette['Vibrant'].getHex());
     setStatusColor(palette['Muted'].getHex());
+    setIsInitallyLoadingColors(false);
   }
 };

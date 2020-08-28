@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import styled, { keyframes } from 'styled-components';
 import { animated, useTransition } from 'react-spring';
-import { CURRENT_TRACK_SIZE } from '../../constants';
+import Skeleton from '@material-ui/lab/Skeleton';
+import {
+  CURRENT_TRACK_SIZE,
+  CURRENT_TRACK_IMAGE_LENGTH,
+} from '../../constants';
 import MusicBar from '../MusicBar';
 
 export const Wrapper = styled.div`
@@ -33,12 +37,13 @@ export const Image = styled.img`
   // necessary to break flexbox because useTransition adds new img to DOM, pushing position
   position: absolute;
   object-fit: cover;
-  width: 250px;
-  height: 250px;
+  width: ${CURRENT_TRACK_IMAGE_LENGTH.SMALL}px;
+  height: ${CURRENT_TRACK_IMAGE_LENGTH.SMALL}px;
   @media (min-width: 600px) {
-    width: 280px;
-    height: 280px;
+    width: ${CURRENT_TRACK_IMAGE_LENGTH.MEDIUM}px;
+    height: ${CURRENT_TRACK_IMAGE_LENGTH.MEDIUM}px;
   }
+  animation: ${fadeIn} 2s;
 `;
 
 const AnimatedImage = animated(Image);
@@ -53,6 +58,11 @@ export const getImage = (img) => {
     <AnimatedImage key={key} src={item} style={props} />
   ));
 };
+
+export const SkeletonImage = styled(Skeleton)`
+  // replicate animated Image with useTransition
+  position: absolute;
+`;
 
 export const Left = styled.div`
   flex: 2.5;
@@ -82,22 +92,24 @@ export const Status = styled.div`
   color: ${(props) => props.color || props.theme.colors.text};
   padding: 5% 0;
   font-size: 0.8em;
+  animation: ${fadeIn} 2s;
 `;
 
-export const Artist = styled.h1`
+export const Artist = styled.h3`
   margin: 0;
   color: ${(props) => props.color || props.theme.colors.secondary};
   text-transform: uppercase;
-  font-size: 1.2em;
   @media (min-width: 600px) {
     font-size: 2em;
   }
+  animation: ${fadeIn} 2s;
 `;
 
 export const Track = styled.div`
   color: ${(props) => props.color || props.theme.colors.text};
   font-style: italic;
   letter-spacing: 1px;
+  animation: ${fadeIn} 2s;
 `;
 
 export const ArtistTrackWrapper = styled.div`
@@ -131,3 +143,19 @@ export const StyledMusicBar = styled(MusicBar)`
     height: 5em;
   }
 `;
+
+const CenteredDiv = styled.div`
+  text-align: center;
+`;
+
+const StyledSkeleton = styled(Skeleton)`
+  display: inline-block;
+`;
+
+export const CenteredSkeleton = (props) => {
+  return (
+    <CenteredDiv>
+      <StyledSkeleton {...props} />
+    </CenteredDiv>
+  );
+};

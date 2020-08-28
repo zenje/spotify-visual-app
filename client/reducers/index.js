@@ -19,6 +19,7 @@ const initialState = {
     type: null,
     uri: null,
   },
+  isLoadingCurrentTrack: true,
   currentTrack: {
     artist: null,
     name: null,
@@ -125,6 +126,7 @@ export default function reduce(state = initialState, action) {
             name,
             status,
           },
+          isLoadingCurrentTrack: false,
           isNewCurrentTrack,
         });
       } else {
@@ -140,6 +142,7 @@ export default function reduce(state = initialState, action) {
         lastPlayedTrack.status = TRACK_STATUS.LAST_PLAYED;
         return Object.assign({}, state, {
           currentTrack: lastPlayedTrack,
+          isLoadingCurrentTrack: false,
           isNewCurrentTrack: false,
         });
       }

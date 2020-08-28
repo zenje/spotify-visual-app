@@ -14,7 +14,7 @@ import {
 import { useWindowSize } from '../../hooks/useWindowSize';
 
 export default function Welcome(props) {
-  const { user, currentTrack, recentTracks } = props;
+  const { user, currentTrack, isLoadingCurrentTrack, recentTracks } = props;
   const { artist, name, img, status } = currentTrack;
   const size = useWindowSize();
 
@@ -30,7 +30,13 @@ export default function Welcome(props) {
         <CurrentTrackShadow />
       </ParallaxLayer>
       <ParallaxLayer offset={size.width < 600 ? 0.2 : 0.3} speed={0.5}>
-        <CurrentTrack artist={artist} name={name} img={img} status={status} />
+        <CurrentTrack
+          artist={artist}
+          name={name}
+          img={img}
+          isLoading={isLoadingCurrentTrack}
+          status={status}
+        />
       </ParallaxLayer>
       <ParallaxLayer offset={size.height < 700 ? 0.99 : 0.7} speed={0.3}>
         <RecentTracks tracks={recentTracks} />

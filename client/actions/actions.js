@@ -53,6 +53,7 @@ export const getTopArtists = (timeRange = TIME_RANGES.LONG_TERM.timeRange) => {
 
 export const getCurrentPlayingTrack = () => {
   return (dispatch) => {
+    dispatch({ type: types.SPOTIFY_CURRENT_TRACK_BEGIN });
     spotifyApi.getMyCurrentPlayingTrack().then(
       (data) => {
         console.log('getCurrentPlayingTrack data');

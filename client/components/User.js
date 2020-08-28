@@ -21,6 +21,7 @@ function User({
   user,
   currentTrack,
   recentTracks,
+  isLoadingCurrentTrack,
   isNewCurrentTrack,
   getMyInfo,
   getCurrentPlayingTrack,
@@ -77,6 +78,7 @@ function User({
         <Welcome
           user={display_name}
           currentTrack={currentTrack}
+          isLoadingCurrentTrack={isLoadingCurrentTrack}
           recentTracks={recentTracks}
         />
       </ParallaxLayer>
@@ -154,6 +156,7 @@ const mapStateToProps = (
     user,
     currentTrack,
     recentTracks,
+    isLoadingCurrentTrack,
     isNewCurrentTrack,
   },
   ownProps
@@ -164,6 +167,7 @@ const mapStateToProps = (
     user,
     currentTrack,
     recentTracks,
+    isLoadingCurrentTrack,
     isNewCurrentTrack,
   };
 };

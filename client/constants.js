@@ -29,3 +29,10 @@ export const CURRENT_TRACK_SIZE = {
   LARGE: `width: 650px;
           height: 250px;`,
 };
+
+export const CURRENT_TRACK_IMAGE_LENGTH = {
+  SMALL: 250,
+  MEDIUM: 280,
+};
+
+export const SKELETON_GREY = 'lightgrey';
