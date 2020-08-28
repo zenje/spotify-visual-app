@@ -116,15 +116,21 @@ export default function reduce(state = initialState, action) {
       const status = action.data.is_playing
         ? TRACK_STATUS.PLAYING
         : TRACK_STATUS.PAUSED;
-      return Object.assign({}, state, {
-        currentTrack: {
-          artist,
-          img,
-          name,
-          status,
-        },
-        isNewCurrentTrack: state.currentTrack.name !== name,
-      });
+      const isNewCurrentTrack = state.currentTrack.name !== name;
+      if (isNewCurrentTrack || state.currentTrack.status !== status) {
+        return Object.assign({}, state, {
+          currentTrack: {
+            artist,
+            img,
+            name,
+            status,
+          },
+          isNewCurrentTrack,
+        });
+      } else {
+        // prevent re-render if track has not changed
+        return state;
+      }
 
     case types.SPOTIFY_CURRENT_TRACK_NOT_PLAYING:
       if (state.currentTrack.name) {

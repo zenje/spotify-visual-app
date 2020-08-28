@@ -57,13 +57,14 @@ export const Right = styled.div`
 `;
 
 export const Status = styled.div`
+  color: ${(props) => props.color || props.theme.colors.text};
   padding: 5% 0;
   font-size: 0.8em;
 `;
 
 export const Artist = styled.h1`
   margin: 0;
-  color: ${(props) => props.theme.colors.secondary};
+  color: ${(props) => props.color || props.theme.colors.secondary};
   text-transform: uppercase;
   font-size: 1.2em;
   @media (min-width: 600px) {
@@ -72,6 +73,7 @@ export const Artist = styled.h1`
 `;
 
 export const Track = styled.div`
+  color: ${(props) => props.color || props.theme.colors.text};
   font-style: italic;
   letter-spacing: 1px;
 `;
