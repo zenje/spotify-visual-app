@@ -1,4 +1,4 @@
-import React, { Component, useEffect } from 'react';
+import React, { Component, useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useWindowSize } from '../hooks/useWindowSize';
@@ -15,7 +15,15 @@ import {
 } from '../actions/actions';
 import theme from '../styles/theme';
 import ArtistsGridWrapper from './ArtistsGridWrapper';
+import InitialLoader from './loaders/InitialLoader';
 import Welcome from './Welcome/index';
+
+const StyledContainer = styled(Container)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 90vh;
+`;
 
 function User({
   user,
@@ -31,17 +39,21 @@ function User({
 }) {
   let { accessToken, refreshToken, setCookies } = useParams();
   const size = useWindowSize();
+  let [showLoadingBar, setShowLoadingBar] = useState(true);
 
   useEffect(() => {
+    // on initial render, show loading bar, delay rendering page for 2s
+    setTimeout(() => setShowLoadingBar(false), 2000);
+
     setTokens(accessToken, refreshToken, setCookies);
     getMyInfo();
 
     getMyRecentlyPlayedTracks();
-    // poll current-track every 5s
+    // poll current track every 5s
     setTimeout(getCurrentPlayingTrack, 500); // ?
     const interval = setInterval(getCurrentPlayingTrack, 5000);
 
-    // clean-up
+    // clean-up set interval
     return () => clearInterval(interval);
   }, []);
 
@@ -66,9 +78,12 @@ function User({
     product,
   } = user;
   const imageUrl = images[0] ? images[0].url : '';
-  // if we're still loading, indicate such
-  if (loading) {
-    return <h2>Loading...</h2>;
+  if (loading || showLoadingBar) {
+    return (
+      <StyledContainer>
+        <InitialLoader />
+      </StyledContainer>
+    );
   }
 
   let parallax;

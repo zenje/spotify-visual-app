@@ -40,7 +40,7 @@ export const Wrapper = styled.div`
 `;
 
 export const SpotifyWrapper = styled.div`
-  text-align: center;
+  margin-top: 25%;
 `;
 
 export const SpotifySVG = styled.div`
@@ -48,4 +48,8 @@ export const SpotifySVG = styled.div`
   max-width: 200px;
   width: 200px;
   height: 50px;
+`;
+
+export const Tip = styled.div`
+  margin-top: auto;
 `;
