@@ -12,11 +12,12 @@ import {
   Wrapper,
 } from './style';
 import { useWindowSize } from '../../hooks/useWindowSize';
+import { RECENT_TRACKS_LIMIT } from '../../constants';
 
 export default function Welcome(props) {
   const { user, currentTrack, isLoadingCurrentTrack, recentTracks } = props;
   const { artist, name, img, status } = currentTrack;
-  const size = useWindowSize();
+  let size = useWindowSize();
 
   return (
     <Wrapper>
@@ -39,7 +40,10 @@ export default function Welcome(props) {
         />
       </ParallaxLayer>
       <ParallaxLayer offset={size.height < 700 ? 0.99 : 0.7} speed={0.3}>
-        <RecentTracks tracks={recentTracks} />
+        <RecentTracks
+          tracks={recentTracks}
+          trackLimit={size.height < 700 ? RECENT_TRACKS_LIMIT - 1 : undefined}
+        />
       </ParallaxLayer>
     </Wrapper>
   );

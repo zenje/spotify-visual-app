@@ -23,13 +23,13 @@ export const Tracks = styled.div`
   padding: 0 2%;
 `;
 
-const getFadedTrackStyle = () => {
+const getFadedTrackStyle = (trackLimit = RECENT_TRACKS_LIMIT) => {
   let style;
   let opacity = 1;
   const opacityMin = 0.2;
-  let opacityInterval = (opacity - opacityMin) / RECENT_TRACKS_LIMIT;
+  let opacityInterval = (opacity - opacityMin) / trackLimit;
 
-  for (let i = 0; i < RECENT_TRACKS_LIMIT; i++) {
+  for (let i = 0; i < trackLimit; i++) {
     let child = i + 1;
     opacity = opacity - opacityInterval;
     style += `
@@ -51,7 +51,7 @@ export const Track = styled.div`
     width: 25px;
     height: 25px;
   }
-  ${fadedTrackStyle}
+  ${(props) => getFadedTrackStyle(props.trackLimit)}
 `;
 
 export const TrackName = styled.div`

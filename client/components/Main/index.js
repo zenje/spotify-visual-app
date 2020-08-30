@@ -55,7 +55,7 @@ export default function Main() {
     if (isNewCurrentTrack) {
       console.log('getMyRecentlyPlayedTracks AGAIN');
       // after 10s, update recently played tracks
-      setTimeout(() => dispatch(getMyRecentlyPlayedTracks), 10000);
+      setTimeout(() => dispatch(getMyRecentlyPlayedTracks()), 10000);
     }
   }, [isNewCurrentTrack]);
 
