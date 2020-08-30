@@ -1,7 +1,6 @@
 import React from 'react';
 import loginSVG from '../../log_in.svg';
 
-import InitialLoader from '../loaders/InitialLoader';
 import {
   SpotifySVG,
   SpotifyWrapper,

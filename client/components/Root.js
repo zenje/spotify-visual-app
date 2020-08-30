@@ -9,7 +9,7 @@ import theme from '../styles/theme';
 import GlobalStyle from '../styles/global';
 import App from './App';
 import Login from './Login';
-import User from './User';
+import Main from './Main';
 import Error from './Error';
 
 const accessToken = Cookies.get('spotifyAccessToken');
@@ -42,7 +42,7 @@ const Root = () => (
               )}
             </Route>
             <Route path="/user/:accessToken/:refreshToken/:setCookies">
-              <User />
+              <Main />
             </Route>
           </Switch>
         </BrowserRouter>
