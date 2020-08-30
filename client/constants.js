@@ -19,7 +19,7 @@ export const TRACK_STATUS = {
   LAST_PLAYED: 'last played',
 };
 
-export const RECENT_TRACKS_LIMIT = 5;
+export const RECENT_TRACKS_LIMIT = 8;
 
 export const CURRENT_TRACK_SIZE = {
   SMALL: `width: 250px;
@@ -36,3 +36,6 @@ export const CURRENT_TRACK_IMAGE_LENGTH = {
 };
 
 export const SKELETON_GREY = 'lightgrey';
+
+export const IS_LT_600W = (size) => size.width < 600;
+export const IS_LT_600W_415H = (size) => size.width < 600 || size.height < 415;

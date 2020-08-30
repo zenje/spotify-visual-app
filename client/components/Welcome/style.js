@@ -1,6 +1,6 @@
 import styled, { keyframes } from 'styled-components';
 import { useSpring, animated } from 'react-spring';
-import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
+import Arrow from '@material-ui/icons/KeyboardArrowDownSharp';
 
 import theme from '../../styles/theme';
 import { CURRENT_TRACK_SIZE } from '../../constants';
@@ -17,7 +17,7 @@ export const Wrapper = styled.div`
   overflow-wrap: break-word;
 `;
 
-export const WelcomeBanner = styled.div`
+export const WelcomeBanner = animated(styled.div`
 background-color: white;
   width: 90%;
   margin-top: 10vh;
@@ -30,7 +30,7 @@ background-color: white;
   display: flex;
   flex-direction: row;
   justify-content: center;
-`;
+`);
 
 const sparkleBob = keyframes`
   0%, 100% {
@@ -47,14 +47,36 @@ export const Sparkle = styled.div`
   line-height: 100%; // keep height from expanding vertically
 `;
 
-export const welcomeAnimation = (windowWidth) => {
+export const getWelcomeAnimation = (width, str) => {
+  const strLength = str.length;
   const getFontSize = () => {
-    if (windowWidth > 768) {
-      return '4em';
-    } else if (windowWidth > 600) {
-      return '3em';
+    if (width > 1280) {
+      if (str.length < 20) {
+        return '5em';
+      } else {
+        return '4em';
+      }
     }
-    return '2em';
+    if (width > 768) {
+      if (str.length < 20) {
+        return '4em';
+      } else {
+        return '3em';
+      }
+    } else if (width > 600) {
+      if (str.length < 20) {
+        return '3em';
+      } else {
+        return '2em';
+      }
+    } else if (width > 375) {
+      if (str.length < 20) {
+        return '2em';
+      } else {
+        return '1em';
+      }
+    }
+    return '1em';
   };
 
   return useSpring({
@@ -66,8 +88,6 @@ export const welcomeAnimation = (windowWidth) => {
     },
   });
 };
-
-export const AnimatedWelcome = animated(WelcomeBanner);
 
 const fadeInDown = keyframes`
   0% {
@@ -128,4 +148,8 @@ const fadeInUp = keyframes`
 export const StyledRecentTracks = styled(RecentTracks)`
   margin: 0 auto;
   animation: ${fadeInUp} 1.5s ease-in-out;
+`;
+
+export const DownArrow = styled(Arrow)`
+  fill: ${(props) => props.theme.colors.highlight};
 `;

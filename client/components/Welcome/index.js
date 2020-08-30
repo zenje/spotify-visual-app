@@ -1,36 +1,49 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
+import { ThemeContext } from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 
 import {
-  AnimatedWelcome,
   CurrentTrackShadow,
+  DownArrow,
+  getWelcomeAnimation,
   Sparkle,
   StyledCurrentTrack as CurrentTrack,
   StyledRecentTracks as RecentTracks,
-  welcomeAnimation,
+  WelcomeBanner,
   Wrapper,
 } from './style';
 import { useWindowSize } from '../../hooks/useWindowSize';
-import { RECENT_TRACKS_LIMIT } from '../../constants';
+import {
+  RECENT_TRACKS_LIMIT,
+  IS_LT_600W,
+  IS_LT_600W_415H,
+} from '../../constants';
 
 export default function Welcome(props) {
-  const { user, currentTrack, isLoadingCurrentTrack, recentTracks } = props;
+  const {
+    user,
+    currentTrack,
+    isLoadingCurrentTrack,
+    parallax,
+    recentTracks,
+  } = props;
   const { artist, name, img, status } = currentTrack;
   let size = useWindowSize();
+  const themeContext = useContext(ThemeContext);
 
   return (
     <Wrapper>
       <ParallaxLayer offset={0} speed={1.5}>
-        <AnimatedWelcome style={welcomeAnimation(size.width)}>
+        <WelcomeBanner style={getWelcomeAnimation(size.width, user)}>
           {`welcome, ${user}`}
           <Sparkle>✨</Sparkle>
-        </AnimatedWelcome>
+        </WelcomeBanner>
       </ParallaxLayer>
-      <ParallaxLayer offset={size.width < 600 ? 0.23 : 0.33} speed={0.7}>
+      <ParallaxLayer offset={IS_LT_600W(size) ? 0.23 : 0.29} speed={0.7}>
         <CurrentTrackShadow />
       </ParallaxLayer>
-      <ParallaxLayer offset={size.width < 600 ? 0.2 : 0.3} speed={0.5}>
+      <ParallaxLayer offset={IS_LT_600W(size) ? 0.2 : 0.26} speed={0.5}>
         <CurrentTrack
           artist={artist}
           name={name}
@@ -39,12 +52,26 @@ export default function Welcome(props) {
           status={status}
         />
       </ParallaxLayer>
-      <ParallaxLayer offset={size.height < 700 ? 0.99 : 0.7} speed={0.3}>
+      <ParallaxLayer offset={IS_LT_600W_415H(size) ? 0.99 : 0.65} speed={0.3}>
         <RecentTracks
           tracks={recentTracks}
-          trackLimit={size.height < 700 ? RECENT_TRACKS_LIMIT - 1 : undefined}
+          trackLimit={getTrackLimit(size.height)}
+        />
+      </ParallaxLayer>
+      <ParallaxLayer offset={IS_LT_600W_415H(size) ? 1.2 : 0.92} speed={0.2}>
+        <DownArrow
+          onClick={() => parallax.scrollTo(IS_LT_600W_415H(size) ? 1.45 : 1)}
         />
       </ParallaxLayer>
     </Wrapper>
   );
 }
+
+const getTrackLimit = (height) => {
+  if (height > 800) {
+    return RECENT_TRACKS_LIMIT;
+  } else if (height > 500) {
+    return RECENT_TRACKS_LIMIT - 3;
+  }
+  return RECENT_TRACKS_LIMIT - 4;
+};
