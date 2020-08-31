@@ -1,45 +1,55 @@
 const path = require('path');
 const webpack = require('webpack');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-  entry: ['babel-polyfill', path.join(__dirname, '../client/index')],
+  mode: 'production',
+  entry: ['babel-polyfill', './client/index.js'],
   output: {
-    path: path.join(__dirname, '../public/'),
+    path: path.join(__dirname, '../dist/'),
     filename: 'bundle.js',
-    publicPath: '/',
+    //publicPath: '/',
   },
   module: {
-    loaders: [
+    rules: [
       { test: /\.svg$/, loaders: ['raw-loader'] },
-      // take all less files, compile them, and bundle them in with our js bundle
       {
-        test: /\.less$/,
-        loader: 'style!css!autoprefixer?browsers=last 2 version!less',
+        test: /\.s[ac]ss$/i,
+        use: ['style-loader', 'css-loader', 'sass-loader'],
       },
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
-        query: {
-          presets: ['es2015', 'react'],
+        use: {
+          loader: 'babel-loader',
+          options: {
+            presets: [
+              [
+                '@babel/preset-env',
+                {
+                  useBuiltIns: 'entry',
+                  debug: true,
+                },
+              ],
+              '@babel/preset-react',
+            ],
+          },
         },
       },
     ],
   },
   plugins: [
-    new webpack.DefinePlugin({
-      'process.env': {
-        // Useful to reduce the size of client-side libraries, e.g. react
-        NODE_ENV: JSON.stringify('production'),
-      },
-    }),
-    // optimizations
-    new webpack.optimize.DedupePlugin(),
-    new webpack.optimize.OccurenceOrderPlugin(),
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        warnings: false,
-      },
+    // map .env variables to process.env
+    new webpack.EnvironmentPlugin([
+      'NODE_ENV',
+      'CLIENT_ID',
+      'CLIENT_SECRET',
+      'REDIRECT_URI',
+      'PUBLIC_URL',
+    ]),
+    new HtmlWebpackPlugin({
+      base: '/spotify-visual-app/',
+      template: './dist/template.html',
     }),
   ],
 };
