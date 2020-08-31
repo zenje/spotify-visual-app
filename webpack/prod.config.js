@@ -6,9 +6,9 @@ module.exports = {
   mode: 'production',
   entry: ['babel-polyfill', './client/index.js'],
   output: {
-    path: path.join(__dirname, '../dist/'),
+    path: path.join(__dirname, '../public/'),
     filename: 'bundle.js',
-    //publicPath: '/',
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -46,8 +46,8 @@ module.exports = {
       'CLIENT_SECRET',
       'REDIRECT_URI',
     ]),
-    new HtmlWebpackPlugin({
+    /*new HtmlWebpackPlugin({
       template: './public/template.html',
-    }),
+    }),*/
   ],
 };
