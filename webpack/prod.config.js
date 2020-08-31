@@ -45,11 +45,9 @@ module.exports = {
       'CLIENT_ID',
       'CLIENT_SECRET',
       'REDIRECT_URI',
-      'PUBLIC_URL',
     ]),
     new HtmlWebpackPlugin({
-      base: '/spotify-visual-app/',
-      template: './dist/template.html',
+      template: './index/template.html',
     }),
   ],
 };

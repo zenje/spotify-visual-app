@@ -1,9 +1,9 @@
 {
-  "name": "spotify-library-tone",
+  "name": "spotify-visual-app",
   "version": "0.0.1",
   "description": "Analyze the tone of your Spotify library with IBM Watson",
   "main": "client/index.js",
-  "homepage": "https://zenje.github.io/spotify-visual-app",
+  "homepage": "https://spotify-visual-app.herokuapp.com",
   "scripts": {
     "start": "better-npm-run start",
     "predeploy": "better-npm-run build",
