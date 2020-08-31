@@ -20,6 +20,7 @@ import { StyledContainer } from './style';
 export default function Main() {
   const { accessToken, refreshToken, setCookies } = useParams();
   const [showLoadingBar, setShowLoadingBar] = useState(true);
+  const [parallax, setParallax] = useState(undefined);
   const size = useWindowSize();
 
   const dispatch = useDispatch();
@@ -55,7 +56,7 @@ export default function Main() {
     if (isNewCurrentTrack) {
       console.log('getMyRecentlyPlayedTracks AGAIN');
       // after 10s, update recently played tracks
-      setTimeout(() => dispatch(getMyRecentlyPlayedTracks), 10000);
+      setTimeout(() => dispatch(getMyRecentlyPlayedTracks()), 10000);
     }
   }, [isNewCurrentTrack]);
 
@@ -68,18 +69,18 @@ export default function Main() {
     );
   }
 
-  let parallax;
   return (
-    <Parallax pages={4} ref={(ref) => (parallax = ref)}>
+    <Parallax pages={4} ref={(ref) => setParallax(ref)}>
       <ParallaxLayer offset={0}>
         <Welcome
           user={display_name}
           currentTrack={currentTrack}
           isLoadingCurrentTrack={isLoadingCurrentTrack}
           recentTracks={recentTracks}
+          parallax={parallax}
         />
       </ParallaxLayer>
-      <ParallaxLayer offset={size.width < 600 ? 1.5 : 1}>
+      <ParallaxLayer offset={size.height < 415 || size.width < 600 ? 1.45 : 1}>
         <ArtistsGridWrapper />
       </ParallaxLayer>
     </Parallax>

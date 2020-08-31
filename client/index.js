@@ -7,6 +7,7 @@ import Root from './components/Root';
 //import './style.scss';
 
 const store = configureStore;
+console.log('Will this console.log?');
 
 render(
   <Provider store={store}>
