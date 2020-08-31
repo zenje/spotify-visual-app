@@ -47,7 +47,7 @@ module.exports = {
       'REDIRECT_URI',
     ]),
     new HtmlWebpackPlugin({
-      template: './index/template.html',
+      template: './public/template.html',
     }),
   ],
 };
