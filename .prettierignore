@@ -1,6 +1,0 @@
-node_modules
-public/bundle.js
-.env
-
-/build
-/coverage
