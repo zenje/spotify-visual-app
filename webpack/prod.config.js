@@ -1,14 +1,13 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'production',
   entry: ['babel-polyfill', './client/index.js'],
   output: {
-    path: path.join(__dirname, '../dist/'),
+    path: path.join(__dirname, '../public/'),
     filename: 'bundle.js',
-    //publicPath: '/',
+    publicPath: '/',
   },
   module: {
     rules: [
@@ -45,11 +44,6 @@ module.exports = {
       'CLIENT_ID',
       'CLIENT_SECRET',
       'REDIRECT_URI',
-      'PUBLIC_URL',
     ]),
-    new HtmlWebpackPlugin({
-      base: '/spotify-visual-app/',
-      template: './dist/template.html',
-    }),
   ],
 };

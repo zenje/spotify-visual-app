@@ -32,7 +32,7 @@ const Root = () => (
     <StylesProvider injectFirst>
       <ThemeProvider theme={theme}>
         <GlobalStyle />
-        <BrowserRouter basename={process.env.PUBLIC_URL}>
+        <BrowserRouter>
           <Switch>
             <Route exact path="/">
               {accessToken ? (
