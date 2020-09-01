@@ -1,6 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
   mode: 'production',
@@ -46,8 +45,5 @@ module.exports = {
       'CLIENT_SECRET',
       'REDIRECT_URI',
     ]),
-    /*new HtmlWebpackPlugin({
-      template: './public/template.html',
-    }),*/
   ],
 };
