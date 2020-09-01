@@ -141,6 +141,6 @@ CurrentTrack.propTypes = {
   className: PropTypes.string,
   img: PropTypes.string,
   isLoading: PropTypes.bool,
-  name: PropTypes.bool,
+  name: PropTypes.string,
   status: PropTypes.string,
 };

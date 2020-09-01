@@ -11,7 +11,14 @@ const REDIRECT_URI =
   process.env.REDIRECT_URI || 'http://localhost:3000/callback';
 const STATE_KEY = 'spotify_auth_state';
 // your application requests authorization
-const scopes = ['user-read-private', 'user-read-email', 'user-top-read'];
+const scopes = [
+  'user-read-private',
+  'user-read-email',
+  'user-top-read',
+  'user-read-currently-playing',
+  'user-read-playback-state',
+  'user-read-recently-played',
+];
 
 // configure spotify
 const spotifyApi = new Spotify({
