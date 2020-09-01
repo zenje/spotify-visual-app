@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { Artist, History, Track, TrackName, Tracks, Wrapper } from './style';
 
 export default function RecentTracks(props) {

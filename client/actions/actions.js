@@ -1,6 +1,5 @@
 import Spotify from 'spotify-web-api-js';
 import Cookies from 'js-cookie';
-import { useHistory } from 'react-router-dom';
 import { RECENT_TRACKS_LIMIT, TIME_RANGES } from '../constants';
 import * as types from './actionTypes';
 

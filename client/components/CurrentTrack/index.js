@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import * as Vibrant from 'node-vibrant';
 import {
@@ -13,7 +12,6 @@ import {
   ArtistTrackWrapper,
   CenteredSkeleton,
   getImage,
-  Image,
   Left,
   MusicBarWrapper,
   Right,

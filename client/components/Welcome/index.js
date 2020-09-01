@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
-import { useSpring, animated } from 'react-spring';
-import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
+import { ParallaxLayer } from 'react-spring/renderprops-addons';
 
 import {
   CurrentTrackShadow,

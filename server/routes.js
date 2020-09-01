@@ -1,7 +1,6 @@
 'use strict';
 
 const Spotify = require('spotify-web-api-node');
-const querystring = require('querystring');
 const express = require('express');
 const router = new express.Router();
 
@@ -12,14 +11,7 @@ const REDIRECT_URI =
   process.env.REDIRECT_URI || 'http://localhost:3000/callback';
 const STATE_KEY = 'spotify_auth_state';
 // your application requests authorization
-const scopes = [
-  'user-read-private',
-  'user-read-email',
-  'user-top-read',
-  'user-read-currently-playing',
-  'user-read-playback-state',
-  'user-read-recently-played',
-];
+const scopes = ['user-read-private', 'user-read-email', 'user-top-read'];
 
 // configure spotify
 const spotifyApi = new Spotify({
@@ -62,7 +54,7 @@ router.get('/callback', (req, res) => {
     spotifyApi
       .authorizationCodeGrant(code)
       .then((data) => {
-        const { expires_in, access_token, refresh_token } = data.body;
+        const { access_token, refresh_token } = data.body;
 
         // Set the access token on the API object to use it in later calls
         spotifyApi.setAccessToken(access_token);
