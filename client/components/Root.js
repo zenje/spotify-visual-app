@@ -16,8 +16,6 @@ const accessToken = Cookies.get('spotifyAccessToken');
 const refreshToken = Cookies.get('spotifyRefreshToken');
 const setCookies = false;
 
-console.log('process.env.PUBLIC_URL', process.env.PUBLIC_URL);
-
 const Root = () => (
   <>
     <Helmet>

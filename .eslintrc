@@ -1,0 +1,11 @@
+{
+  "parserOptions": {
+    "ecmaVersion": 2017,
+    "sourceType": "module"
+  },
+  "env": {
+    "es6": true,
+    "amd": true
+  },
+  "extends": ["eslint:recommended", "plugin:react/recommended"]
+}
