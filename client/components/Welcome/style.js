@@ -51,26 +51,26 @@ export const getWelcomeAnimation = (width, str) => {
   const strLength = str.length;
   const getFontSize = () => {
     if (width > 1280) {
-      if (str.length < 20) {
+      if (strLength < 20) {
         return '5em';
       } else {
         return '4em';
       }
     }
     if (width > 768) {
-      if (str.length < 20) {
+      if (strLength < 20) {
         return '4em';
       } else {
         return '3em';
       }
     } else if (width > 600) {
-      if (str.length < 20) {
+      if (strLength < 20) {
         return '3em';
       } else {
         return '2em';
       }
     } else if (width > 375) {
-      if (str.length < 20) {
+      if (strLength < 20) {
         return '2em';
       } else {
         return '1em';

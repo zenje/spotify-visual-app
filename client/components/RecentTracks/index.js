@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Artist, History, Track, TrackName, Tracks, Wrapper } from './style';
 
 export default function RecentTracks(props) {
@@ -19,3 +20,9 @@ export default function RecentTracks(props) {
     </Wrapper>
   );
 }
+
+RecentTracks.propTypes = {
+  className: PropTypes.string,
+  trackLimit: PropTypes.number,
+  tracks: PropTypes.array,
+};

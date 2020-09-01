@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import * as Vibrant from 'node-vibrant';
 import {
@@ -133,4 +134,13 @@ const setColors = async (
     setStatusColor(palette['Muted'].getHex());
     setIsInitallyLoadingColors(false);
   }
+};
+
+CurrentTrack.propTypes = {
+  artist: PropTypes.string,
+  className: PropTypes.string,
+  img: PropTypes.string,
+  isLoading: PropTypes.bool,
+  name: PropTypes.bool,
+  status: PropTypes.string,
 };
