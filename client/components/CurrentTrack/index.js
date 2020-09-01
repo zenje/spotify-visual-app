@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import styled, { keyframes } from 'styled-components';
+import PropTypes from 'prop-types';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import * as Vibrant from 'node-vibrant';
 import {
@@ -13,7 +13,6 @@ import {
   ArtistTrackWrapper,
   CenteredSkeleton,
   getImage,
-  Image,
   Left,
   MusicBarWrapper,
   Right,
@@ -135,4 +134,13 @@ const setColors = async (
     setStatusColor(palette['Muted'].getHex());
     setIsInitallyLoadingColors(false);
   }
+};
+
+CurrentTrack.propTypes = {
+  artist: PropTypes.string,
+  className: PropTypes.string,
+  img: PropTypes.string,
+  isLoading: PropTypes.bool,
+  name: PropTypes.string,
+  status: PropTypes.string,
 };

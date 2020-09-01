@@ -1,7 +1,6 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { ThemeContext } from 'styled-components';
-import { useSpring, animated } from 'react-spring';
-import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
+import React from 'react';
+import PropTypes from 'prop-types';
+import { ParallaxLayer } from 'react-spring/renderprops-addons';
 
 import {
   CurrentTrackShadow,
@@ -30,7 +29,6 @@ export default function Welcome(props) {
   } = props;
   const { artist, name, img, status } = currentTrack;
   let size = useWindowSize();
-  const themeContext = useContext(ThemeContext);
 
   return (
     <Wrapper>
@@ -74,4 +72,17 @@ const getTrackLimit = (height) => {
     return RECENT_TRACKS_LIMIT - 3;
   }
   return RECENT_TRACKS_LIMIT - 4;
+};
+
+Welcome.propTypes = {
+  currentTrack: PropTypes.shape({
+    artist: PropTypes.string,
+    name: PropTypes.string,
+    img: PropTypes.string,
+    status: PropTypes.string,
+  }),
+  isLoadingCurrentTrack: PropTypes.bool,
+  recentTracks: PropTypes.array,
+  parallax: PropTypes.object,
+  user: PropTypes.string,
 };

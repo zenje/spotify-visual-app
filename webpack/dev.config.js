@@ -1,5 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
+const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -26,6 +27,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
+            plugins: [require.resolve('react-refresh/babel')], // for fast refresh plugin
             presets: ['@babel/preset-env', '@babel/preset-react'],
           },
         },
@@ -41,5 +43,6 @@ module.exports = {
       'REDIRECT_URI',
     ]),
     new webpack.HotModuleReplacementPlugin(),
+    new ReactRefreshWebpackPlugin(),
   ],
 };

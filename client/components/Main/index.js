@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useWindowSize } from '../../hooks/useWindowSize';
-import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
 import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
 
 import {

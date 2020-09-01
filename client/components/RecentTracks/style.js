@@ -41,7 +41,6 @@ const getFadedTrackStyle = (trackLimit = RECENT_TRACKS_LIMIT) => {
   return style;
 };
 
-const fadedTrackStyle = getFadedTrackStyle();
 export const Track = styled.div`
   display: flex;
   flex-direction: row;

@@ -1,8 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Bars, Bar1, Bar2, Bar3, Bar4 } from './style';
 
 export default function MusicBar(props) {
-  const { primary, secondary, className, isPaused } = props;
+  const { className, isPaused, primary, secondary } = props;
 
   return (
     <Bars className={className}>
@@ -19,3 +20,10 @@ const renderBars = (primary, secondary, isPaused) => (
     <Bar4 primary={primary} secondary={secondary} isPaused={isPaused} />
   </div>
 );
+
+MusicBar.propTypes = {
+  className: PropTypes.string,
+  isPaused: PropTypes.bool.isRequired,
+  primary: PropTypes.string,
+  secondary: PropTypes.string,
+};
