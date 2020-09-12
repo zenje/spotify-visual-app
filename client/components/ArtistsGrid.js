@@ -6,6 +6,7 @@ import VisibilitySensor from 'react-visibility-sensor';
 import styled, { keyframes } from 'styled-components';
 import { Spring } from 'react-spring/renderprops';
 
+import Container from '@material-ui/core/Container';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
@@ -16,6 +17,7 @@ import {
   fetchArtistExtract,
   closeArtistOverlay,
 } from '../actions/wikipediaActions';
+import { useWindowSize } from '../hooks/useWindowSize';
 
 import ArtistOverlay from './ArtistOverlay';
 import ArtistLoader from './loaders/ArtistLoader';
@@ -27,7 +29,6 @@ const useStyles = makeStyles((theme) => ({
     flexWrap: 'wrap',
     justifyContent: 'space-around',
     overflow: 'hidden',
-    backgroundColor: theme.palette.background.paper,
   },
   gridList: {
     width: '100%',
@@ -39,9 +40,6 @@ const useStyles = makeStyles((theme) => ({
     background:
       'linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, ' +
       'rgba(0,0,0,0.3) 70%, rgba(0,0,0,0) 100%)',
-  },
-  icon: {
-    color: 'white',
   },
 }));
 
@@ -125,6 +123,11 @@ const fadeInUp2 = keyframes`
     transform: translateY(0);
   }
   `;
+const StyledGridList = styled(GridList)`
+  transform: 'translateZ(0)';
+  z-index: 0;
+  justify-content: center;
+`;
 
 const StyledGridListTile = styled(GridListTile)`
   animation-duration: 0.45s;
@@ -132,6 +135,10 @@ const StyledGridListTile = styled(GridListTile)`
   animation-fill-mode: both;
   // use transient prop $isVisible - not passed down to DOM
   animation-name: ${(props) => (props.$isVisible ? fadeInUp : fadeInUp2)};
+`;
+
+const StyledGridListTileBar = styled(GridListTileBar)`
+  font-family: ${(props) => props.theme.fonts.primary};
 `;
 
 export default function ArtistsGrid(props) {
@@ -148,6 +155,7 @@ export default function ArtistsGrid(props) {
     }
     return [];
   });
+  const size = useWindowSize();
 
   useEffect(() => {
     if (tileData.length == 0) {
@@ -199,13 +207,15 @@ export default function ArtistsGrid(props) {
     setVisibility(visiblity);
   };
 
+  let cellHeight = size.height / 8;
+
   return (
-    <div className={classes.root}>
+    <Container>
       {isArtistLoading && <ArtistLoader />}
       <VisibilitySensor partialVisibility onChange={onChange}>
-        <GridList
+        <StyledGridList
           align="center"
-          cellHeight={90}
+          cellHeight={cellHeight}
           spacing={5}
           cols={colsRows.cols}
           className={classes.gridList}
@@ -228,7 +238,7 @@ export default function ArtistsGrid(props) {
               index={index}
             >
               <img src={tile.img} alt={tile.title} />
-              <GridListTileBar
+              <StyledGridListTileBar
                 title={tile.title}
                 titlePosition="bottom"
                 actionPosition="right"
@@ -236,13 +246,13 @@ export default function ArtistsGrid(props) {
               />
             </StyledGridListTile>
           ))}
-        </GridList>
+        </StyledGridList>
       </VisibilitySensor>
       <ArtistOverlay
         open={isArtistOverlayOpen}
         handleClose={handleArtistClose}
         artist={selectedArtist}
       />
-    </div>
+    </Container>
   );
 }

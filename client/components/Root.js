@@ -1,6 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch, Redirect } from 'react-router-dom';
-import Cookies from 'js-cookie';
+import { BrowserRouter } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import { StylesProvider } from '@material-ui/core/styles';
 import { Helmet } from 'react-helmet';
@@ -8,13 +7,6 @@ import { Helmet } from 'react-helmet';
 import theme from '../styles/theme';
 import GlobalStyle from '../styles/global';
 import App from './App';
-import Login from './Login';
-import Main from './Main';
-import Error from './Error';
-
-const accessToken = Cookies.get('spotifyAccessToken');
-const refreshToken = Cookies.get('spotifyRefreshToken');
-const setCookies = false;
 
 const Root = () => (
   <>
@@ -31,20 +23,7 @@ const Root = () => (
       <ThemeProvider theme={theme}>
         <GlobalStyle />
         <BrowserRouter>
-          <Switch>
-            <Route exact path="/">
-              {accessToken ? (
-                <Redirect
-                  to={`/user/${accessToken}/${refreshToken}/${setCookies}`}
-                />
-              ) : (
-                <Login />
-              )}
-            </Route>
-            <Route path="/user/:accessToken/:refreshToken/:setCookies">
-              <Main />
-            </Route>
-          </Switch>
+          <App />
         </BrowserRouter>
       </ThemeProvider>
     </StylesProvider>

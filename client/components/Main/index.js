@@ -11,9 +11,10 @@ import {
   setTokens,
 } from '../../actions/actions';
 import ArtistsGridWrapper from '../ArtistsGridWrapper';
+import BottomMenu from '../BottomMenu';
 import InitialLoader from '../loaders/InitialLoader';
 import Welcome from '../Welcome';
-import { StyledContainer } from './style';
+import { StyledContainer, StyledWrapper } from './style';
 
 export default function Main() {
   const { accessToken, refreshToken, setCookies } = useParams();
@@ -68,19 +69,24 @@ export default function Main() {
   }
 
   return (
-    <Parallax pages={4} ref={(ref) => setParallax(ref)}>
-      <ParallaxLayer offset={0}>
-        <Welcome
-          user={display_name}
-          currentTrack={currentTrack}
-          isLoadingCurrentTrack={isLoadingCurrentTrack}
-          recentTracks={recentTracks}
-          parallax={parallax}
-        />
-      </ParallaxLayer>
-      <ParallaxLayer offset={size.height < 415 || size.width < 600 ? 1.45 : 1}>
-        <ArtistsGridWrapper />
-      </ParallaxLayer>
-    </Parallax>
+    <StyledWrapper>
+      <Parallax pages={4.5} ref={(ref) => setParallax(ref)}>
+        <ParallaxLayer offset={0}>
+          <Welcome
+            user={display_name}
+            currentTrack={currentTrack}
+            isLoadingCurrentTrack={isLoadingCurrentTrack}
+            recentTracks={recentTracks}
+            parallax={parallax}
+          />
+        </ParallaxLayer>
+        <ParallaxLayer
+          offset={size.height < 415 || size.width < 600 ? 1.45 : 1}
+          style={{ backgroundColor: '#f07a73' }}
+        >
+          <BottomMenu />
+        </ParallaxLayer>
+      </Parallax>
+    </StyledWrapper>
   );
 }

@@ -7,3 +7,9 @@ export const StyledContainer = styled(Container)`
   align-items: center;
   height: 90vh;
 `;
+
+export const StyledWrapper = styled.div`
+  margin: 0;
+  max-width: 100% !important;
+  overflow-x: hidden !important;
+`;
