@@ -38,4 +38,4 @@ export const CURRENT_TRACK_IMAGE_LENGTH = {
 export const SKELETON_GREY = 'lightgrey';
 
 export const IS_LT_600W = (size) => size.width < 600;
-export const IS_LT_600W_415H = (size) => size.width < 600 || size.height < 415;
+export const IS_LT_600W_700H = (size) => size.width < 600 && size.height < 700;

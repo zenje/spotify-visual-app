@@ -7,21 +7,18 @@ const Wrapper = styled.div`
   text-align: center;
 `;
 
-const ButtonRow = styled.div`
-  background-color: white;
+const Header = styled.h3`
+  color: white; // ${(props) => props.theme.colors.text};
+  width: 100%;
+  padding: 0.5em;
+  margin: 0 auto;
   display: flex;
   flex-direction: row;
   justify-content: space-around;
-`;
-
-const Header = styled.h1`
-  color: white; // ${(props) => props.theme.colors.text};
-  //border-bottom: 2px solid white; // ${(props) =>
-    props.theme.colors.secondary};
-  width: 40%;
-  padding: 0.5em;
-  margin: 0 auto;
-  padding-top: 10vh;
+  a {
+    color: white;
+    text-decoration: none;
+  }
   `;
 
 export default function BottomMenu(props) {
@@ -29,6 +26,8 @@ export default function BottomMenu(props) {
     <Wrapper>
       <Header>
         <Link to="/top/artists">Your Top Artists</Link>
+        <Link to="/top/artists">Your Top Tracks</Link>
+        <Link to="/top/artists">Your Top Genres</Link>
       </Header>
     </Wrapper>
   );

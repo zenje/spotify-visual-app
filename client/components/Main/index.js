@@ -15,6 +15,7 @@ import BottomMenu from '../BottomMenu';
 import InitialLoader from '../loaders/InitialLoader';
 import Welcome from '../Welcome';
 import { StyledContainer, StyledWrapper } from './style';
+import { IS_LT_600W_700H } from '../../constants';
 
 export default function Main() {
   const { accessToken, refreshToken, setCookies } = useParams();
@@ -70,7 +71,10 @@ export default function Main() {
 
   return (
     <StyledWrapper>
-      <Parallax pages={4.5} ref={(ref) => setParallax(ref)}>
+      <Parallax
+        pages={IS_LT_600W_700H(size) ? 1.4 : 1.15}
+        ref={(ref) => setParallax(ref)}
+      >
         <ParallaxLayer offset={0}>
           <Welcome
             user={display_name}
@@ -80,10 +84,7 @@ export default function Main() {
             parallax={parallax}
           />
         </ParallaxLayer>
-        <ParallaxLayer
-          offset={size.height < 415 || size.width < 600 ? 1.45 : 1}
-          style={{ backgroundColor: '#f07a73' }}
-        >
+        <ParallaxLayer offset={IS_LT_600W_700H(size) ? 1.2 : 1}>
           <BottomMenu />
         </ParallaxLayer>
       </Parallax>
