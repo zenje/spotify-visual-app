@@ -10,6 +10,7 @@ import { useTransition, animated } from 'react-spring';
 import Cookies from 'js-cookie';
 
 import ArtistsGridWrapper from '../ArtistsGridWrapper';
+import TopTracks from '../TopTracks';
 import Login from '../Login';
 import Main from '../Main';
 
@@ -45,6 +46,9 @@ export default function App() {
         </Route>
         <Route path="/top/artists">
           <ArtistsGridWrapper />
+        </Route>
+        <Route path="/top/tracks">
+          <TopTracks />
         </Route>
       </Switch>
     </animated.div>

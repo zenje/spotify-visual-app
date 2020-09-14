@@ -19,6 +19,7 @@ const initialState = {
   recentTracks: [],
   isNewCurrentTrack: false,
   topArtists: {},
+  topTracks: {},
   isArtistLoading: false,
   isArtistOverlayOpen: false,
   selectedArtist: {
@@ -41,6 +42,21 @@ const extractArtistData = (artistData) => {
     console.log('tileData');
     console.log(tileData);
     return tileData;
+  }
+  return [];
+};
+
+const extractTrackData = (data) => {
+  console.log('extractTrackData!');
+  if (data && data.length > 0) {
+    let tracksData = data.map((item, idx) => ({
+      img: item.album.images[0].url,
+      title: item.name,
+      artist: item.artists[0].name,
+    }));
+    console.log('tracksData');
+    console.log(tracksData);
+    return tracksData;
   }
   return [];
 };
@@ -169,6 +185,18 @@ export default function reduce(state = initialState, action) {
       );
       return Object.assign({}, state, {
         topArtists: topArtistsByTimeRange,
+      });
+
+    case types.SPOTIFY_TOP_TRACKS_BEGIN:
+      return state;
+
+    case types.SPOTIFY_TOP_TRACKS_SUCCESS:
+      const topTracksByTimeRange = Object.assign({}, state.topTracks);
+      topTracksByTimeRange[action.timeRange] = extractTrackData(
+        action.data.items || []
+      );
+      return Object.assign({}, state, {
+        topTracks: topTracksByTimeRange,
       });
 
     case types.SPOTIFY_FETCH_ARTIST_BEGIN:

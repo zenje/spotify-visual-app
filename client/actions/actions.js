@@ -50,6 +50,21 @@ export const getTopArtists = (timeRange = TIME_RANGES.LONG_TERM.timeRange) => {
   };
 };
 
+export const getTopTracks = (timeRange = TIME_RANGES.LONG_TERM.timeRange) => {
+  return (dispatch) => {
+    spotifyApi.getMyTopTracks({ time_range: timeRange, limit: 50 }).then(
+      (data) => {
+        console.log(data);
+        dispatch({ type: types.SPOTIFY_TOP_TRACKS_SUCCESS, timeRange, data });
+        console.log('end SPOTIFY TRACK SUCCESS');
+      },
+      (err) => {
+        console.error(err);
+      }
+    );
+  };
+};
+
 export const getCurrentPlayingTrack = () => {
   return (dispatch) => {
     dispatch({ type: types.SPOTIFY_CURRENT_TRACK_BEGIN });

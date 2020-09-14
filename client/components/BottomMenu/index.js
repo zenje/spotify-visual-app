@@ -26,7 +26,7 @@ export default function BottomMenu(props) {
     <Wrapper>
       <Header>
         <Link to="/top/artists">Your Top Artists</Link>
-        <Link to="/top/artists">Your Top Tracks</Link>
+        <Link to="/top/tracks">Your Top Tracks</Link>
         <Link to="/top/artists">Your Top Genres</Link>
       </Header>
     </Wrapper>
