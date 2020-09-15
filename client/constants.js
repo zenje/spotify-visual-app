@@ -21,6 +21,9 @@ export const TRACK_STATUS = {
 
 export const RECENT_TRACKS_LIMIT = 8;
 
+export const PRIMARY_FONT_URL =
+  'https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap';
+
 export const CURRENT_TRACK_SIZE = {
   SMALL: `width: 250px;
           height: 350px;`,

@@ -5,13 +5,13 @@ export const TopTrack = styled.div`
   display: inline-block;
   font-style: italic;
   letter-spacing: 1px;
-  margin-top: 10px;
-  margin-bottom: 5px;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
   opacity: ${(props) => (props.isVisible ? 1 : 0.25)};
   transition: opacity 0.5s ease-in;
   img {
     width: 100%;
-    max-width: 500px;
+    max-width: 30rem;
     display: block;
   }
 `;
@@ -24,8 +24,8 @@ export const TopTrackInfo = styled.div`
     rgba(0, 0, 0, 0) 100%
   );
   position: absolute;
-  padding-top: 5px;
-  bottom: 20px;
+  padding-top: 0.5rem;
+  bottom: 1.5rem;
   width: 100%;
   color: white;
 `;
@@ -38,7 +38,7 @@ export const TopTrackArtist = styled.h1`
 
 export const Tracks = styled.div`
   width: 100%;
-  max-width: 500px;
+  max-width: 30rem;
   margin: 0 auto;
 `;
 
@@ -47,7 +47,7 @@ export const Track = styled.div`
   color: white;
   display: flex;
   flex-direction: row;
-  margin-bottom: 10px;
+  margin-bottom: 0.5rem;
   opacity: ${(props) => (props.isVisible ? 1 : 0.25)};
   transition: opacity 0.5s ease-in;
 `;
@@ -67,7 +67,7 @@ export const TrackInfo = styled.div`
   justify-content: center;
   font-style: italic;
   letter-spacing: 1px;
-  padding: 5px 10px;
+  padding: 0.5rem 1rem;
   h2 {
     margin: 0;
     text-transform: uppercase;

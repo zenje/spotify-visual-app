@@ -14,13 +14,13 @@ export const Wrapper = styled.div`
 export const History = styled.div`
   background-color: white;
   opacity: 0.8;
-  padding: 1%;
-  margin-bottom: 1%;
-  font-size: 0.8em;
+  padding: 0.3rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.8rem;
 `;
 
 export const Tracks = styled.div`
-  padding: 0 2%;
+  padding: 0 0.5rem;
 `;
 
 const getFadedTrackStyle = (trackLimit = RECENT_TRACKS_LIMIT) => {
@@ -46,17 +46,18 @@ export const Track = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 100%;
+  padding-bottom: 0.2rem;
   img {
-    width: 25px;
-    height: 25px;
+    width: 1.5rem;
+    height: 1.5rem;
   }
   ${(props) => getFadedTrackStyle(props.trackLimit)}
 `;
 
 export const TrackName = styled.div`
   margin-right: auto;
-  padding-left: 5%;
-  padding-top: 1%;
+  padding-left: 1.5rem;
+  padding-top: 0.2rem;
   font-style: italic;
   letter-spacing: 1px;
   text-align: left;
@@ -64,9 +65,9 @@ export const TrackName = styled.div`
 
 export const Artist = styled.h1`
   margin: 0;
-  padding-top: 1%;
+  padding-top: 0.2rem;
   color: ${(props) => props.theme.colors.secondary};
   text-transform: uppercase;
-  font-size: 1.2em;
+  font-size: 1.2rem;
   text-align: right;
 `;

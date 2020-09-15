@@ -1,36 +1,11 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import styled from 'styled-components';
-import Button from '@material-ui/core/Button';
+//import Button from '@material-ui/core/Button';
 import UpArrow from '@material-ui/icons/KeyboardArrowUp';
 
 import ArtistsGrid from '../ArtistsGrid';
+import { ButtonRow, Header, StyledButton as Button, Wrapper } from './style';
 import { TIME_RANGES } from '../../constants';
-
-const Wrapper = styled.div`
-  background-color: ${(props) => props.theme.colors.highlight};
-  min-height: 100vh;
-  text-align: center;
-  padding: 10px;
-  padding-bottom: 20px;
-`;
-
-const ButtonRow = styled.div`
-  background-color: white;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-`;
-
-const Header = styled.h1`
-  color: white; // ${(props) => props.theme.colors.text};
-  //border-bottom: 2px solid white; // ${(props) =>
-    props.theme.colors.secondary};
-  width: 40%;
-  padding: 0.5em;
-  margin: 0 auto;
-  padding-top: 5vh;
-`;
 
 export default function TimeRangeWrapper(props) {
   const { children, header } = props;

@@ -29,7 +29,14 @@ export default function App() {
   });
   return transitions.map(({ item: location, props, key }) => (
     <animated.div
-      style={{ ...props, position: 'absolute', height: '100%', width: '100%' }}
+      style={{
+        ...props,
+        position: 'absolute',
+        height: '100%',
+        width: '100%',
+        top: 0,
+        left: 0,
+      }}
       key={key}
     >
       <Switch location={location}>

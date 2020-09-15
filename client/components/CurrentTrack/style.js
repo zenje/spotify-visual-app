@@ -91,7 +91,7 @@ export const Right = styled.div`
 export const Status = styled.div`
   color: ${(props) => props.color || props.theme.colors.text};
   padding: 5% 0;
-  font-size: 0.8em;
+  font-size: 0.8rem;
   animation: ${fadeIn} 2s;
 `;
 
@@ -100,7 +100,7 @@ export const Artist = styled.h3`
   color: ${(props) => props.color || props.theme.colors.secondary};
   text-transform: uppercase;
   @media (min-width: 600px) {
-    font-size: 2em;
+    font-size: 2rem;
   }
   animation: ${fadeIn} 2s;
 `;
@@ -136,11 +136,11 @@ export const MusicBarWrapper = styled.div`
 
 export const StyledMusicBar = styled(MusicBar)`
   margin: 0 auto;
-  width: 2em;
-  height: 2em;
+  width: 2rem;
+  height: 2rem;
   @media (min-width: 600px) {
-    width: 5em;
-    height: 5em;
+    width: 5rem;
+    height: 5rem;
   }
 `;
 

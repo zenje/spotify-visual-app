@@ -1,6 +1,5 @@
 import styled, { keyframes } from 'styled-components';
 import { useSpring, animated } from 'react-spring';
-import Arrow from '@material-ui/icons/KeyboardArrowDownSharp';
 
 import theme from '../../styles/theme';
 import { CURRENT_TRACK_SIZE } from '../../constants';
@@ -52,31 +51,31 @@ export const getWelcomeAnimation = (width, str) => {
   const getFontSize = () => {
     if (width > 1280) {
       if (strLength < 20) {
-        return '5em';
+        return '5rem';
       } else {
-        return '4em';
+        return '4rem';
       }
     }
     if (width > 768) {
       if (strLength < 20) {
-        return '4em';
+        return '4rem';
       } else {
-        return '3em';
+        return '3rem';
       }
     } else if (width > 600) {
       if (strLength < 20) {
-        return '3em';
+        return '3rem';
       } else {
-        return '2em';
+        return '2rem';
       }
     } else if (width > 375) {
       if (strLength < 20) {
-        return '2em';
+        return '2rem';
       } else {
-        return '1em';
+        return '1rem';
       }
     }
-    return '1em';
+    return '1rem';
   };
 
   return useSpring({
@@ -84,7 +83,7 @@ export const getWelcomeAnimation = (width, str) => {
     fontSize: getFontSize(),
     from: {
       opacity: 0,
-      fontSize: '1em',
+      fontSize: '1rem',
     },
   });
 };
@@ -92,7 +91,7 @@ export const getWelcomeAnimation = (width, str) => {
 const fadeInDown = keyframes`
   0% {
      opacity: 0;
-     transform: translateY(-20px);
+     transform: translateY(-1.5rem);
   }
   100% {
      opacity: 1;
@@ -148,8 +147,4 @@ const fadeInUp = keyframes`
 export const StyledRecentTracks = styled(RecentTracks)`
   margin: 0 auto;
   animation: ${fadeInUp} 1.5s ease-in-out;
-`;
-
-export const DownArrow = styled(Arrow)`
-  fill: ${(props) => props.theme.colors.highlight};
 `;

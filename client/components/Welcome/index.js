@@ -4,7 +4,6 @@ import { ParallaxLayer } from 'react-spring/renderprops-addons';
 
 import {
   CurrentTrackShadow,
-  DownArrow,
   getWelcomeAnimation,
   Sparkle,
   StyledCurrentTrack as CurrentTrack,

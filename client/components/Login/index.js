@@ -1,13 +1,7 @@
 import React from 'react';
 import loginSVG from '../../log_in.svg';
 
-import {
-  SpotifySVG,
-  SpotifyWrapper,
-  StyledContainer as Container,
-  Tip,
-  Wrapper,
-} from './style';
+import { Container, SpotifySVG, SpotifyWrapper, Tip, Wrapper } from './style';
 
 export default function Login() {
   return (
