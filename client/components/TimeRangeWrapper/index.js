@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
 
-import ArtistsGrid from './ArtistsGrid';
-import { TIME_RANGES } from '../constants';
+import ArtistsGrid from '../ArtistsGrid';
+import { TIME_RANGES } from '../../constants';
 
 const Wrapper = styled.div`
   background-color: ${(props) => props.theme.colors.highlight};
@@ -27,12 +27,13 @@ const Header = styled.h1`
   padding-top: 10vh;
 `;
 
-function ArtistsGridWrapper() {
+export default function TimeRangeWrapper(props) {
+  const { children, header } = props;
   const [timeRange, setTimeRange] = useState(TIME_RANGES.LONG_TERM.timeRange);
 
   return (
     <Wrapper>
-      <Header>Your Top Artists</Header>
+      <Header>{header}</Header>
       <ButtonRow>
         {Object.values(TIME_RANGES).map((item) => (
           <Button
@@ -48,9 +49,7 @@ function ArtistsGridWrapper() {
           </Button>
         ))}
       </ButtonRow>
-      <ArtistsGrid timeRange={timeRange} />}
+      {React.cloneElement(children, { timeRange })}
     </Wrapper>
   );
 }
-
-export default ArtistsGridWrapper;

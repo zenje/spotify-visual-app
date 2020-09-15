@@ -10,7 +10,6 @@ import {
   getMyRecentlyPlayedTracks,
   setTokens,
 } from '../../actions/actions';
-import ArtistsGridWrapper from '../ArtistsGridWrapper';
 import BottomMenu from '../BottomMenu';
 import InitialLoader from '../loaders/InitialLoader';
 import Welcome from '../Welcome';

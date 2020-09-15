@@ -9,10 +9,11 @@ import {
 import { useTransition, animated } from 'react-spring';
 import Cookies from 'js-cookie';
 
-import ArtistsGridWrapper from '../ArtistsGridWrapper';
-import TopTracks from '../TopTracks';
+import ArtistsGrid from '../ArtistsGrid';
 import Login from '../Login';
 import Main from '../Main';
+import TimeRangeWrapper from '../TimeRangeWrapper';
+import TopTracks from '../TopTracks';
 
 const accessToken = Cookies.get('spotifyAccessToken');
 const refreshToken = Cookies.get('spotifyRefreshToken');
@@ -44,13 +45,21 @@ export default function App() {
         <Route path="/user/:accessToken/:refreshToken/:setCookies">
           <Main />
         </Route>
-        <Route path="/top/artists">
-          <ArtistsGridWrapper />
-        </Route>
-        <Route path="/top/tracks">
-          <TopTracks />
-        </Route>
+        <Route path="/top/artists">{getTopArtists()}</Route>
+        <Route path="/top/tracks">{getTopTracks()}</Route>
       </Switch>
     </animated.div>
   ));
 }
+
+const getTopArtists = () => (
+  <TimeRangeWrapper header={'Your Top Artists'}>
+    <ArtistsGrid />
+  </TimeRangeWrapper>
+);
+
+const getTopTracks = () => (
+  <TimeRangeWrapper header={'Your Top Tracks'}>
+    <TopTracks />
+  </TimeRangeWrapper>
+);
