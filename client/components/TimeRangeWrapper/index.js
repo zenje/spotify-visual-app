@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
+import UpArrow from '@material-ui/icons/KeyboardArrowUp';
 
 import ArtistsGrid from '../ArtistsGrid';
 import { TIME_RANGES } from '../../constants';
@@ -27,7 +29,7 @@ const Header = styled.h1`
   width: 40%;
   padding: 0.5em;
   margin: 0 auto;
-  padding-top: 10vh;
+  padding-top: 5vh;
 `;
 
 export default function TimeRangeWrapper(props) {
@@ -36,6 +38,11 @@ export default function TimeRangeWrapper(props) {
 
   return (
     <Wrapper>
+      <div>
+        <Link to="/">
+          <UpArrow fontSize="large" style={{ color: 'white' }} />
+        </Link>
+      </div>
       <Header>{header}</Header>
       <ButtonRow>
         {Object.values(TIME_RANGES).map((item) => (

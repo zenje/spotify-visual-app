@@ -67,7 +67,7 @@ export const TrackInfo = styled.div`
   justify-content: center;
   font-style: italic;
   letter-spacing: 1px;
-  padding: 0 10px;
+  padding: 5px 10px;
   h2 {
     margin: 0;
     text-transform: uppercase;
