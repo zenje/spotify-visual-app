@@ -7,7 +7,10 @@ import { TIME_RANGES } from '../../constants';
 
 const Wrapper = styled.div`
   background-color: ${(props) => props.theme.colors.highlight};
+  min-height: 100vh;
   text-align: center;
+  padding: 10px;
+  padding-bottom: 20px;
 `;
 
 const ButtonRow = styled.div`

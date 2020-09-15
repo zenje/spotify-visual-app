@@ -52,13 +52,23 @@ const extractTrackData = (data) => {
     let tracksData = data.map((item, idx) => ({
       img: item.album.images[0].url,
       title: item.name,
-      artist: item.artists[0].name,
+      artist: getArtists(item.artists),
     }));
     console.log('tracksData');
     console.log(tracksData);
     return tracksData;
   }
   return [];
+};
+
+const getArtists = (artists) => {
+  if (!artists || !artists.length) {
+    return;
+  } else if (artists.length === 1) {
+    return artists[0].name;
+  } else {
+    return `${artists[0].name}, ${artists[1].name}`;
+  }
 };
 
 const condenseRecentTracks = (data) => {
