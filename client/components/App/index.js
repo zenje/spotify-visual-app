@@ -15,11 +15,11 @@ import Main from '../Main';
 import TimeRangeWrapper from '../TimeRangeWrapper';
 import TopTracks from '../TopTracks';
 
-const accessToken = Cookies.get('spotifyAccessToken');
-const refreshToken = Cookies.get('spotifyRefreshToken');
-const setCookies = false;
-
 export default function App() {
+  const accessToken = Cookies.get('spotifyAccessToken');
+  const refreshToken = Cookies.get('spotifyRefreshToken');
+  const setCookies = false;
+
   const location = useLocation();
   const transitions = useTransition(location, (location) => location.pathname, {
     initial: { opacity: 1, transform: 'translate3d(0, 0%,0)' },
