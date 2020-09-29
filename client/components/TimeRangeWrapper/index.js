@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 //import Button from '@material-ui/core/Button';
-import UpArrow from '@material-ui/icons/KeyboardArrowUp';
+import DownArrow from '@material-ui/icons/KeyboardArrowDown';
 
 import ArtistsGrid from '../ArtistsGrid';
 import { ButtonRow, Header, StyledButton as Button, Wrapper } from './style';
@@ -15,7 +15,7 @@ export default function TimeRangeWrapper(props) {
     <Wrapper>
       <div>
         <Link to="/">
-          <UpArrow fontSize="large" style={{ color: 'white' }} />
+          <DownArrow fontSize="large" style={{ color: 'white' }} />
         </Link>
       </div>
       <Header>{header}</Header>
