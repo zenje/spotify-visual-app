@@ -25,7 +25,6 @@ export default function TimeRangeWrapper(props) {
             {...(item.timeRange === timeRange ? { disabled: true } : {})}
             onClick={() => {
               setTimeRange(item.timeRange);
-              alert('clicked ' + item.timeRange);
             }}
           >
             {item.text}
