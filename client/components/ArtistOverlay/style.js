@@ -39,6 +39,4 @@ export const ArrowWrapper = styled.div`
   background-color: white;
   width: 100%;
   top: 0%;
-  padding-top: 0.5rem;
-  vertical-align: middle; // remove bottom space
 `;

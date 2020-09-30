@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-//import Button from '@material-ui/core/Button';
 import DownArrow from '@material-ui/icons/KeyboardArrowDown';
 
-import ArtistsGrid from '../ArtistsGrid';
 import { ButtonRow, Header, StyledButton as Button, Wrapper } from './style';
 import { TIME_RANGES } from '../../constants';
 

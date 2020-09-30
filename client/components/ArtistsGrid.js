@@ -10,7 +10,6 @@ import Container from '@material-ui/core/Container';
 import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import { BounceLoader } from 'halogenium';
 
 import { getTopArtists } from '../actions/actions';
 import {
@@ -20,7 +19,6 @@ import {
 import { useWindowSize } from '../hooks/useWindowSize';
 
 import ArtistOverlay from './ArtistOverlay';
-import ArtistLoader from './loaders/ArtistLoader';
 import testData from './artistsTestData';
 
 const useStyles = makeStyles((theme) => ({
@@ -130,10 +128,10 @@ const StyledGridList = styled(GridList)`
 `;
 
 const StyledGridListTile = styled(GridListTile)`
-  animation-duration: 0.45s;
-  animation-delay: ${(props) => props.index * 100}ms;
+  animation-duration: 0.5s;
   animation-fill-mode: both;
-  // use transient prop $isVisible - not passed down to DOM
+  // animation-delay: ${(props) => props.index * 100}ms;
+  animation-delay: 0.5s;
   animation-name: ${(props) => (props.$isVisible ? fadeInUp : fadeInUp2)};
 `;
 
@@ -141,12 +139,18 @@ const StyledGridListTileBar = styled(GridListTileBar)`
   font-family: ${(props) => props.theme.fonts.primary};
 `;
 
+const TileWrapper = styled.img`
+  animation-duration: 0.45s;
+  animation-fill-mode: both;
+  // use transient prop $isVisible - not passed down to DOM
+  animation-name: ${(props) => (props.$isVisible ? fadeInUp : fadeInUp2)};
+`;
+
 export default function ArtistsGrid(props) {
   console.log('ARTISTSGRID BEGIN------------');
 
   const dispatch = useDispatch();
   const timeRange = props.timeRange;
-  const isArtistLoading = useSelector((state) => state.isArtistLoading);
   const isArtistOverlayOpen = useSelector((state) => state.isArtistOverlayOpen);
   const selectedArtist = useSelector((state) => state.selectedArtist);
   const tileData = useSelector((state) => {
@@ -201,52 +205,47 @@ export default function ArtistsGrid(props) {
     dispatch(closeArtistOverlay());
   };
 
-  const [isVisible, setVisibility] = useState(false);
-  const onChange = (visiblity) => {
-    console.log('ONCHANGE!!!!!! ' + visiblity);
-    setVisibility(visiblity);
-  };
-
   let cellHeight = size.height / 8;
 
   return (
     <Container>
-      {isArtistLoading && <ArtistLoader />}
-      <VisibilitySensor partialVisibility onChange={onChange}>
-        <StyledGridList
-          align="center"
-          cellHeight={cellHeight}
-          spacing={5}
-          cols={colsRows.cols}
-          className={classes.gridList}
-        >
-          {tileData.map((tile, index) => (
-            <StyledGridListTile
-              align="center"
-              key={tile.img}
-              cols={
-                tile.featured ? colsRows.tileColsFeatured : colsRows.tileCols
-              }
-              rows={
-                tile.featured ? colsRows.tileRowsFeatured : colsRows.tileRows
-              }
-              onClick={() => {
-                console.log('clicked ' + tile.title);
-                dispatch(fetchArtistExtract(tile.title, index, timeRange));
-              }}
-              $isVisible={isVisible}
-              index={index}
-            >
-              <img src={tile.img} alt={tile.title} />
-              <StyledGridListTileBar
-                title={tile.title}
-                titlePosition="bottom"
-                actionPosition="right"
-                className={classes.titleBar}
-              />
-            </StyledGridListTile>
-          ))}
-        </StyledGridList>
+      <VisibilitySensor partialVisibility>
+        {({ isVisible }) => (
+          <StyledGridList
+            align="center"
+            cellHeight={cellHeight}
+            spacing={5}
+            cols={colsRows.cols}
+            className={classes.gridList}
+          >
+            {tileData.map((tile, index) => (
+              <StyledGridListTile
+                align="center"
+                key={tile.img}
+                cols={
+                  tile.featured ? colsRows.tileColsFeatured : colsRows.tileCols
+                }
+                rows={
+                  tile.featured ? colsRows.tileRowsFeatured : colsRows.tileRows
+                }
+                onClick={() => {
+                  console.log('clicked ' + tile.title);
+                  dispatch(fetchArtistExtract(tile.title, index, timeRange));
+                }}
+                index={index}
+                $isVisible={isVisible}
+              >
+                <img src={tile.img} alt={tile.title} />
+                <StyledGridListTileBar
+                  title={tile.title}
+                  titlePosition="bottom"
+                  actionPosition="right"
+                  className={classes.titleBar}
+                />
+              </StyledGridListTile>
+            ))}
+          </StyledGridList>
+        )}
       </VisibilitySensor>
       <ArtistOverlay
         open={isArtistOverlayOpen}

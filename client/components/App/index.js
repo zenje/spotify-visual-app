@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import {
   BrowserRouter,
   Route,
@@ -6,14 +7,16 @@ import {
   Redirect,
   useLocation,
 } from 'react-router-dom';
-import { useTransition, animated } from 'react-spring';
+import { useTransition } from 'react-spring';
 import Cookies from 'js-cookie';
 
+import ArtistLoader from '../loaders/ArtistLoader';
 import ArtistsGrid from '../ArtistsGrid';
 import Login from '../Login';
 import Main from '../Main';
 import TimeRangeWrapper from '../TimeRangeWrapper';
 import TopTracks from '../TopTracks';
+import { Wrapper } from './style';
 
 export default function App() {
   const accessToken = Cookies.get('spotifyAccessToken');
@@ -27,36 +30,33 @@ export default function App() {
     enter: { opacity: 1, transform: 'translate3d(0, 0%,0)' },
     leave: { opacity: 0, transform: 'translate3d(0, 100%,0)' },
   });
-  return transitions.map(({ item: location, props, key }) => (
-    <animated.div
-      style={{
-        ...props,
-        position: 'absolute',
-        height: '100%',
-        width: '100%',
-        top: 0,
-        left: 0,
-      }}
-      key={key}
-    >
-      <Switch location={location}>
-        <Route exact path="/">
-          {accessToken ? (
-            <Redirect
-              to={`/user/${accessToken}/${refreshToken}/${setCookies}`}
-            />
-          ) : (
-            <Login />
-          )}
-        </Route>
-        <Route path="/user/:accessToken/:refreshToken/:setCookies">
-          <Main />
-        </Route>
-        <Route path="/top/artists">{getTopArtists()}</Route>
-        <Route path="/top/tracks">{getTopTracks()}</Route>
-      </Switch>
-    </animated.div>
-  ));
+  const isArtistLoading = useSelector((state) => state.isArtistLoading);
+
+  return (
+    <>
+      {isArtistLoading && <ArtistLoader />}
+      {transitions.map(({ item: location, props, key }) => (
+        <Wrapper style={{ ...props }} key={key}>
+          <Switch location={location}>
+            <Route exact path="/">
+              {accessToken ? (
+                <Redirect
+                  to={`/user/${accessToken}/${refreshToken}/${setCookies}`}
+                />
+              ) : (
+                <Login />
+              )}
+            </Route>
+            <Route path="/user/:accessToken/:refreshToken/:setCookies">
+              <Main />
+            </Route>
+            <Route path="/top/artists">{getTopArtists()}</Route>
+            <Route path="/top/tracks">{getTopTracks()}</Route>
+          </Switch>
+        </Wrapper>
+      ))}
+    </>
+  );
 }
 
 const getTopArtists = () => (
