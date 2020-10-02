@@ -15,6 +15,7 @@ import { getTopArtists } from '../actions/actions';
 import {
   fetchArtistExtract,
   closeArtistOverlay,
+  getArtistInfo,
 } from '../actions/wikipediaActions';
 import { useWindowSize } from '../hooks/useWindowSize';
 
@@ -230,7 +231,7 @@ export default function ArtistsGrid(props) {
                 }
                 onClick={() => {
                   console.log('clicked ' + tile.title);
-                  dispatch(fetchArtistExtract(tile.title, index, timeRange));
+                  dispatch(getArtistInfo(tile.title, index, timeRange));
                 }}
                 index={index}
                 $isVisible={isVisible}

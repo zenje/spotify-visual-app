@@ -14,24 +14,28 @@ export const StyledModal = styled(Modal)`
 `;
 
 export const Overlay = styled.div`
-  background-color: white;
-  margin: 1rem;
-  border: 0.5rem white solid;
-  border-top-width: 0;
-  padding: 0 1rem 1rem;
   max-width: 30rem;
+  width: 100%;
   height: 90vh;
-  text-align: center;
   display: flex;
   flex-direction: column;
-  align-items: center; // center, align across horizontal axis
   transform: translate3d(0px, 50px, 0px);
   img {
-    max-width: 100%;
+    max-width: 30rem;
     height: auto;
+    width: 100%;
   }
   .overlay-wrapper {
     overflow: scroll;
+    background-color: white;
+    border: 0.5rem white solid;
+    margin: 1rem;
+    padding: 0 1rem 1rem 1rem;
+    word-break: break-word;
+    text-align: center;
+  }
+  .extract {
+    margin-top: 1rem;
   }
 `;
 

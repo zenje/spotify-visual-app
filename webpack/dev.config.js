@@ -41,6 +41,7 @@ module.exports = {
       'CLIENT_ID',
       'CLIENT_SECRET',
       'REDIRECT_URI',
+      'LAST_FM_API_KEY',
     ]),
     new webpack.HotModuleReplacementPlugin(),
     //new ReactRefreshWebpackPlugin(),

@@ -33,12 +33,12 @@ export default function ArtistOverlay(props) {
         unmountOnExit
       >
         <Overlay>
-          <ArrowWrapper>
-            <a onClick={handleClose} style={{ cursor: 'pointer' }}>
-              <UpArrow style={{ verticalAlign: 'middle' }} />
-            </a>
-          </ArrowWrapper>
           <div className="overlay-wrapper">
+            <ArrowWrapper>
+              <a onClick={handleClose} style={{ cursor: 'pointer' }}>
+                <UpArrow style={{ verticalAlign: 'middle' }} />
+              </a>
+            </ArrowWrapper>
             <div>
               <img src={img} />
             </div>
@@ -47,7 +47,9 @@ export default function ArtistOverlay(props) {
               <span>
                 <b>Followers:</b> <Followers count={followers} />
               </span>
-              <p id="modal-description">{extract}</p>
+              <div className="extract" id="modal-description">
+                {extract}
+              </div>
             </div>
           </div>
         </Overlay>
