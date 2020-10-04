@@ -12,11 +12,8 @@ import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 
 import { getTopArtists } from '../actions/actions';
-import {
-  fetchArtistExtract,
-  closeArtistOverlay,
-  getArtistInfo,
-} from '../actions/wikipediaActions';
+import { fetchArtistExtract } from '../actions/wikipediaActions';
+import { closeArtistOverlay, getArtistInfo } from '../actions/artistActions';
 import { useWindowSize } from '../hooks/useWindowSize';
 
 import ArtistOverlay from './ArtistOverlay';

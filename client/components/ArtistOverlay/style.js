@@ -33,6 +33,7 @@ export const Overlay = styled.div`
     padding: 0 1rem 1rem 1rem;
     word-break: break-word;
     text-align: center;
+    white-space: pre-wrap; // preserve new lines for paragraphs
   }
   .extract {
     margin-top: 1rem;
