@@ -13,9 +13,9 @@ const port = process.env.PORT || 3000;
 // configure the express server
 const app = express();
 
-app.all('/', function (req, res, next) {
-  res.header('Access-Control-Allow-Origin', '*');
-  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+app.all('/', function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "X-Requested-With");
   next();
 });
 
@@ -26,7 +26,7 @@ if (process.env.NODE_ENV !== 'production') {
   // load and configure webpack
   const webpack = require('webpack');
   const webpackDevMiddleware = require('webpack-dev-middleware');
-  const webpackHotMiddleware = require('webpack-hot-middleware');
+  // const webpackHotMiddleware = require('webpack-hot-middleware');
   const config = require('../webpack/dev.config');
 
   // setup middleware
@@ -47,7 +47,12 @@ app
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))
   .use(express.static(path.resolve(__dirname, '../public')))
-  .use('/', routes);
+  .use('/', routes)
+  .use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+});
 
 // important! for making express play nicely with react-router
 app.get('*', (req, res) => {
