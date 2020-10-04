@@ -26,7 +26,7 @@ if (process.env.NODE_ENV !== 'production') {
   // load and configure webpack
   const webpack = require('webpack');
   const webpackDevMiddleware = require('webpack-dev-middleware');
-  // const webpackHotMiddleware = require('webpack-hot-middleware');
+  const webpackHotMiddleware = require('webpack-hot-middleware');
   const config = require('../webpack/dev.config');
 
   // setup middleware
