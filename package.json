@@ -49,6 +49,7 @@
     "express": "^4.13.4",
     "halogenium": "^2.3.0",
     "history": "^1.17.0",
+    "html-react-parser": "^0.14.0",
     "js-cookie": "^2.2.1",
     "linkifyjs": "^2.1.9",
     "morgan": "^1.6.1",

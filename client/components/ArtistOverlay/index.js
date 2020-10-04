@@ -2,6 +2,7 @@ import React, { forwardRef, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/core/styles';
 import { useSpring, animated, config } from 'react-spring';
+import parse from 'html-react-parser';
 
 import Backdrop from '@material-ui/core/Backdrop';
 import Slide from '@material-ui/core/Slide';
@@ -12,6 +13,10 @@ export default function ArtistOverlay(props) {
   let { artist, handleClose, open } = props;
   artist = artist || {};
   let { extract, followers, img, name } = artist;
+  if (extract) {
+    // parse from html to react element to render links
+    extract = parse(extract);
+  }
 
   return (
     <StyledModal

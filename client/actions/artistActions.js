@@ -86,9 +86,8 @@ const removeLink = (str) => {
 const fetchArtistInfo = async (artistName) => {
   artistName = encodeURIComponent(artistName);
   const pageEndpoint = `${LAST_FM_ARTIST_GET_INFO}&artist=${artistName}&api_key=${process.env.LAST_FM_API_KEY}&format=json`;
-  console.log(pageEndpoint)
-  ;
-  return await fetch(pageEndpoint, {mode: 'cors'})
+  console.log(pageEndpoint);
+  return await fetch(pageEndpoint, { mode: 'cors' })
     .then((response) => response.json())
     .then((data) => {
       console.log('LAST FM');
@@ -96,7 +95,7 @@ const fetchArtistInfo = async (artistName) => {
       return data;
     })
     .catch((e) => {
-      console.log('An error occurred ' + e)
+      console.log('An error occurred ' + e);
       console.log(e);
     });
 };
