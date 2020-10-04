@@ -86,6 +86,7 @@ const removeLink = (str) => {
 const fetchArtistInfo = async (artistName) => {
   artistName = encodeURIComponent(artistName);
   const pageEndpoint = `${LAST_FM_ARTIST_GET_INFO}&artist=${artistName}&api_key=${process.env.LAST_FM_API_KEY}&format=json`;
+  console.log(pageEndpoint);
   return await fetch(pageEndpoint)
     .then((response) => response.json())
     .then((data) => {
