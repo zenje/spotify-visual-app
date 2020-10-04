@@ -42,17 +42,17 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.set('port', port);
 app
+  .use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");
+    res.header("Access-Control-Allow-Headers", "X-Requested-With");
+    next();
+  })
   .use(logger('dev'))
   .use(cookieParser())
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))
   .use(express.static(path.resolve(__dirname, '../public')))
-  .use('/', routes)
-  .use(function(req, res, next) {
-    res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "X-Requested-With");
-    next();
-});
+  .use('/', routes);
 
 // important! for making express play nicely with react-router
 app.get('*', (req, res) => {
