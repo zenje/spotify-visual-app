@@ -13,6 +13,12 @@ const port = process.env.PORT || 3000;
 // configure the express server
 const app = express();
 
+app.all('/', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  next();
+});
+
 // if we're developing, use webpack middleware for module hot reloading
 if (process.env.NODE_ENV !== 'production') {
   console.log('==> 🌎 using webpack');
