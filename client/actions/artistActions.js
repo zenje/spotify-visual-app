@@ -4,7 +4,7 @@ import linkify from 'linkifyjs';
 import linkifyHtml from 'linkifyjs/html';
 
 const LAST_FM_ARTIST_GET_INFO =
-  'http://ws.audioscrobbler.com/2.0/?method=artist.getinfo';
+  'https://ws.audioscrobbler.com/2.0/?method=artist.getinfo';
 
 export const getArtistInfo = (artistName, artistIndex, timeRange) => {
   return async (dispatch, getState) => {
