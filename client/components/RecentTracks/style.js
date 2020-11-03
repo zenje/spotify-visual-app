@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { RECENT_TRACKS_LIMIT } from '../../constants';
 
 export const Wrapper = styled.div`
+  margin: 2rem;
   width: 280px;
   @media (min-width: 600px) {
     width: 500px;

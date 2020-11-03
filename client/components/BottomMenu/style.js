@@ -4,6 +4,9 @@ import { Link } from 'react-router-dom';
 export const Wrapper = styled.div`
   background-color: ${(props) => props.theme.colors.highlight};
   text-align: center;
+  width: 100%;
+  max-width: 40rem;
+  margin: 0 auto;
 `;
 
 export const Header = styled.h3`

@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import { ParallaxLayer } from 'react-spring/renderprops-addons';
 
 import {
+  BottomMenuWrapper,
   CurrentTrackShadow,
   getWelcomeAnimation,
   Sparkle,
@@ -11,6 +12,7 @@ import {
   WelcomeBanner,
   Wrapper,
 } from './style';
+import BottomMenu from '../BottomMenu';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { RECENT_TRACKS_LIMIT, IS_LT_600W } from '../../constants';
 
@@ -27,30 +29,24 @@ export default function Welcome(props) {
 
   return (
     <Wrapper>
-      <ParallaxLayer offset={0} speed={1.5}>
-        <WelcomeBanner style={getWelcomeAnimation(size.width, user)}>
-          {`welcome, ${user}`}
-          <Sparkle>✨</Sparkle>
-        </WelcomeBanner>
-      </ParallaxLayer>
-      <ParallaxLayer offset={IS_LT_600W(size) ? 0.23 : 0.29} speed={0.7}>
-        <CurrentTrackShadow />
-      </ParallaxLayer>
-      <ParallaxLayer offset={IS_LT_600W(size) ? 0.2 : 0.26} speed={0.5}>
-        <CurrentTrack
-          artist={artist}
-          name={name}
-          img={img}
-          isLoading={isLoadingCurrentTrack}
-          status={status}
-        />
-      </ParallaxLayer>
-      <ParallaxLayer offset={getRecentTracksOffset(size)} speed={0.3}>
-        <RecentTracks
-          tracks={recentTracks}
-          trackLimit={getTrackLimit(size.height)}
-        />
-      </ParallaxLayer>
+      <WelcomeBanner>
+        <div>{`welcome, ${user}`}</div>
+        <Sparkle>✨</Sparkle>
+      </WelcomeBanner>
+      <CurrentTrack
+        artist={artist}
+        name={name}
+        img={img}
+        isLoading={isLoadingCurrentTrack}
+        status={status}
+      />
+      <RecentTracks
+        tracks={recentTracks}
+        trackLimit={getTrackLimit(size.height)}
+      />
+      <BottomMenuWrapper>
+        <BottomMenu />
+      </BottomMenuWrapper>
     </Wrapper>
   );
 }

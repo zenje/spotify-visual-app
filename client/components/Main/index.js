@@ -70,23 +70,12 @@ export default function Main() {
 
   return (
     <StyledWrapper>
-      <Parallax
-        pages={IS_LT_600W_700H(size) ? 1.4 : 1.15}
-        ref={(ref) => setParallax(ref)}
-      >
-        <ParallaxLayer offset={0}>
-          <Welcome
-            user={display_name}
-            currentTrack={currentTrack}
-            isLoadingCurrentTrack={isLoadingCurrentTrack}
-            recentTracks={recentTracks}
-            parallax={parallax}
-          />
-        </ParallaxLayer>
-        <ParallaxLayer offset={IS_LT_600W_700H(size) ? 1.2 : 1}>
-          <BottomMenu />
-        </ParallaxLayer>
-      </Parallax>
+      <Welcome
+        user={display_name}
+        currentTrack={currentTrack}
+        isLoadingCurrentTrack={isLoadingCurrentTrack}
+        recentTracks={recentTracks}
+      />
     </StyledWrapper>
   );
 }

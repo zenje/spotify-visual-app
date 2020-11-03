@@ -12,6 +12,8 @@ import {
   Artist,
   ArtistTrackWrapper,
   CenteredSkeleton,
+  Container,
+  CurrentTrackShadow,
   getImage,
   Left,
   MusicBarWrapper,
@@ -51,49 +53,52 @@ export default function CurrentTrack(props) {
   }, [img]);
 
   return (
-    <Wrapper className={className}>
-      <Left>
-        {showSkeleton ? (
-          <SkeletonImage
-            variant="rect"
-            width={skeletonImageLength}
-            height={skeletonImageLength}
-          />
-        ) : (
-          image
-        )}
-      </Left>
-      <Right>
-        {size.width >= 600 ? (
-          showSkeleton ? (
-            <CenteredSkeleton variant="text" width="30%" />
-          ) : (
-            <Status color={statusColor}>&lt; {status} &gt;</Status>
-          )
-        ) : null}
-        <ArtistTrackWrapper>
+    <Container>
+      <CurrentTrackShadow />
+      <Wrapper className={className}>
+        <Left>
           {showSkeleton ? (
-            <Typography variant="h3">
-              <CenteredSkeleton width="50%" />
-            </Typography>
+            <SkeletonImage
+              variant="rect"
+              width={skeletonImageLength}
+              height={skeletonImageLength}
+            />
           ) : (
-            <Artist color={artistColor}>{artist}</Artist>
+            image
           )}
-          {showSkeleton ? (
-            <CenteredSkeleton variant="text" width="45%" />
-          ) : (
-            <Track color={trackColor}>{name}</Track>
-          )}
-        </ArtistTrackWrapper>
-        <MusicBarWrapper>
-          <MusicBar
-            primary={musicBarPrimaryColor}
-            secondary={musicBarSecondaryColor}
-            isPaused={isPaused(status, showSkeleton)}
-          />
-        </MusicBarWrapper>
-      </Right>
-    </Wrapper>
+        </Left>
+        <Right>
+          {size.width >= 600 ? (
+            showSkeleton ? (
+              <CenteredSkeleton variant="text" width="30%" />
+            ) : (
+              <Status color={statusColor}>&lt; {status} &gt;</Status>
+            )
+          ) : null}
+          <ArtistTrackWrapper>
+            {showSkeleton ? (
+              <Typography variant="h3">
+                <CenteredSkeleton width="50%" />
+              </Typography>
+            ) : (
+              <Artist color={artistColor}>{artist}</Artist>
+            )}
+            {showSkeleton ? (
+              <CenteredSkeleton variant="text" width="45%" />
+            ) : (
+              <Track color={trackColor}>{name}</Track>
+            )}
+          </ArtistTrackWrapper>
+          <MusicBarWrapper>
+            <MusicBar
+              primary={musicBarPrimaryColor}
+              secondary={musicBarSecondaryColor}
+              isPaused={isPaused(status, showSkeleton)}
+            />
+          </MusicBarWrapper>
+        </Right>
+      </Wrapper>
+    </Container>
   );
 }
 
