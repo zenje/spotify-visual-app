@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { makeStyles, useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
@@ -11,10 +11,10 @@ import GridList from '@material-ui/core/GridList';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
 
-import { getTopArtists } from '../actions/actions';
 import { fetchArtistExtract } from '../actions/wikipediaActions';
 import { closeArtistOverlay, getArtistInfo } from '../actions/artistActions';
 import { useWindowSize } from '../hooks/useWindowSize';
+import { useGetTopArtists } from '../hooks/useGetTopArtists';
 
 import ArtistOverlay from './ArtistOverlay';
 import testData from './artistsTestData';
@@ -44,47 +44,6 @@ const useStyles = makeStyles((theme) => ({
   title: item.name,
   featured: idx < 12,
 }));*/
-
-const collectGenres = (items) => {
-  let allGenres = {};
-  if (items) {
-    console.log('items', items);
-    items.forEach((item, idx) => {
-      let artist = item.title;
-      let genres = item.genres;
-      genres.forEach((genre) => {
-        /*let value = allGenres[genre];
-        if (value && value.length > 0) {
-          value.push(artist);
-          //allGenres[genre] = value;
-        } else {
-          allGenres[genre] = [artist];
-        }*/
-        //console.log(genre);
-        //console.log(artist);
-        (allGenres[genre] = allGenres[genre] || []).push(artist);
-        /*if (!allGenres[genre]) {
-          allGenres[genre] = 0;
-        } else {
-          allGenres[genre]++;
-        }
-        const count = allGenres[genre];
-        allGenres[genre] = count ? count + 1 : 1;*/
-      });
-    });
-  }
-  return allGenres;
-};
-
-const sortByValue = (obj) => {
-  const sortable = Object.entries(obj).sort(
-    ([, a], [, b]) => a.length - b.length
-  );
-  //.sort(([,a],[,b]) => a-b)
-  //.reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
-  console.log(sortable);
-  return sortable;
-};
 
 /*const SpringGridListTile = (props) => {
   const { isVisible, delay } = props;
@@ -164,23 +123,11 @@ export default function ArtistsGrid(props) {
   const timeRange = props.timeRange;
   const isArtistOverlayOpen = useSelector((state) => state.isArtistOverlayOpen);
   const selectedArtist = useSelector((state) => state.selectedArtist);
-  const tileData = useSelector((state) => {
-    if (state.topArtists && state.topArtists[timeRange]) {
-      return state.topArtists[timeRange];
-    }
-    return [];
-  });
-  const size = useWindowSize();
-
-  useEffect(() => {
-    if (tileData.length == 0) {
-      // only fetch top artists if time range data has not yet been loaded
-      dispatch(getTopArtists(timeRange));
-    }
-  }, [timeRange]);
+  const tileData = useGetTopArtists(timeRange);
 
   const classes = useStyles();
   const theme = useTheme();
+  const size = useWindowSize();
   const screenLarge = useMediaQuery(theme.breakpoints.up('md'));
   const screenMedium = useMediaQuery(theme.breakpoints.up('sm'));
 
@@ -206,12 +153,6 @@ export default function ArtistsGrid(props) {
   };
 
   let colsRows = getGridListColsRows();
-  //let tileData = getTileData(topArtists, timeRange);
-  let genres = collectGenres(tileData);
-  console.log('genres');
-  //console.log(genres);
-  //console.log(JSON.stringify(genres));
-  console.log(sortByValue(genres));
 
   const handleArtistClose = () => {
     dispatch(closeArtistOverlay());
