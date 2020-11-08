@@ -45,33 +45,46 @@ const useStyles = makeStyles((theme) => ({
   featured: idx < 12,
 }));*/
 
-/*
-const collectGenres = (topArtists, timeRange) => {
+const collectGenres = (items) => {
   let allGenres = {};
-  if (topArtists && topArtists[timeRange] && topArtists[timeRange].items) {
-    topArtists[timeRange].items.forEach((item, idx) => {
-      let artist = item.name;
+  if (items) {
+    console.log('items', items);
+    items.forEach((item, idx) => {
+      let artist = item.title;
       let genres = item.genres;
       genres.forEach((genre) => {
+        /*let value = allGenres[genre];
         if (value && value.length > 0) {
           value.push(artist);
-          allGenres[genre] = value;
+          //allGenres[genre] = value;
         } else {
           allGenres[genre] = [artist];
-        }
-        //(allGenres[genre] = allGenres[genre] || []).push(artist);
-        if (!allGenres[genre]) {
+        }*/
+        //console.log(genre);
+        //console.log(artist);
+        (allGenres[genre] = allGenres[genre] || []).push(artist);
+        /*if (!allGenres[genre]) {
           allGenres[genre] = 0;
         } else {
           allGenres[genre]++;
         }
         const count = allGenres[genre];
-        allGenres[genre] = count ? count + 1 : 1;
+        allGenres[genre] = count ? count + 1 : 1;*/
       });
     });
   }
   return allGenres;
-};*/
+};
+
+const sortByValue = (obj) => {
+  const sortable = Object.entries(obj).sort(
+    ([, a], [, b]) => a.length - b.length
+  );
+  //.sort(([,a],[,b]) => a-b)
+  //.reduce((r, [k, v]) => ({ ...r, [k]: v }), {});
+  console.log(sortable);
+  return sortable;
+};
 
 /*const SpringGridListTile = (props) => {
   const { isVisible, delay } = props;
@@ -194,10 +207,11 @@ export default function ArtistsGrid(props) {
 
   let colsRows = getGridListColsRows();
   //let tileData = getTileData(topArtists, timeRange);
-  //let genres = collectGenres(topArtists, timeRange);
-  //console.log('genres');
-  //console.log(JSON.stringify(genres));
+  let genres = collectGenres(tileData);
+  console.log('genres');
   //console.log(genres);
+  //console.log(JSON.stringify(genres));
+  console.log(sortByValue(genres));
 
   const handleArtistClose = () => {
     dispatch(closeArtistOverlay());

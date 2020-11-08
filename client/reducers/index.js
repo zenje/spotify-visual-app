@@ -38,6 +38,7 @@ const extractArtistData = (artistData) => {
       featured: idx < 12,
       href: item.href,
       followers: item.followers.total,
+      genres: item.genres,
     }));
     console.log('tileData');
     console.log(tileData);
@@ -189,6 +190,7 @@ export default function reduce(state = initialState, action) {
       return state;
 
     case types.SPOTIFY_TOP_ARTISTS_SUCCESS:
+      //console.log(action.data.items);
       const topArtistsByTimeRange = Object.assign({}, state.topArtists);
       topArtistsByTimeRange[action.timeRange] = extractArtistData(
         action.data.items || []

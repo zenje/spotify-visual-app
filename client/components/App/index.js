@@ -15,6 +15,7 @@ import ArtistsGrid from '../ArtistsGrid';
 import Login from '../Login';
 import Main from '../Main';
 import TimeRangeWrapper from '../TimeRangeWrapper';
+import TopGenres from '../TopGenres';
 import TopTracks from '../TopTracks';
 import { Wrapper } from './style';
 
@@ -52,6 +53,7 @@ export default function App() {
             </Route>
             <Route path="/top/artists">{getTopArtists()}</Route>
             <Route path="/top/tracks">{getTopTracks()}</Route>
+            <Route path="/top/genres">{getTopGenres()}</Route>
           </Switch>
         </Wrapper>
       ))}
@@ -68,5 +70,11 @@ const getTopArtists = () => (
 const getTopTracks = () => (
   <TimeRangeWrapper header={'Your Top Tracks'}>
     <TopTracks />
+  </TimeRangeWrapper>
+);
+
+const getTopGenres = () => (
+  <TimeRangeWrapper header={'Your Top Genres'}>
+    <TopGenres />
   </TimeRangeWrapper>
 );
