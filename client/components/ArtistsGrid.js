@@ -121,8 +121,12 @@ export default function ArtistsGrid(props) {
 
   const dispatch = useDispatch();
   const timeRange = props.timeRange;
-  const isArtistOverlayOpen = useSelector((state) => state.isArtistOverlayOpen);
-  const selectedArtist = useSelector((state) => state.selectedArtist);
+  const isArtistOverlayOpen = useSelector(
+    (state) => state.artistInfo.isArtistOverlayOpen
+  );
+  const selectedArtist = useSelector(
+    (state) => state.artistInfo.selectedArtist
+  );
   const tileData = useGetTopArtists(timeRange);
 
   const classes = useStyles();

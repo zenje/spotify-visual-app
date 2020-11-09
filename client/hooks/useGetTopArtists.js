@@ -6,8 +6,8 @@ import { getTopArtists } from '../actions/actions';
 export const useGetTopArtists = (timeRange) => {
   const dispatch = useDispatch();
   const topArtists = useSelector((state) => {
-    if (state.topArtists && state.topArtists[timeRange]) {
-      return state.topArtists[timeRange];
+    if (state.spotify.topArtists && state.spotify.topArtists[timeRange]) {
+      return state.spotify.topArtists[timeRange];
     }
     return [];
   });

@@ -8,26 +8,29 @@ const LAST_FM_ARTIST_GET_INFO =
 
 export const getArtistInfo = (artistName, artistIndex, timeRange) => {
   return async (dispatch, getState) => {
+    const state = getState();
+
     function onSuccess(success) {
+      const artistInfo = state.spotify.topArtists[timeRange][artistIndex];
       const payload = {
         artistIndex,
+        artistInfo,
         artistName,
         timeRange,
         extract: success,
       };
-      dispatch({ type: types.SPOTIFY_FETCH_ARTIST_SUCCESS, payload });
+      dispatch(doArtistSuccess(payload));
       return success;
     }
     function onError(error) {
-      dispatch({ type: types.SPOTIFY_FETCH_ARTIST_FAILURE, error });
+      dispatch(doArtistFailure(error));
       return error;
     }
 
     dispatch(loadArtistOverlay());
 
-    const state = getState();
-    const stateArtistName = state.selectedArtist.name;
     // if artist is already loaded, then just open the overlay
+    const stateArtistName = state.artistInfo.selectedArtist.name;
     if (stateArtistName === artistName) {
       dispatch(openArtistOverlay());
       return;
@@ -36,11 +39,11 @@ export const getArtistInfo = (artistName, artistIndex, timeRange) => {
     try {
       const data = await fetchArtistInfo(artistName);
       if (data) {
-        let summary = getSummaryFromArtistData(data);
-        console.log(summary);
+        const summary = getSummaryFromArtistData(data);
         return onSuccess(summary);
       }
     } catch (error) {
+      console.log(error);
       onError(error);
     }
 
@@ -115,14 +118,22 @@ const fetchArtistInfo = async (artistName) => {
     .catch((e) => console.log('An error occurred ' + e));
   };*/
 
-export const loadArtistOverlay = () => {
-  return { type: types.SPOTIFY_FETCH_ARTIST_BEGIN };
+const loadArtistOverlay = () => {
+  return { type: types.FETCH_ARTIST_BEGIN };
+};
+
+const doArtistSuccess = (payload) => {
+  return { type: types.FETCH_ARTIST_SUCCESS, payload };
+};
+
+const doArtistFailure = (payload) => {
+  return { type: types.FETCH_ARTIST_FAILURE, payload };
 };
 
 export const openArtistOverlay = () => {
-  return { type: types.SPOTIFY_FETCH_ARTIST_OPEN };
+  return { type: types.FETCH_ARTIST_OPEN };
 };
 
 export const closeArtistOverlay = () => {
-  return { type: types.SPOTIFY_FETCH_ARTIST_CLOSE };
+  return { type: types.FETCH_ARTIST_CLOSE };
 };

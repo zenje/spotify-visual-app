@@ -23,13 +23,15 @@ export default function Main() {
   const size = useWindowSize();
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const currentTrack = useSelector((state) => state.currentTrack);
-  const recentTracks = useSelector((state) => state.recentTracks);
+  const user = useSelector((state) => state.spotify.user);
+  const currentTrack = useSelector((state) => state.spotify.currentTrack);
+  const recentTracks = useSelector((state) => state.spotify.recentTracks);
   const isLoadingCurrentTrack = useSelector(
-    (state) => state.isLoadingCurrentTrack
+    (state) => state.spotify.isLoadingCurrentTrack
   );
-  const isNewCurrentTrack = useSelector((state) => state.isNewCurrentTrack);
+  const isNewCurrentTrack = useSelector(
+    (state) => state.spotify.isNewCurrentTrack
+  );
 
   useEffect(() => {
     // on initial render, show loading bar and delay rendering page for 2s

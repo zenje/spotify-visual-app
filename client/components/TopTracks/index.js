@@ -18,8 +18,8 @@ export default function TopTracks(props) {
   const timeRange = props.timeRange;
   const dispatch = useDispatch();
   const topTracks = useSelector((state) => {
-    if (state.topTracks && state.topTracks[timeRange]) {
-      return state.topTracks[timeRange];
+    if (state.spotify.topTracks && state.spotify.topTracks[timeRange]) {
+      return state.spotify.topTracks[timeRange];
     }
     return [];
   });
