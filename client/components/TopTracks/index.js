@@ -1,6 +1,4 @@
-import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import styled from 'styled-components';
+import React from 'react';
 import VisibilitySensor from 'react-visibility-sensor';
 
 import {
@@ -12,27 +10,13 @@ import {
   TrackImg,
   TrackInfo,
 } from './style';
-import { getTopTracks } from '../../actions/actions';
+import { useGetTopTracks } from '../../hooks/useGetTopTracks';
 
 export default function TopTracks(props) {
   const timeRange = props.timeRange;
-  const dispatch = useDispatch();
-  const topTracks = useSelector((state) => {
-    if (state.spotify.topTracks && state.spotify.topTracks[timeRange]) {
-      return state.spotify.topTracks[timeRange];
-    }
-    return [];
-  });
-  let firstTopTrack = topTracks.length ? topTracks[0] : undefined;
-  let otherTracks = topTracks.length ? topTracks.slice(1) : [];
-
-  useEffect(() => {
-    if (topTracks.length == 0) {
-      // only fetch top tracks if time range data has not yet been loaded
-      dispatch(getTopTracks(timeRange));
-    }
-  }, [timeRange]);
-
+  const topTracks = useGetTopTracks(timeRange);
+  const firstTopTrack = topTracks.length ? topTracks[0] : undefined;
+  const otherTracks = topTracks.length ? topTracks.slice(1) : [];
   return (
     <div>
       {getTopTrack(firstTopTrack)}
