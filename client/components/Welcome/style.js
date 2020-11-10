@@ -2,7 +2,7 @@ import styled, { keyframes } from 'styled-components';
 import { useSpring, animated } from 'react-spring';
 
 import theme from '../../styles/theme';
-import { CURRENT_TRACK_SIZE } from '../../constants';
+import { CURRENT_TRACK_SIZE, WRAPPER_MAX_WIDTH } from '../../constants';
 import CurrentTrack from '../CurrentTrack';
 import RecentTracks from '../RecentTracks';
 
@@ -18,7 +18,8 @@ const fadeInDown = keyframes`
    `;
 
 export const Wrapper = styled.div`
-  width: 100%;
+  max-width: ${WRAPPER_MAX_WIDTH};
+  margin: 0 auto;
   height: 100vh;
   display: flex;
   flex-direction: column;
@@ -29,13 +30,7 @@ export const Wrapper = styled.div`
 export const WelcomeBanner = styled.div`
   animation: ${fadeInDown} 0.5s ease-in-out;
   background-color: white;
-  //background-image: linear-gradient(135deg, ${theme.colors.highlight} 2.38%, #ffffff 2.38%, #ffffff 50%, ${theme.colors.highlight} 50%, ${theme.colors.highlight} 52.38%, #ffffff 52.38%, #ffffff 100%);
-  //background-size: 29.70px 29.70px;
-  //-webkit-box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
-  //-moz-box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
-  //box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
   color: ${theme.colors.highlight};
-  max-width: 40rem;
   width: 100%;
   min-height: 2rem;
   display: flex;

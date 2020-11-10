@@ -33,6 +33,8 @@ export const CURRENT_TRACK_SIZE = {
           height: 250px;`,
 };
 
+export const WRAPPER_MAX_WIDTH = '50rem';
+
 export const CURRENT_TRACK_IMAGE_LENGTH = {
   SMALL: 250,
   MEDIUM: 280,

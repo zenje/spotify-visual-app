@@ -12,8 +12,8 @@ export const Genre = styled.h2`
 `;
 
 export const GenreBar = styled.div`
-  color: white;
-  margin: 0 auto;
+  background-color: white;
+  margin: auto 0;
   height: 0.2rem;
   width: 50%;
 `;

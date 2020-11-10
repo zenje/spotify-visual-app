@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Button from '@material-ui/core/Button';
+import { WRAPPER_MAX_WIDTH } from '../../constants';
 
 export const Wrapper = styled.div`
   background-color: ${(props) => props.theme.colors.highlight};
@@ -7,6 +8,9 @@ export const Wrapper = styled.div`
   text-align: center;
   padding: 0.5rem;
   padding-bottom: 1.5em;
+  width: 100%;
+  max-width: ${WRAPPER_MAX_WIDTH};
+  margin: 0 auto;
 `;
 
 export const ButtonRow = styled.div`
