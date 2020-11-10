@@ -1,5 +1,13 @@
 import React from 'react';
+import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import { useGetTopGenres } from '../../hooks/useGetTopGenres';
+import {
+  Genre,
+  GenreBar,
+  StyledAccordion as Accordion,
+  StyledAccordionDetails as AccordionDetails,
+  StyledAccordionSummary as AccordionSummary,
+} from './style';
 
 export default function TopGenres(props) {
   const timeRange = props.timeRange;
@@ -7,21 +15,24 @@ export default function TopGenres(props) {
 
   return (
     <>
-      <div>{timeRange}</div>
-      <>
-        {genres.map((item) => (
-          <React.Fragment key={item[0]}>
-            <div>{item[0]}</div>
+      {genres.map((item) => (
+        <Accordion TransitionProps={{ unmountOnExit: true }} key={item[0]}>
+          <AccordionSummary
+            expandIcon={
+              <ExpandMoreIcon fontSize="small" style={{ color: 'white' }} />
+            }
+          >
+            <Genre>{item[0]}</Genre>
+          </AccordionSummary>
+          <AccordionDetails>
             <div>
-              <ul>
-                {item[1].map((artist) => (
-                  <li key={artist}>{artist}</li>
-                ))}
-              </ul>
+              {item[1].map((artist) => (
+                <span key={artist}>{artist}</span>
+              ))}
             </div>
-          </React.Fragment>
-        ))}
-      </>
+          </AccordionDetails>
+        </Accordion>
+      ))}
     </>
   );
 }
