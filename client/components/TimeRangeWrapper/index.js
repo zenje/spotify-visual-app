@@ -1,22 +1,30 @@
 import React, { useState } from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 import DownArrow from '@material-ui/icons/KeyboardArrowDown';
+import InfoIcon from '@material-ui/icons/Info';
 
-import { ButtonRow, Header, StyledButton as Button, Wrapper } from './style';
+import Tooltip from '../Tooltip';
+import {
+  ButtonRow,
+  Header,
+  StyledButton as Button,
+  TooltipWrapper,
+  Wrapper,
+} from './style';
 import { TIME_RANGES } from '../../constants';
 
 export default function TimeRangeWrapper(props) {
-  const { children, header } = props;
+  const { children, header, tooltip } = props;
   const [timeRange, setTimeRange] = useState(TIME_RANGES.LONG_TERM.timeRange);
 
   return (
     <Wrapper>
-      <div>
-        <Link to="/">
-          <DownArrow fontSize="large" style={{ color: 'white' }} />
-        </Link>
-      </div>
-      <Header>{header}</Header>
+      <>{getDownArrow()}</>
+      <Header>
+        <>{header}</>
+        {getTooltip(tooltip)}
+      </Header>
       <ButtonRow>
         {Object.values(TIME_RANGES).map((item) => (
           <Button
@@ -35,3 +43,35 @@ export default function TimeRangeWrapper(props) {
     </Wrapper>
   );
 }
+
+const getDownArrow = () => (
+  <Link to="/">
+    <DownArrow fontSize="large" style={{ color: 'white' }} />
+  </Link>
+);
+
+const getTooltip = (tooltip) => {
+  if (tooltip) {
+    return (
+      <TooltipWrapper>
+        <Tooltip text={tooltip} />
+      </TooltipWrapper>
+    );
+  }
+};
+
+TimeRangeWrapper.propTypes = {
+  children: PropTypes.oneOfType([
+    PropTypes.arrayOf(PropTypes.node),
+    PropTypes.node,
+  ]).isRequired,
+  /**
+    Title at the header of the page.
+  **/
+  header: PropTypes.string.isRequired,
+
+  /**
+    Tooltip text.
+  **/
+  tooltip: PropTypes.string,
+};

@@ -44,3 +44,9 @@ export const SKELETON_GREY = 'lightgrey';
 
 export const IS_LT_600W = (size) => size.width < 600;
 export const IS_LT_600W_700H = (size) => size.width < 600 && size.height < 700;
+
+export const TOOLTIP_TEXT = {
+  TOP_ARTISTS: `Your top artists are updated by Spotify daily, with data being available for three time spans. Click on an artist to learn more.`,
+  TOP_TRACKS: `Your top tracks are updated by Spotify daily, with data being available for three time spans.`,
+  TOP_GENRES: `Your top genres are derived directly from the genres Spotify associates to your top artists. Note: This method may not reflect actual listening trends (e.g., for a user who listens to a lot of lo-fi by various artists, this may not be apparent).`,
+};

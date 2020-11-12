@@ -4,9 +4,8 @@ import { WRAPPER_MAX_WIDTH } from '../../constants';
 
 export const Wrapper = styled.div`
   background-color: ${(props) => props.theme.colors.highlight};
-  min-height: 100vh;
+  min-height: 100vh; // default height, before content is loaded
   text-align: center;
-  padding: 0.5rem;
   padding-bottom: 1.5em;
   width: 100%;
   max-width: ${WRAPPER_MAX_WIDTH};
@@ -31,4 +30,8 @@ export const StyledButton = styled(Button)`
   color: ${(props) => props.theme.colors.primary};
   font-family: inherit;
   font-weight: bold;
+`;
+
+export const TooltipWrapper = styled.span`
+  padding: 0 1rem;
 `;

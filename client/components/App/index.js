@@ -15,6 +15,7 @@ import ArtistsGrid from '../ArtistsGrid';
 import Login from '../Login';
 import Main from '../Main';
 import TimeRangeWrapper from '../TimeRangeWrapper';
+import { TOOLTIP_TEXT } from '../../constants';
 import TopGenres from '../TopGenres';
 import TopTracks from '../TopTracks';
 import { Wrapper } from './style';
@@ -64,19 +65,28 @@ export default function App() {
 }
 
 const getTopArtists = () => (
-  <TimeRangeWrapper header={'Your Top Artists'}>
+  <TimeRangeWrapper
+    header={'Your Top Artists'}
+    tooltip={TOOLTIP_TEXT.TOP_ARTISTS}
+  >
     <ArtistsGrid />
   </TimeRangeWrapper>
 );
 
 const getTopTracks = () => (
-  <TimeRangeWrapper header={'Your Top Tracks'}>
+  <TimeRangeWrapper
+    header={'Your Top Tracks'}
+    tooltip={TOOLTIP_TEXT.TOP_TRACKS}
+  >
     <TopTracks />
   </TimeRangeWrapper>
 );
 
 const getTopGenres = () => (
-  <TimeRangeWrapper header={'Your Top Genres'}>
+  <TimeRangeWrapper
+    header={'Your Top Genres'}
+    tooltip={TOOLTIP_TEXT.TOP_GENRES}
+  >
     <TopGenres />
   </TimeRangeWrapper>
 );
