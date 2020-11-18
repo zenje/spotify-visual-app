@@ -204,3 +204,14 @@ export const CurrentTrackShadow = styled.div`
   transform: translate(5%, 5%);
   animation: ${fadeInDelay} 1.5s ease-in;
   `;
+
+const slideInRight = keyframes`
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(0%); }
+  }
+  `;
+
+export const GetLyricsWrapper = styled.div`
+  transform: translateX(0%);
+  animation: ${slideInRight} 3s ease-in-out;
+`;

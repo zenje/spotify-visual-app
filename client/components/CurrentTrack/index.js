@@ -8,6 +8,7 @@ import {
   SKELETON_GREY,
 } from '../../constants';
 import Typography from '@material-ui/core/Typography';
+import GetLyrics from '../GetLyrics';
 import {
   Artist,
   ArtistTrackWrapper,
@@ -15,6 +16,7 @@ import {
   Container,
   CurrentTrackShadow,
   getImage,
+  GetLyricsWrapper,
   Left,
   MusicBarWrapper,
   Right,
@@ -28,7 +30,7 @@ import {
 const nodeEnv = process.env.NODE_ENV;
 
 export default function CurrentTrack(props) {
-  let { artist, className, img, isLoading, name, status } = props;
+  let { artist, img, isLoading, name, status } = props;
   const size = useWindowSize();
   let [isInitallyLoadingColors, setIsInitallyLoadingColors] = useState(true);
   let [artistColor, setArtistColor] = useState(undefined);
@@ -57,7 +59,7 @@ export default function CurrentTrack(props) {
   return (
     <Container>
       <CurrentTrackShadow />
-      <Wrapper className={className}>
+      <Wrapper>
         <Left>
           {showSkeleton ? (
             <SkeletonImage
@@ -100,17 +102,21 @@ export default function CurrentTrack(props) {
           </MusicBarWrapper>
         </Right>
       </Wrapper>
-      {getTemporaryLink(name, artist)}
+      {getTemporaryLink(name, artist, trackColor)}
     </Container>
   );
 }
 
-const getTemporaryLink = (name, artist) => {
-  if (nodeEnv !== 'production') {
+const getTemporaryLink = (name, artist, textColor) => {
+  if (nodeEnv !== 'production' && name && artist) {
     return (
-      <a href="#" onClick={() => fetchLyrics(name, artist)}>
-        Get Lyrics
-      </a>
+      <GetLyricsWrapper>
+        <GetLyrics
+          trackTitle={name}
+          artistName={artist}
+          textColor={textColor}
+        />
+      </GetLyricsWrapper>
     );
   }
   return null;
@@ -169,9 +175,8 @@ const setColors = async (
 
 CurrentTrack.propTypes = {
   artist: PropTypes.string,
-  className: PropTypes.string,
   img: PropTypes.string,
-  isLoading: PropTypes.bool,
+  isLoading: PropTypes.bool.isRequired,
   name: PropTypes.string,
   status: PropTypes.string,
 };
