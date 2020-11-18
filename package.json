@@ -47,6 +47,7 @@
     "cookie-parser": "^1.4.1",
     "core-js": "^3.6.5",
     "express": "^4.13.4",
+    "genius-lyrics-fetcher": "file:../genius-lyrics-fetcher",
     "halogenium": "^2.3.0",
     "history": "^1.17.0",
     "html-react-parser": "^0.14.0",

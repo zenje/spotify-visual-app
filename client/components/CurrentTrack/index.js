@@ -25,6 +25,8 @@ import {
   Wrapper,
 } from './style';
 
+const nodeEnv = process.env.NODE_ENV;
+
 export default function CurrentTrack(props) {
   let { artist, className, img, isLoading, name, status } = props;
   const size = useWindowSize();
@@ -98,9 +100,33 @@ export default function CurrentTrack(props) {
           </MusicBarWrapper>
         </Right>
       </Wrapper>
+      {getTemporaryLink(name, artist)}
     </Container>
   );
 }
+
+const getTemporaryLink = (name, artist) => {
+  if (nodeEnv !== 'production') {
+    return (
+      <a href="#" onClick={() => fetchLyrics(name, artist)}>
+        Get Lyrics
+      </a>
+    );
+  }
+  return null;
+};
+
+const fetchLyrics = async (track, artist) => {
+  const response = await fetch(`/api/lyrics/${track}/${artist}`);
+  if (response.status !== 200) {
+    console.log('Unable to find lyrics');
+    //throw Error(body.message);
+  } else {
+    const body = await response.json();
+    console.log('body', body);
+    return body;
+  }
+};
 
 const isPaused = (status, isLoading) => {
   return (

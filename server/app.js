@@ -7,6 +7,7 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const logger = require('morgan');
 const routes = require('./routes');
+const geniusLyrics = require('./api/geniusLyrics');
 
 const port = process.env.PORT || 3000;
 
@@ -53,6 +54,11 @@ app
   .use(bodyParser.urlencoded({ extended: false }))
   .use(express.static(path.resolve(__dirname, '../public')))
   .use('/', routes);
+
+// for json formatting in browser
+app.set('json spaces', 2);
+
+app.use('/api', geniusLyrics);
 
 // important! for making express play nicely with react-router
 app.get('*', (req, res) => {
