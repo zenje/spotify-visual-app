@@ -18,12 +18,12 @@ export default function GetLyrics(props) {
 
 const fetchLyrics = async (trackTitle, artistName) => {
   const response = await fetch(`/api/lyrics/${trackTitle}/${artistName}`);
+  const body = await response.json();
+  //console.log('response', response);
+  console.log('body', body);
   if (response.status !== 200) {
-    console.log('Unable to find lyrics');
-    //throw Error(body.message);
+    console.log(`Unable to find lyrics due to: ${body.error}`);
   } else {
-    const body = await response.json();
-    console.log('body', body);
     return body;
   }
 };

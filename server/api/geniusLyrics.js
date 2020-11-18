@@ -10,7 +10,7 @@ router.get('/lyrics/:track/:artist', async (req, res) => {
   client
     .fetch(track, artist)
     .then((lyrics) => res.status(200).json({ lyrics }))
-    .catch((err) => res.status(404));
+    .catch((error) => res.status(404).send({ error: error.toString() }));
 });
 
 module.exports = router;
