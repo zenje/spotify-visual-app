@@ -7,11 +7,18 @@ const cookieParser = require('cookie-parser');
 const path = require('path');
 const logger = require('morgan');
 const routes = require('./routes');
+const geniusLyrics = require('./api/geniusLyrics');
 
 const port = process.env.PORT || 3000;
 
 // configure the express server
 const app = express();
+
+app.all('/', function (req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+  next();
+});
 
 // if we're developing, use webpack middleware for module hot reloading
 if (process.env.NODE_ENV !== 'production') {
@@ -36,12 +43,22 @@ if (process.env.NODE_ENV !== 'production') {
 
 app.set('port', port);
 app
+  .use(function (req, res, next) {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'X-Requested-With');
+    next();
+  })
   .use(logger('dev'))
   .use(cookieParser())
   .use(bodyParser.json())
   .use(bodyParser.urlencoded({ extended: false }))
   .use(express.static(path.resolve(__dirname, '../public')))
   .use('/', routes);
+
+// for json formatting in browser
+app.set('json spaces', 2);
+
+app.use('/api', geniusLyrics);
 
 // important! for making express play nicely with react-router
 app.get('*', (req, res) => {

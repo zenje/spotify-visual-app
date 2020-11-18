@@ -21,11 +21,11 @@ export const fetchArtistExtract = (artistName, artistIndex, timeRange) => {
         timeRange,
         extract: success,
       };
-      dispatch({ type: types.SPOTIFY_FETCH_ARTIST_SUCCESS, payload });
+      dispatch({ type: types.FETCH_ARTIST_SUCCESS, payload });
       return success;
     }
     function onError(error) {
-      dispatch({ type: types.SPOTIFY_FETCH_ARTIST_FAILURE, error });
+      dispatch({ type: types.FETCH_ARTIST_FAILURE, error });
       return error;
     }
 
@@ -130,15 +130,15 @@ const findArtistPageIdFromSearchResults = (artistName, searchResults) => {
 };
 
 export const loadArtistOverlay = () => {
-  return { type: types.SPOTIFY_FETCH_ARTIST_BEGIN };
+  return { type: types.FETCH_ARTIST_BEGIN };
 };
 
 export const openArtistOverlay = () => {
-  return { type: types.SPOTIFY_FETCH_ARTIST_OPEN };
+  return { type: types.FETCH_ARTIST_OPEN };
 };
 
 export const closeArtistOverlay = () => {
-  return { type: types.SPOTIFY_FETCH_ARTIST_CLOSE };
+  return { type: types.FETCH_ARTIST_CLOSE };
 };
 
 /**

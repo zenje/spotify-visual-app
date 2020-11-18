@@ -10,10 +10,11 @@ import {
   getMyRecentlyPlayedTracks,
   setTokens,
 } from '../../actions/actions';
-import ArtistsGridWrapper from '../ArtistsGridWrapper';
+import BottomMenu from '../BottomMenu';
 import InitialLoader from '../loaders/InitialLoader';
 import Welcome from '../Welcome';
-import { StyledContainer } from './style';
+import { StyledContainer, StyledWrapper } from './style';
+import { IS_LT_600W_700H } from '../../constants';
 
 export default function Main() {
   const { accessToken, refreshToken, setCookies } = useParams();
@@ -22,13 +23,15 @@ export default function Main() {
   const size = useWindowSize();
 
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.user);
-  const currentTrack = useSelector((state) => state.currentTrack);
-  const recentTracks = useSelector((state) => state.recentTracks);
+  const user = useSelector((state) => state.spotify.user);
+  const currentTrack = useSelector((state) => state.spotify.currentTrack);
+  const recentTracks = useSelector((state) => state.spotify.recentTracks);
   const isLoadingCurrentTrack = useSelector(
-    (state) => state.isLoadingCurrentTrack
+    (state) => state.spotify.isLoadingCurrentTrack
   );
-  const isNewCurrentTrack = useSelector((state) => state.isNewCurrentTrack);
+  const isNewCurrentTrack = useSelector(
+    (state) => state.spotify.isNewCurrentTrack
+  );
 
   useEffect(() => {
     // on initial render, show loading bar and delay rendering page for 2s
@@ -68,19 +71,13 @@ export default function Main() {
   }
 
   return (
-    <Parallax pages={4} ref={(ref) => setParallax(ref)}>
-      <ParallaxLayer offset={0}>
-        <Welcome
-          user={display_name}
-          currentTrack={currentTrack}
-          isLoadingCurrentTrack={isLoadingCurrentTrack}
-          recentTracks={recentTracks}
-          parallax={parallax}
-        />
-      </ParallaxLayer>
-      <ParallaxLayer offset={size.height < 415 || size.width < 600 ? 1.45 : 1}>
-        <ArtistsGridWrapper />
-      </ParallaxLayer>
-    </Parallax>
+    <StyledWrapper>
+      <Welcome
+        user={display_name}
+        currentTrack={currentTrack}
+        isLoadingCurrentTrack={isLoadingCurrentTrack}
+        recentTracks={recentTracks}
+      />
+    </StyledWrapper>
   );
 }

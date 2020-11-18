@@ -6,6 +6,9 @@ export const lightTheme = {
     highlight: '#f07a73', // salmon-pink
     text: '#283f3b', // dark-grey-green
   },
+  fonts: {
+    primary: "'Courier Prime', monospace",
+  },
 };
 
 export default lightTheme;

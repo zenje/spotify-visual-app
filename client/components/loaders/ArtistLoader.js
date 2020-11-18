@@ -1,26 +1,30 @@
-import React from 'react';
-import styled from 'styled-components';
+import React, { useContext } from 'react';
+import styled, { ThemeContext } from 'styled-components';
 
 import { BounceLoader } from 'halogenium';
 
 const LoaderDiv = styled.div`
-  display: -webkit-flex;
-  display: flex;
-  align-items: center;
-  webkit-justify-content: center;
-  justify-content: center;
-  z-index: 1;
-  position: fixed;
   width: 100%;
   height: 100%;
+  z-index: 1;
+  position: fixed;
   top: 0;
   left: 0;
 `;
 
+const Loader = styled(BounceLoader)`
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+`;
+
 export default function ArtistLoader() {
+  const themeContext = useContext(ThemeContext);
+  console.log(themeContext);
   return (
     <LoaderDiv>
-      <BounceLoader color="tomato" size="200px" />
+      <Loader color={themeContext.colors.highlight} size="200px" />
     </LoaderDiv>
   );
 }

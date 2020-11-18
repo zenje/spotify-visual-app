@@ -1,36 +1,50 @@
 import styled, { keyframes } from 'styled-components';
 import { useSpring, animated } from 'react-spring';
-import Arrow from '@material-ui/icons/KeyboardArrowDownSharp';
 
 import theme from '../../styles/theme';
-import { CURRENT_TRACK_SIZE } from '../../constants';
+import { CURRENT_TRACK_SIZE, WRAPPER_MAX_WIDTH } from '../../constants';
 import CurrentTrack from '../CurrentTrack';
 import RecentTracks from '../RecentTracks';
 
+const fadeInDown = keyframes`
+  0% {
+     opacity: 0;
+     transform: translateY(-1.5rem);
+  }
+  100% {
+     opacity: 1;
+     transform: translateY(0);
+   }
+   `;
+
 export const Wrapper = styled.div`
-  width: 100%;
+  max-width: ${WRAPPER_MAX_WIDTH};
+  margin: 0 auto;
   height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: space-around;
   text-align: center;
   overflow-wrap: break-word;
 `;
 
-export const WelcomeBanner = animated(styled.div`
-background-color: white;
-  width: 90%;
-  margin-top: 10vh;
-  //background-image: linear-gradient(135deg, ${theme.colors.highlight} 2.38%, #ffffff 2.38%, #ffffff 50%, ${theme.colors.highlight} 50%, ${theme.colors.highlight} 52.38%, #ffffff 52.38%, #ffffff 100%);
-  //background-size: 29.70px 29.70px;
-  //-webkit-box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
-  //-moz-box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
-  //box-shadow: 20px 20px 0px 0px ${theme.colors.highlight};
+export const WelcomeBanner = styled.div`
+  animation: ${fadeInDown} 0.5s ease-in-out;
+  background-color: white;
   color: ${theme.colors.highlight};
+  width: 100%;
+  min-height: 2rem;
   display: flex;
-  flex-direction: row;
   justify-content: center;
-`);
+  margin: 3vh auto;
+  font-size: 1.5rem;
+  @media (min-width: 600px) {
+    font-size: 2rem;
+  }
+  @media (min-width: 768px) {
+    font-size: 3rem;
+    min-height: 3rem;
+  }
+`;
 
 const sparkleBob = keyframes`
   0%, 100% {
@@ -52,31 +66,31 @@ export const getWelcomeAnimation = (width, str) => {
   const getFontSize = () => {
     if (width > 1280) {
       if (strLength < 20) {
-        return '5em';
+        return '5rem';
       } else {
-        return '4em';
+        return '4rem';
       }
     }
     if (width > 768) {
       if (strLength < 20) {
-        return '4em';
+        return '4rem';
       } else {
-        return '3em';
+        return '3rem';
       }
     } else if (width > 600) {
       if (strLength < 20) {
-        return '3em';
+        return '3rem';
       } else {
-        return '2em';
+        return '2rem';
       }
     } else if (width > 375) {
       if (strLength < 20) {
-        return '2em';
+        return '2rem';
       } else {
-        return '1em';
+        return '1rem';
       }
     }
-    return '1em';
+    return '1rem';
   };
 
   return useSpring({
@@ -84,15 +98,19 @@ export const getWelcomeAnimation = (width, str) => {
     fontSize: getFontSize(),
     from: {
       opacity: 0,
-      fontSize: '1em',
+      fontSize: '1rem',
     },
   });
 };
 
-const fadeInDown = keyframes`
+const fadeInDown2 = keyframes`
   0% {
      opacity: 0;
-     transform: translateY(-20px);
+     transform: translateY(-1.5rem);
+  }
+  50% {
+     opacity: 0;
+     transform: translateY(-1.5rem);
   }
   100% {
      opacity: 1;
@@ -101,43 +119,17 @@ const fadeInDown = keyframes`
    `;
 
 export const StyledCurrentTrack = styled(CurrentTrack)`
-  margin: 0 auto;
-  animation: ${fadeInDown} 0.5s ease-in-out;
-`;
-
-const fadeIn = keyframes`
-  0% {
-    opacity: 0;
-  }
-  100% {
-    opacity: 1;
-   }
-   `;
-
-export const CurrentTrackShadow = styled.div`
-  //background-color: ${theme.colors.highlight};
-  background-image: linear-gradient(135deg, #ffffff 2.38%, ${theme.colors.highlight} 2.38%, ${theme.colors.highlight} 50%, #ffffff 50%, #ffffff 52.38%, ${theme.colors.highlight} 52.38%, ${theme.colors.highlight} 100%);
-  background-size: 29.70px 29.70px;
-  margin: 0 auto;
-  ${CURRENT_TRACK_SIZE.SMALL}
-  @media (min-width: 600px) {
-    ${CURRENT_TRACK_SIZE.MEDIUM}
-  }
-  @media (min-width: 768px) {
-    ${CURRENT_TRACK_SIZE.LARGE}
-  }
-  transform: translateX(20px);
-  animation: ${fadeIn} 1s ease-in;
+  animation: ${fadeInDown2} 1s ease-in-out;
 `;
 
 const fadeInUp = keyframes`
   0% {
      opacity: 0;
-     transform: translateY(20px);
+     transform: translateY(1.5rem);
   }
   66% {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(1.5rem);
   }
   100% {
      opacity: 1;
@@ -146,10 +138,10 @@ const fadeInUp = keyframes`
    `;
 
 export const StyledRecentTracks = styled(RecentTracks)`
-  margin: 0 auto;
+  margin: 5vh auto;
   animation: ${fadeInUp} 1.5s ease-in-out;
 `;
 
-export const DownArrow = styled(Arrow)`
-  fill: ${(props) => props.theme.colors.highlight};
+export const BottomMenuWrapper = styled.div`
+  animation: ${fadeInUp} 2s ease-in-out;
 `;

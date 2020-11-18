@@ -1,6 +1,6 @@
 const path = require('path');
 const webpack = require('webpack');
-const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
+//const ReactRefreshWebpackPlugin = require('@pmmmwh/react-refresh-webpack-plugin');
 
 module.exports = {
   mode: 'development',
@@ -27,7 +27,7 @@ module.exports = {
         use: {
           loader: 'babel-loader',
           options: {
-            plugins: [require.resolve('react-refresh/babel')], // for fast refresh plugin
+            //plugins: [require.resolve('react-refresh/babel')], // for fast refresh plugin
             presets: ['@babel/preset-env', '@babel/preset-react'],
           },
         },
@@ -41,8 +41,9 @@ module.exports = {
       'CLIENT_ID',
       'CLIENT_SECRET',
       'REDIRECT_URI',
+      'LAST_FM_API_KEY',
     ]),
     new webpack.HotModuleReplacementPlugin(),
-    new ReactRefreshWebpackPlugin(),
+    //new ReactRefreshWebpackPlugin(),
   ],
 };

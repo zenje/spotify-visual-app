@@ -1,18 +1,26 @@
 import React, { useEffect, useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import PropTypes from 'prop-types';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import * as Vibrant from 'node-vibrant';
+
+import { closeLyricsOverlay } from '../../actions/lyricsActions';
 import {
   CURRENT_TRACK_IMAGE_LENGTH,
   TRACK_STATUS,
   SKELETON_GREY,
 } from '../../constants';
 import Typography from '@material-ui/core/Typography';
+import GetLyrics from '../GetLyrics';
+import LyricsOverlay from '../LyricsOverlay';
 import {
   Artist,
   ArtistTrackWrapper,
   CenteredSkeleton,
+  Container,
+  CurrentTrackShadow,
   getImage,
+  GetLyricsWrapper,
   Left,
   MusicBarWrapper,
   Right,
@@ -23,8 +31,11 @@ import {
   Wrapper,
 } from './style';
 
+const nodeEnv = process.env.NODE_ENV;
+
 export default function CurrentTrack(props) {
-  let { artist, className, img, isLoading, name, status } = props;
+  let { artist, img, isLoading, name, status } = props;
+  const dispatch = useDispatch();
   const size = useWindowSize();
   let [isInitallyLoadingColors, setIsInitallyLoadingColors] = useState(true);
   let [artistColor, setArtistColor] = useState(undefined);
@@ -37,6 +48,12 @@ export default function CurrentTrack(props) {
   const image = getImage(img); // must be called outside of conditional render because it calls useState hooks
   const showSkeleton = isLoading || isInitallyLoadingColors;
   const skeletonImageLength = getSkeletonImageLength(size);
+
+  const lyrics = useSelector((state) => state.lyrics.text || '');
+  const isLyricsOpen = useSelector((state) => state.lyrics.isOverlayOpen);
+  const handleLyricsClose = () => {
+    dispatch(closeLyricsOverlay());
+  };
 
   useEffect(() => {
     setColors(
@@ -51,51 +68,104 @@ export default function CurrentTrack(props) {
   }, [img]);
 
   return (
-    <Wrapper className={className}>
-      <Left>
-        {showSkeleton ? (
-          <SkeletonImage
-            variant="rect"
-            width={skeletonImageLength}
-            height={skeletonImageLength}
-          />
-        ) : (
-          image
-        )}
-      </Left>
-      <Right>
-        {size.width >= 600 ? (
-          showSkeleton ? (
-            <CenteredSkeleton variant="text" width="30%" />
-          ) : (
-            <Status color={statusColor}>&lt; {status} &gt;</Status>
-          )
-        ) : null}
-        <ArtistTrackWrapper>
-          {showSkeleton ? (
-            <Typography variant="h3">
-              <CenteredSkeleton width="50%" />
-            </Typography>
-          ) : (
-            <Artist color={artistColor}>{artist}</Artist>
+    <Container>
+      <CurrentTrackShadow />
+      <Wrapper>
+        <Left>{getTrackArt(showSkeleton, skeletonImageLength, image)}</Left>
+        <Right>
+          {getStatus(showSkeleton, size, statusColor, status)}
+          {getArtistTrackInfo(
+            showSkeleton,
+            artistColor,
+            artist,
+            trackColor,
+            name
           )}
-          {showSkeleton ? (
-            <CenteredSkeleton variant="text" width="45%" />
-          ) : (
-            <Track color={trackColor}>{name}</Track>
+          {getMusicBar(
+            musicBarPrimaryColor,
+            musicBarSecondaryColor,
+            status,
+            showSkeleton
           )}
-        </ArtistTrackWrapper>
-        <MusicBarWrapper>
-          <MusicBar
-            primary={musicBarPrimaryColor}
-            secondary={musicBarSecondaryColor}
-            isPaused={isPaused(status, showSkeleton)}
-          />
-        </MusicBarWrapper>
-      </Right>
-    </Wrapper>
+        </Right>
+      </Wrapper>
+      {getGetLyrics(name, artist, trackColor)}
+      {getLyricsOverlay(handleLyricsClose, lyrics, isLyricsOpen)}
+    </Container>
   );
 }
+
+const getTrackArt = (showSkeleton, skeletonImageLength, image) =>
+  showSkeleton ? (
+    <SkeletonImage
+      variant="rect"
+      width={skeletonImageLength}
+      height={skeletonImageLength}
+    />
+  ) : (
+    image
+  );
+
+const getStatus = (showSkeleton, size, color, status) =>
+  size.width >= 600 ? (
+    showSkeleton ? (
+      <CenteredSkeleton variant="text" width="30%" />
+    ) : (
+      <Status color={color}>&lt; {status} &gt;</Status>
+    )
+  ) : null;
+
+const getArtistTrackInfo = (
+  showSkeleton,
+  artistColor,
+  artist,
+  trackColor,
+  name
+) => (
+  <ArtistTrackWrapper>
+    {showSkeleton ? (
+      <Typography variant="h3">
+        <CenteredSkeleton width="50%" />
+      </Typography>
+    ) : (
+      <Artist color={artistColor}>{artist}</Artist>
+    )}
+    {showSkeleton ? (
+      <CenteredSkeleton variant="text" width="45%" />
+    ) : (
+      <Track color={trackColor}>{name}</Track>
+    )}
+  </ArtistTrackWrapper>
+);
+
+const getMusicBar = (primary, secondary, status, showSkeleton) => (
+  <MusicBarWrapper>
+    <MusicBar
+      primary={primary}
+      secondary={secondary}
+      isPaused={isPaused(status, showSkeleton)}
+    />
+  </MusicBarWrapper>
+);
+
+const getGetLyrics = (name, artist, textColor) => {
+  if (nodeEnv !== 'production' && name && artist) {
+    return (
+      <GetLyricsWrapper>
+        <GetLyrics
+          trackTitle={name}
+          artistName={artist}
+          textColor={textColor}
+        />
+      </GetLyricsWrapper>
+    );
+  }
+  return null;
+};
+
+const getLyricsOverlay = (handleClose, lyrics, isOpen) => (
+  <LyricsOverlay handleClose={handleClose} lyrics={lyrics} open={isOpen} />
+);
 
 const isPaused = (status, isLoading) => {
   return (
@@ -138,9 +208,8 @@ const setColors = async (
 
 CurrentTrack.propTypes = {
   artist: PropTypes.string,
-  className: PropTypes.string,
   img: PropTypes.string,
-  isLoading: PropTypes.bool,
+  isLoading: PropTypes.bool.isRequired,
   name: PropTypes.string,
   status: PropTypes.string,
 };

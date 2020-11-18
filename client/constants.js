@@ -21,6 +21,9 @@ export const TRACK_STATUS = {
 
 export const RECENT_TRACKS_LIMIT = 8;
 
+export const PRIMARY_FONT_URL =
+  'https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&display=swap';
+
 export const CURRENT_TRACK_SIZE = {
   SMALL: `width: 250px;
           height: 350px;`,
@@ -30,6 +33,8 @@ export const CURRENT_TRACK_SIZE = {
           height: 250px;`,
 };
 
+export const WRAPPER_MAX_WIDTH = '50rem';
+
 export const CURRENT_TRACK_IMAGE_LENGTH = {
   SMALL: 250,
   MEDIUM: 280,
@@ -38,4 +43,10 @@ export const CURRENT_TRACK_IMAGE_LENGTH = {
 export const SKELETON_GREY = 'lightgrey';
 
 export const IS_LT_600W = (size) => size.width < 600;
-export const IS_LT_600W_415H = (size) => size.width < 600 || size.height < 415;
+export const IS_LT_600W_700H = (size) => size.width < 600 && size.height < 700;
+
+export const TOOLTIP_TEXT = {
+  TOP_ARTISTS: `Your top artists are updated by Spotify daily, with data being available for three time spans. Click on an artist to learn more.`,
+  TOP_TRACKS: `Your top tracks are updated by Spotify daily, with data being available for three time spans.`,
+  TOP_GENRES: `Your top genres are derived directly from the genres Spotify associates to your top artists. Note: This method may not reflect actual listening trends (e.g., for a user who listens to a lot of lo-fi by various artists, this may not be apparent).`,
+};

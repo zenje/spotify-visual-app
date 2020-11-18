@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import { ParallaxLayer } from 'react-spring/renderprops-addons';
 
 import {
+  BottomMenuWrapper,
   CurrentTrackShadow,
-  DownArrow,
   getWelcomeAnimation,
   Sparkle,
   StyledCurrentTrack as CurrentTrack,
@@ -12,12 +12,9 @@ import {
   WelcomeBanner,
   Wrapper,
 } from './style';
+import BottomMenu from '../BottomMenu';
 import { useWindowSize } from '../../hooks/useWindowSize';
-import {
-  RECENT_TRACKS_LIMIT,
-  IS_LT_600W,
-  IS_LT_600W_415H,
-} from '../../constants';
+import { RECENT_TRACKS_LIMIT, IS_LT_600W } from '../../constants';
 
 export default function Welcome(props) {
   const {
@@ -32,46 +29,46 @@ export default function Welcome(props) {
 
   return (
     <Wrapper>
-      <ParallaxLayer offset={0} speed={1.5}>
-        <WelcomeBanner style={getWelcomeAnimation(size.width, user)}>
-          {`welcome, ${user}`}
-          <Sparkle>✨</Sparkle>
-        </WelcomeBanner>
-      </ParallaxLayer>
-      <ParallaxLayer offset={IS_LT_600W(size) ? 0.23 : 0.29} speed={0.7}>
-        <CurrentTrackShadow />
-      </ParallaxLayer>
-      <ParallaxLayer offset={IS_LT_600W(size) ? 0.2 : 0.26} speed={0.5}>
-        <CurrentTrack
-          artist={artist}
-          name={name}
-          img={img}
-          isLoading={isLoadingCurrentTrack}
-          status={status}
-        />
-      </ParallaxLayer>
-      <ParallaxLayer offset={IS_LT_600W_415H(size) ? 0.99 : 0.65} speed={0.3}>
-        <RecentTracks
-          tracks={recentTracks}
-          trackLimit={getTrackLimit(size.height)}
-        />
-      </ParallaxLayer>
-      <ParallaxLayer offset={IS_LT_600W_415H(size) ? 1.2 : 0.92} speed={0.2}>
-        <DownArrow
-          onClick={() => parallax.scrollTo(IS_LT_600W_415H(size) ? 1.45 : 1)}
-        />
-      </ParallaxLayer>
+      <WelcomeBanner>
+        <div>{`welcome, ${user}`}</div>
+        <Sparkle>✨</Sparkle>
+      </WelcomeBanner>
+      <CurrentTrack
+        artist={artist}
+        name={name}
+        img={img}
+        isLoading={isLoadingCurrentTrack}
+        status={status}
+      />
+      <RecentTracks
+        tracks={recentTracks}
+        trackLimit={getTrackLimit(size.height)}
+      />
+      <BottomMenuWrapper>
+        <BottomMenu />
+      </BottomMenuWrapper>
     </Wrapper>
   );
 }
 
-const getTrackLimit = (height) => {
-  if (height > 800) {
-    return RECENT_TRACKS_LIMIT;
-  } else if (height > 500) {
-    return RECENT_TRACKS_LIMIT - 3;
+const getRecentTracksOffset = (size) => {
+  if (size.width > 600) {
+    return 0.65;
+  } else if (size.height > 700) {
+    return 0.7;
   }
-  return RECENT_TRACKS_LIMIT - 4;
+  return 0.99;
+};
+
+const getTrackLimit = (height) => {
+  if (height > 736) {
+    return RECENT_TRACKS_LIMIT;
+  } else if (height > 700) {
+    return RECENT_TRACKS_LIMIT - 3;
+  } else if (height > 500) {
+    return RECENT_TRACKS_LIMIT - 4;
+  }
+  return RECENT_TRACKS_LIMIT - 5;
 };
 
 Welcome.propTypes = {

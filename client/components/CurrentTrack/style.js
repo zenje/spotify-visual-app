@@ -2,13 +2,30 @@ import React from 'react';
 import styled, { keyframes } from 'styled-components';
 import { animated, useTransition } from 'react-spring';
 import Skeleton from '@material-ui/lab/Skeleton';
+import theme from '../../styles/theme';
 import {
   CURRENT_TRACK_SIZE,
   CURRENT_TRACK_IMAGE_LENGTH,
 } from '../../constants';
 import MusicBar from '../MusicBar';
 
+export const Container = styled.div`
+  position: relative;
+  ${CURRENT_TRACK_SIZE.SMALL}
+  @media (min-width: 600px) {
+    ${CURRENT_TRACK_SIZE.MEDIUM}
+  }
+  @media (min-width: 768px) {
+    ${CURRENT_TRACK_SIZE.LARGE}
+  }
+  margin: 0 auto;
+  padding-bottom: 3%;
+`;
+
 export const Wrapper = styled.div`
+  position: absolute;
+  top: 0;
+  left: 0;
   background-color: white;
   text-align: center;
   display: flex;
@@ -91,7 +108,7 @@ export const Right = styled.div`
 export const Status = styled.div`
   color: ${(props) => props.color || props.theme.colors.text};
   padding: 5% 0;
-  font-size: 0.8em;
+  font-size: 0.8rem;
   animation: ${fadeIn} 2s;
 `;
 
@@ -100,7 +117,7 @@ export const Artist = styled.h3`
   color: ${(props) => props.color || props.theme.colors.secondary};
   text-transform: uppercase;
   @media (min-width: 600px) {
-    font-size: 2em;
+    font-size: 2rem;
   }
   animation: ${fadeIn} 2s;
 `;
@@ -136,11 +153,11 @@ export const MusicBarWrapper = styled.div`
 
 export const StyledMusicBar = styled(MusicBar)`
   margin: 0 auto;
-  width: 2em;
-  height: 2em;
+  width: 2rem;
+  height: 2rem;
   @media (min-width: 600px) {
-    width: 5em;
-    height: 5em;
+    width: 5rem;
+    height: 5rem;
   }
 `;
 
@@ -159,3 +176,42 @@ export const CenteredSkeleton = (props) => {
     </CenteredDiv>
   );
 };
+
+const fadeInDelay = keyframes`
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+   }
+   `;
+
+export const CurrentTrackShadow = styled.div`
+  //background-color: ${theme.colors.highlight};
+  background-image: linear-gradient(135deg, #ffffff 2.38%, ${theme.colors.highlight} 2.38%, ${theme.colors.highlight} 50%, #ffffff 50%, #ffffff 52.38%, ${theme.colors.highlight} 52.38%, ${theme.colors.highlight} 100%);
+  background-size: 29.70px 29.70px;
+  margin: 0 auto;
+  ${CURRENT_TRACK_SIZE.SMALL}
+  @media (min-width: 600px) {
+    ${CURRENT_TRACK_SIZE.MEDIUM}
+  }
+  @media (min-width: 768px) {
+    ${CURRENT_TRACK_SIZE.LARGE}
+  }
+  transform: translate(5%, 5%);
+  animation: ${fadeInDelay} 1.5s ease-in;
+  `;
+
+const slideInRight = keyframes`
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0%); }
+  }
+  `;
+
+export const GetLyricsWrapper = styled.div`
+  transform: translateX(0%);
+  animation: ${slideInRight} 1.5s ease-in-out;
+`;
