@@ -6,14 +6,21 @@ import { Wrapper } from './style';
 const TEXT = 'get lyrics';
 
 export default function GetLyrics(props) {
-  const { artistName, textColor, trackTitle } = props;
+  const { artistName, onClick, textColor, trackTitle } = props;
   return (
+    <Wrapper textColor={textColor}>
+      <a href="#" onClick={onClick}>
+        {TEXT}
+      </a>
+    </Wrapper>
+  );
+  /*return (
     <Wrapper textColor={textColor}>
       <a href="#" onClick={() => fetchLyrics(trackTitle, artistName)}>
         {TEXT}
       </a>
     </Wrapper>
-  );
+  );*/
 }
 
 const fetchLyrics = async (trackTitle, artistName) => {

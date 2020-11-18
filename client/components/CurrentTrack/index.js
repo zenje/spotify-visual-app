@@ -9,6 +9,7 @@ import {
 } from '../../constants';
 import Typography from '@material-ui/core/Typography';
 import GetLyrics from '../GetLyrics';
+import LyricsOverlay from '../LyricsOverlay';
 import {
   Artist,
   ArtistTrackWrapper,
@@ -43,6 +44,15 @@ export default function CurrentTrack(props) {
   const image = getImage(img); // must be called outside of conditional render because it calls useState hooks
   const showSkeleton = isLoading || isInitallyLoadingColors;
   const skeletonImageLength = getSkeletonImageLength(size);
+
+  // temporary
+  const [isOverlayOpen, setIsOverlayOpen] = useState(false);
+  const handleOverlayClose = () => {
+    setIsOverlayOpen(false);
+  };
+  const lyricsOnClick = () => {
+    setIsOverlayOpen(true);
+  };
 
   useEffect(() => {
     setColors(
@@ -102,12 +112,17 @@ export default function CurrentTrack(props) {
           </MusicBarWrapper>
         </Right>
       </Wrapper>
-      {getTemporaryLink(name, artist, trackColor)}
+      {getTemporaryLink(name, artist, trackColor, lyricsOnClick)}
+      <LyricsOverlay
+        open={isOverlayOpen}
+        handleClose={handleOverlayClose}
+        slideDirection={'right'}
+      />
     </Container>
   );
 }
 
-const getTemporaryLink = (name, artist, textColor) => {
+const getTemporaryLink = (name, artist, textColor, onClick) => {
   if (nodeEnv !== 'production' && name && artist) {
     return (
       <GetLyricsWrapper>
@@ -115,6 +130,7 @@ const getTemporaryLink = (name, artist, textColor) => {
           trackTitle={name}
           artistName={artist}
           textColor={textColor}
+          onClick={onClick}
         />
       </GetLyricsWrapper>
     );

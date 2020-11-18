@@ -1,13 +1,11 @@
-import React, { forwardRef, useState, useEffect } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import { makeStyles } from '@material-ui/core/styles';
 import { useSpring, animated, config } from 'react-spring';
 import parse from 'html-react-parser';
 
-import Backdrop from '@material-ui/core/Backdrop';
-import Slide from '@material-ui/core/Slide';
+import OverlayBase from '../OverlayBase';
 import UpArrow from '@material-ui/icons/KeyboardArrowUp';
-import { ArrowWrapper, Overlay, StyledModal } from './style';
+import { ArrowWrapper, Extract } from './style';
 
 export default function ArtistOverlay(props) {
   let { artist, handleClose, open } = props;
@@ -19,47 +17,25 @@ export default function ArtistOverlay(props) {
   }
 
   return (
-    <StyledModal
-      aria-labelledby="modal-title"
-      aria-describedby="modal-description"
-      open={open}
-      onClose={handleClose}
-      closeAfterTransition
-      BackdropComponent={Backdrop}
-      BackdropProps={{
-        timeout: 800,
-      }}
-    >
-      <Slide
-        direction="down"
-        in={open}
-        timeout={800}
-        mountOnEnter
-        unmountOnExit
-      >
-        <Overlay>
-          <div className="overlay-wrapper">
-            <ArrowWrapper>
-              <a onClick={handleClose} style={{ cursor: 'pointer' }}>
-                <UpArrow style={{ verticalAlign: 'middle' }} />
-              </a>
-            </ArrowWrapper>
-            <div>
-              <img src={img} />
-            </div>
-            <div>
-              <h2 id="modal-title">{name}</h2>
-              <span>
-                <b>Followers:</b> <Followers count={followers} />
-              </span>
-              <div className="extract" id="modal-description">
-                {extract}
-              </div>
-            </div>
-          </div>
-        </Overlay>
-      </Slide>
-    </StyledModal>
+    <OverlayBase open={open} handleClose={handleClose}>
+      <>
+        <ArrowWrapper>
+          <a onClick={handleClose} style={{ cursor: 'pointer' }}>
+            <UpArrow style={{ verticalAlign: 'middle' }} />
+          </a>
+        </ArrowWrapper>
+        <div>
+          <img src={img} />
+        </div>
+        <div>
+          <h2 id="modal-title">{name}</h2>
+          <span>
+            <b>Followers:</b> <Followers count={followers} />
+          </span>
+          <Extract id="modal-description">{extract}</Extract>
+        </div>
+      </>
+    </OverlayBase>
   );
 }
 
@@ -74,4 +50,15 @@ const Followers = ({ count }) => {
       {props.number.interpolate((num) => Math.floor(num).toLocaleString())}
     </animated.span>
   );
+};
+
+ArtistOverlay.propTypes = {
+  artist: PropTypes.shape({
+    extract: PropTypes.string,
+    followers: PropTypes.number,
+    img: PropTypes.string,
+    name: PropTypes.string,
+  }).isRequired,
+  handleClose: PropTypes.func.isRequired,
+  open: PropTypes.bool.isRequired,
 };
