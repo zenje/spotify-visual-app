@@ -206,12 +206,12 @@ export const CurrentTrackShadow = styled.div`
   `;
 
 const slideInRight = keyframes`
-    0% { transform: translateX(-100%); }
+    0% { transform: translateX(-50%); }
     100% { transform: translateX(0%); }
   }
   `;
 
 export const GetLyricsWrapper = styled.div`
   transform: translateX(0%);
-  animation: ${slideInRight} 3s ease-in-out;
+  animation: ${slideInRight} 1.5s ease-in-out;
 `;
