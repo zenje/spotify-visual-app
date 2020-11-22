@@ -4,10 +4,11 @@ export const getLyrics = (trackTitle, artistName) => {
   return async (dispatch, getState) => {
     const state = getState();
 
-    function onSuccess(success) {
-      const payload = { artistName, lyrics: success, trackTitle };
+    function onSuccess(result) {
+      let img = result.songImg;
+      const payload = { artistName, img, lyrics: result.lyrics, trackTitle };
       dispatch(doLyricsSuccess(payload));
-      return success;
+      return result;
     }
     function onError(error) {
       dispatch(doLyricsFailure(error));
@@ -34,7 +35,7 @@ export const getLyrics = (trackTitle, artistName) => {
     try {
       const result = await fetchLyrics(trackTitle, artistName);
       if (result && result.lyrics) {
-        return onSuccess(result.lyrics);
+        return onSuccess(result);
       }
     } catch (error) {
       console.log(error);

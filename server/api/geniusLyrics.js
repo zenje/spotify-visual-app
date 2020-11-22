@@ -9,7 +9,7 @@ router.get('/lyrics/:track/:artist', async (req, res) => {
   const client = new GeniusFetcher.Client(ACCESS_TOKEN);
   client
     .fetch(track, artist)
-    .then((lyrics) => res.status(200).json({ lyrics }))
+    .then((result) => res.status(200).json(result))
     .catch((error) => res.status(404).send({ error: error.toString() }));
 });
 

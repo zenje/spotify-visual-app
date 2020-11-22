@@ -50,6 +50,7 @@ export default function CurrentTrack(props) {
   const skeletonImageLength = getSkeletonImageLength(size);
 
   const lyrics = useSelector((state) => state.lyrics.text || '');
+  const lyricsImg = useSelector((state) => state.lyrics.img || undefined);
   const isLyricsOpen = useSelector((state) => state.lyrics.isOverlayOpen);
   const handleLyricsClose = () => {
     dispatch(closeLyricsOverlay());
@@ -90,7 +91,13 @@ export default function CurrentTrack(props) {
         </Right>
       </Wrapper>
       {getGetLyrics(name, artist, trackColor)}
-      {getLyricsOverlay(handleLyricsClose, lyrics, isLyricsOpen)}
+      {getLyricsOverlay(
+        handleLyricsClose,
+        lyrics,
+        lyricsImg,
+        isLyricsOpen,
+        trackColor
+      )}
     </Container>
   );
 }
@@ -163,8 +170,14 @@ const getGetLyrics = (name, artist, textColor) => {
   return null;
 };
 
-const getLyricsOverlay = (handleClose, lyrics, isOpen) => (
-  <LyricsOverlay handleClose={handleClose} lyrics={lyrics} open={isOpen} />
+const getLyricsOverlay = (handleClose, lyrics, img, isOpen, textColor) => (
+  <LyricsOverlay
+    handleClose={handleClose}
+    img={img}
+    lyrics={lyrics}
+    open={isOpen}
+    textColor={textColor}
+  />
 );
 
 const isPaused = (status, isLoading) => {
