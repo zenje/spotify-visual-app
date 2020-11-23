@@ -36,8 +36,6 @@ import {
   Wrapper,
 } from './style';
 
-const nodeEnv = process.env.NODE_ENV;
-
 export default function CurrentTrack(props) {
   let { artist, img, isLoading, name, status } = props;
   const dispatch = useDispatch();
@@ -184,18 +182,11 @@ const getMusicBar = (primary, secondary, status, showSkeleton) => (
 );
 
 const getGetLyrics = (name, artist, textColor) => {
-  if (nodeEnv !== 'production' && name && artist) {
-    return (
-      <GetLyricsWrapper>
-        <GetLyrics
-          trackTitle={name}
-          artistName={artist}
-          textColor={textColor}
-        />
-      </GetLyricsWrapper>
-    );
-  }
-  return null;
+  return (
+    <GetLyricsWrapper>
+      <GetLyrics trackTitle={name} artistName={artist} textColor={textColor} />
+    </GetLyricsWrapper>
+  );
 };
 
 const getLyricsOverlay = (handleClose, lyrics, img, isOpen, textColor) => (
