@@ -10,17 +10,19 @@ export const getArtistInfo = (artistName, artistIndex, timeRange) => {
   return async (dispatch, getState) => {
     const state = getState();
 
-    function onSuccess(success) {
+    function onSuccess(result) {
       const artistInfo = state.spotify.topArtists[timeRange][artistIndex];
       const payload = {
         artistIndex,
         artistInfo,
         artistName,
         timeRange,
-        extract: success,
+        extract: result.extract,
+        img: result.img,
       };
+      console.log('PAYLOAD', payload);
       dispatch(doArtistSuccess(payload));
-      return success;
+      return result;
     }
     function onError(error) {
       dispatch(doArtistFailure(error));
@@ -37,13 +39,24 @@ export const getArtistInfo = (artistName, artistIndex, timeRange) => {
     }
 
     try {
-      const data = await fetchArtistInfo(artistName);
-      if (data) {
-        const summary = getSummaryFromArtistData(data);
-        return onSuccess(summary);
-      }
+      const data = await Promise.all([
+        fetchArtistInfo(artistName),
+        fetchArtistFromGenius(artistName).catch(() => null),
+      ]).then((values) => {
+        let result = {};
+        if (values[0]) {
+          result.extract = getSummaryFromArtistData(values[0]);
+        } else {
+          throw new Error(`Could not get artist summary`);
+        }
+        if (values[1]) {
+          result.img = values[1].artistImg;
+        }
+        return result;
+      });
+      return onSuccess(data);
     } catch (error) {
-      console.log(error);
+      console.log(error.toString());
       onError(error);
     }
 
@@ -90,33 +103,19 @@ const fetchArtistInfo = async (artistName) => {
   artistName = encodeURIComponent(artistName);
   const pageEndpoint = `${LAST_FM_ARTIST_GET_INFO}&artist=${artistName}&api_key=${process.env.LAST_FM_API_KEY}&format=json`;
   console.log(pageEndpoint);
-  return await fetch(pageEndpoint, { mode: 'cors' })
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('LAST FM');
-      console.log(data);
-      return data;
-    })
-    .catch((e) => {
-      console.log('An error occurred ' + e);
-      console.log(e);
-    });
+  return await fetch(pageEndpoint, { mode: 'cors' }).then((response) =>
+    response.json()
+  );
 };
 
-/*export const getArtist = async (artistName) => {
-  const pageEndpoint = `${LAST_FM_ARTIST_GET_INFO}&artist=${artistName}&api_key=${process.env.LAST_FM_API_KEY}&format=json`;
-  return await fetch(pageEndpoint)
-    .then((response) => response.json())
-    .then((data) => {
-      console.log('LAST FM');
-      console.log(data);
-      console.log(data.artist.tags.tag);
-      if (data && data.artist && data.artist.tags && data.artist.tags.tag) {
-        data.artist.tags.tag.map(item => item.name).join(", ")
-      }
-    })
-    .catch((e) => console.log('An error occurred ' + e));
-  };*/
+const fetchArtistFromGenius = async (artistName) => {
+  const response = await fetch(`/api/genius/${artistName}`);
+  const result = await response.json();
+  if (response.status !== 200) {
+    throw new Error(`Unable to find artist due to: ${result.error}`);
+  }
+  return result;
+};
 
 const loadArtistOverlay = () => {
   return { type: types.FETCH_ARTIST_BEGIN };

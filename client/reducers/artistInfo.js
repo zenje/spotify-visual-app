@@ -5,7 +5,7 @@ const initialState = {
   isArtistOverlayOpen: false,
   selectedArtist: {
     name: null,
-    image: null,
+    img: null,
     extract: null,
     followers: null,
   },
@@ -23,6 +23,7 @@ export default function reduce(state = initialState, action) {
         artistName,
         extract,
         timeRange,
+        img,
       } = action.payload;
       return Object.assign({}, state, {
         isArtistLoading: false,
@@ -30,7 +31,7 @@ export default function reduce(state = initialState, action) {
         selectedArtist: {
           name: artistName,
           extract,
-          img: artistInfo.img,
+          img: img ? img : artistInfo.img,
           followers: artistInfo.followers,
         },
       });

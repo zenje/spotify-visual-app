@@ -47,7 +47,7 @@ export const getLyrics = (trackTitle, artistName) => {
 };
 
 const fetchLyrics = async (trackTitle, artistName) => {
-  const response = await fetch(`/api/lyrics/${trackTitle}/${artistName}`);
+  const response = await fetch(`/api/genius/${trackTitle}/${artistName}`);
   const result = await response.json();
   if (response.status !== 200) {
     console.log(`Unable to find lyrics due to: ${result.error}`);
