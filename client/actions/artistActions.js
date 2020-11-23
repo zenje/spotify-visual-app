@@ -6,21 +6,25 @@ import linkifyHtml from 'linkifyjs/html';
 const LAST_FM_ARTIST_GET_INFO =
   'https://ws.audioscrobbler.com/2.0/?method=artist.getinfo';
 
-export const getArtistInfo = (artistName, artistIndex, timeRange) => {
+export const getArtistInfo = (
+  artistName,
+  artistIndex,
+  timeRange,
+  trackTitle,
+  fallbackImg
+) => {
   return async (dispatch, getState) => {
     const state = getState();
 
     function onSuccess(result) {
-      const artistInfo = state.spotify.topArtists[timeRange][artistIndex];
       const payload = {
-        artistIndex,
-        artistInfo,
         artistName,
-        timeRange,
         extract: result.extract,
-        img: result.img,
+        img: result.img ? result.img : fallbackImg,
       };
-      console.log('PAYLOAD', payload);
+      if (artistIndex && timeRange) {
+        payload.artistInfo = state.spotify.topArtists[timeRange][artistIndex];
+      }
       dispatch(doArtistSuccess(payload));
       return result;
     }
@@ -41,7 +45,7 @@ export const getArtistInfo = (artistName, artistIndex, timeRange) => {
     try {
       const data = await Promise.all([
         fetchArtistInfo(artistName),
-        fetchArtistFromGenius(artistName).catch(() => null),
+        fetchArtistFromGenius(artistName, trackTitle).catch(() => null),
       ]).then((values) => {
         let result = {};
         if (values[0]) {
@@ -63,6 +67,10 @@ export const getArtistInfo = (artistName, artistIndex, timeRange) => {
     return onError('Artist info not found');
   };
 };
+
+// use track + artist combo when possible to have higher effectiveness of finding correct artist
+export const getArtistInfoUsingTrack = (artistName, trackTitle, fallbackImg) =>
+  getArtistInfo(artistName, undefined, undefined, trackTitle, fallbackImg);
 
 const getSummaryFromArtistData = (data) => {
   function sanitizeSummary(summary) {
@@ -108,8 +116,11 @@ const fetchArtistInfo = async (artistName) => {
   );
 };
 
-const fetchArtistFromGenius = async (artistName) => {
-  const response = await fetch(`/api/genius/${artistName}`);
+const fetchArtistFromGenius = async (artistName, trackTitle) => {
+  let apiEndpoint = trackTitle
+    ? `/api/genius/${trackTitle}/${artistName}`
+    : `/api/genius/${artistName}`;
+  const response = await fetch(apiEndpoint);
   const result = await response.json();
   if (response.status !== 200) {
     throw new Error(`Unable to find artist due to: ${result.error}`);

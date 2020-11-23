@@ -29,9 +29,11 @@ export default function ArtistOverlay(props) {
         {img ? <ImageLoader img={img} isVisible={open} /> : null}
         <div>
           <h2 id="modal-title">{name}</h2>
-          <span>
-            <b>Followers:</b> <Followers count={followers} />
-          </span>
+          {followers ? (
+            <span>
+              <b>Followers:</b> <Followers count={followers} />
+            </span>
+          ) : null}
           <Extract id="modal-description">{extract}</Extract>
         </div>
       </>
