@@ -5,7 +5,7 @@ const initialState = {
   isArtistOverlayOpen: false,
   selectedArtist: {
     name: null,
-    image: null,
+    img: null,
     extract: null,
     followers: null,
   },
@@ -17,21 +17,15 @@ export default function reduce(state = initialState, action) {
       return Object.assign({}, state, { isArtistLoading: true });
 
     case types.FETCH_ARTIST_SUCCESS: {
-      const {
-        artistIndex,
-        artistInfo,
-        artistName,
-        extract,
-        timeRange,
-      } = action.payload;
+      const { artistInfo, artistName, extract, img } = action.payload;
       return Object.assign({}, state, {
         isArtistLoading: false,
         isArtistOverlayOpen: true,
         selectedArtist: {
           name: artistName,
           extract,
-          img: artistInfo.img,
-          followers: artistInfo.followers,
+          img: img ? img : artistInfo ? artistInfo.img : undefined,
+          followers: artistInfo ? artistInfo.followers : undefined,
         },
       });
     }

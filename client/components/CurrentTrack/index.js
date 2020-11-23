@@ -4,6 +4,10 @@ import PropTypes from 'prop-types';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import * as Vibrant from 'node-vibrant';
 
+import {
+  closeArtistOverlay,
+  getArtistInfoUsingTrack,
+} from '../../actions/artistActions';
 import { closeLyricsOverlay } from '../../actions/lyricsActions';
 import {
   CURRENT_TRACK_IMAGE_LENGTH,
@@ -11,6 +15,7 @@ import {
   SKELETON_GREY,
 } from '../../constants';
 import Typography from '@material-ui/core/Typography';
+import ArtistOverlay from '../ArtistOverlay';
 import GetLyrics from '../GetLyrics';
 import LyricsOverlay from '../LyricsOverlay';
 import {
@@ -31,8 +36,6 @@ import {
   Wrapper,
 } from './style';
 
-const nodeEnv = process.env.NODE_ENV;
-
 export default function CurrentTrack(props) {
   let { artist, img, isLoading, name, status } = props;
   const dispatch = useDispatch();
@@ -50,6 +53,7 @@ export default function CurrentTrack(props) {
   const skeletonImageLength = getSkeletonImageLength(size);
 
   const lyrics = useSelector((state) => state.lyrics.text || '');
+  const lyricsImg = useSelector((state) => state.lyrics.img || undefined);
   const isLyricsOpen = useSelector((state) => state.lyrics.isOverlayOpen);
   const handleLyricsClose = () => {
     dispatch(closeLyricsOverlay());
@@ -67,31 +71,50 @@ export default function CurrentTrack(props) {
     );
   }, [img]);
 
+  const isArtistOverlayOpen = useSelector(
+    (state) => state.artistInfo.isArtistOverlayOpen
+  );
+  const artistInfo = useSelector((state) => state.artistInfo.selectedArtist);
+  const handleArtistClose = () => {
+    dispatch(closeArtistOverlay());
+  };
+
   return (
-    <Container>
-      <CurrentTrackShadow />
-      <Wrapper>
-        <Left>{getTrackArt(showSkeleton, skeletonImageLength, image)}</Left>
-        <Right>
-          {getStatus(showSkeleton, size, statusColor, status)}
-          {getArtistTrackInfo(
-            showSkeleton,
-            artistColor,
-            artist,
-            trackColor,
-            name
-          )}
-          {getMusicBar(
-            musicBarPrimaryColor,
-            musicBarSecondaryColor,
-            status,
-            showSkeleton
-          )}
-        </Right>
-      </Wrapper>
-      {getGetLyrics(name, artist, trackColor)}
-      {getLyricsOverlay(handleLyricsClose, lyrics, isLyricsOpen)}
-    </Container>
+    <>
+      <Container>
+        <CurrentTrackShadow />
+        <Wrapper>
+          <Left>{getTrackArt(showSkeleton, skeletonImageLength, image)}</Left>
+          <Right>
+            {getStatus(showSkeleton, size, statusColor, status)}
+            {getArtistTrackInfo(
+              showSkeleton,
+              artistColor,
+              artist,
+              trackColor,
+              name,
+              img,
+              dispatch
+            )}
+            {getMusicBar(
+              musicBarPrimaryColor,
+              musicBarSecondaryColor,
+              status,
+              showSkeleton
+            )}
+          </Right>
+        </Wrapper>
+        {getGetLyrics(name, artist, trackColor)}
+        {getLyricsOverlay(
+          handleLyricsClose,
+          lyrics,
+          lyricsImg,
+          isLyricsOpen,
+          trackColor
+        )}
+        {getArtistOverlay(artistInfo, isArtistOverlayOpen, handleArtistClose)}
+      </Container>
+    </>
   );
 }
 
@@ -120,9 +143,19 @@ const getArtistTrackInfo = (
   artistColor,
   artist,
   trackColor,
-  name
+  name,
+  img,
+  dispatch
 ) => (
-  <ArtistTrackWrapper>
+  <ArtistTrackWrapper
+    onClick={
+      showSkeleton
+        ? undefined
+        : () => {
+            dispatch(getArtistInfoUsingTrack(artist, name, img));
+          }
+    }
+  >
     {showSkeleton ? (
       <Typography variant="h3">
         <CenteredSkeleton width="50%" />
@@ -149,22 +182,29 @@ const getMusicBar = (primary, secondary, status, showSkeleton) => (
 );
 
 const getGetLyrics = (name, artist, textColor) => {
-  if (nodeEnv !== 'production' && name && artist) {
-    return (
-      <GetLyricsWrapper>
-        <GetLyrics
-          trackTitle={name}
-          artistName={artist}
-          textColor={textColor}
-        />
-      </GetLyricsWrapper>
-    );
-  }
-  return null;
+  return (
+    <GetLyricsWrapper>
+      <GetLyrics trackTitle={name} artistName={artist} textColor={textColor} />
+    </GetLyricsWrapper>
+  );
 };
 
-const getLyricsOverlay = (handleClose, lyrics, isOpen) => (
-  <LyricsOverlay handleClose={handleClose} lyrics={lyrics} open={isOpen} />
+const getLyricsOverlay = (handleClose, lyrics, img, isOpen, textColor) => (
+  <LyricsOverlay
+    handleClose={handleClose}
+    img={img}
+    lyrics={lyrics}
+    open={isOpen}
+    textColor={textColor}
+  />
+);
+
+const getArtistOverlay = (artist, isArtistOverlayOpen, handleArtistClose) => (
+  <ArtistOverlay
+    open={isArtistOverlayOpen}
+    handleClose={handleArtistClose}
+    artist={artist}
+  />
 );
 
 const isPaused = (status, isLoading) => {

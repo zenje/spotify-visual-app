@@ -1,20 +1,28 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 
+import ImageLoader from '../ImageLoader';
 import OverlayBase from '../OverlayBase';
+import { useWindowSize } from '../../hooks/useWindowSize';
+import { Image, Lyrics, Wrapper } from './style';
 
 export default function LyricsOverlay(props) {
-  let { handleClose, lyrics, open } = props;
+  const { handleClose, img, lyrics, open, textColor } = props;
 
   return (
     <OverlayBase open={open} handleClose={handleClose} slideDirection={'right'}>
-      <div>{lyrics}</div>
+      <Wrapper>
+        {img ? <ImageLoader img={img} isVisible={open} /> : null}
+        <Lyrics textColor={textColor}>{lyrics}</Lyrics>
+      </Wrapper>
     </OverlayBase>
   );
 }
 
 LyricsOverlay.propTypes = {
   handleClose: PropTypes.func.isRequired,
+  img: PropTypes.string,
   lyrics: PropTypes.string.isRequired,
   open: PropTypes.bool.isRequired,
+  textColor: PropTypes.string,
 };

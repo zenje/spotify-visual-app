@@ -3,9 +3,11 @@ import PropTypes from 'prop-types';
 import { useSpring, animated, config } from 'react-spring';
 import parse from 'html-react-parser';
 
+import ImageLoader from '../ImageLoader';
 import OverlayBase from '../OverlayBase';
 import UpArrow from '@material-ui/icons/KeyboardArrowUp';
-import { ArrowWrapper, Extract } from './style';
+import { useWindowSize } from '../../hooks/useWindowSize';
+import { ArrowWrapper, Extract, Image } from './style';
 
 export default function ArtistOverlay(props) {
   let { artist, handleClose, open } = props;
@@ -24,14 +26,14 @@ export default function ArtistOverlay(props) {
             <UpArrow style={{ verticalAlign: 'middle' }} />
           </a>
         </ArrowWrapper>
-        <div>
-          <img src={img} />
-        </div>
+        {img ? <ImageLoader img={img} isVisible={open} /> : null}
         <div>
           <h2 id="modal-title">{name}</h2>
-          <span>
-            <b>Followers:</b> <Followers count={followers} />
-          </span>
+          {followers ? (
+            <span>
+              <b>Followers:</b> <Followers count={followers} />
+            </span>
+          ) : null}
           <Extract id="modal-description">{extract}</Extract>
         </div>
       </>

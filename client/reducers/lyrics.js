@@ -2,6 +2,7 @@ import * as types from '../actions/actionTypes';
 
 const initialState = {
   artistName: null,
+  img: null,
   isLoading: false,
   isOverlayOpen: false,
   text: null,
@@ -14,9 +15,10 @@ export default function reduce(state = initialState, action) {
       return Object.assign({}, state, { isLoading: true });
 
     case types.FETCH_LYRICS_SUCCESS: {
-      const { artistName, lyrics, trackTitle } = action.payload;
+      const { artistName, img, lyrics, trackTitle } = action.payload;
       return Object.assign({}, state, {
         artistName,
+        img,
         isLoading: false,
         isOverlayOpen: true,
         text: lyrics,
