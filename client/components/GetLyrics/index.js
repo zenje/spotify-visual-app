@@ -8,15 +8,18 @@ import { Wrapper } from './style';
 const TEXT = 'get lyrics';
 
 export default function GetLyrics(props) {
-  const { artistName, textColor, trackTitle } = props;
+  const { artistName, onClick, textColor, trackTitle } = props;
   const dispatch = useDispatch();
 
-  const onClick = () => {
+  const onClickFn = () => {
+    if (onClick) {
+      onClick();
+    }
     dispatch(getLyrics(trackTitle, artistName));
   };
   return (
     <Wrapper textColor={textColor}>
-      <a href="#" onClick={onClick}>
+      <a href="#" onClick={onClickFn}>
         {TEXT}
       </a>
     </Wrapper>

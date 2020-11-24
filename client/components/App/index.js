@@ -9,16 +9,18 @@ import {
 } from 'react-router-dom';
 import { useTransition } from 'react-spring';
 import Cookies from 'js-cookie';
+import loadable from '@loadable/component';
 
-import ArtistLoader from '../loaders/ArtistLoader';
-import ArtistsGrid from '../ArtistsGrid';
-import Login from '../Login';
-import Main from '../Main';
-import TimeRangeWrapper from '../TimeRangeWrapper';
 import { TOOLTIP_TEXT } from '../../constants';
-import TopGenres from '../TopGenres';
-import TopTracks from '../TopTracks';
 import { Wrapper } from './style';
+
+const ArtistLoader = loadable(() => import('../loaders/ArtistLoader'));
+const ArtistsGrid = loadable(() => import('../ArtistsGrid'));
+const Login = loadable(() => import('../Login'));
+const Main = loadable(() => import('../Main'));
+const TimeRangeWrapper = loadable(() => import('../TimeRangeWrapper'));
+const TopGenres = loadable(() => import('../TopGenres'));
+const TopTracks = loadable(() => import('../TopTracks'));
 
 export default function App() {
   const accessToken = Cookies.get('spotifyAccessToken');
@@ -35,6 +37,10 @@ export default function App() {
   const isArtistLoading = useSelector(
     (state) => state.artistInfo.isArtistLoading
   );
+
+  if (location.pathname.startsWith('/user')) {
+    TimeRangeWrapper.preload();
+  }
 
   return (
     <>

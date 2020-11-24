@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
+import loadable from '@loadable/component';
 
-import ImageLoader from '../ImageLoader';
 import OverlayBase from '../OverlayBase';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { Image, Lyrics, Wrapper } from './style';
+
+const ImageLoader = loadable(() => import('../ImageLoader'));
 
 export default function LyricsOverlay(props) {
   const { handleClose, img, lyrics, open, textColor } = props;
