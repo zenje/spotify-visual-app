@@ -20,6 +20,7 @@ export const Overlay = styled.div`
   display: flex;
   flex-direction: column;
   transform: translate3d(0px, 50px, 0px);
+  color: ${(props) => props.theme.colors.text};
   img {
     max-width: 30rem;
     height: auto;

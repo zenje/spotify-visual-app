@@ -37,12 +37,10 @@ export const getLyrics = (trackTitle, artistName) => {
       if (result && result.lyrics) {
         return onSuccess(result);
       }
+      throw new Error(getErrorMsg(trackTitle, artistName));
     } catch (error) {
-      console.log(error);
-      onError(error);
+      return onError(error.toString());
     }
-
-    return onError('Lyrics not found');
   };
 };
 
@@ -50,10 +48,13 @@ const fetchLyrics = async (trackTitle, artistName) => {
   const response = await fetch(`/api/genius/${trackTitle}/${artistName}`);
   const result = await response.json();
   if (response.status !== 200) {
-    console.log(`Unable to find lyrics due to: ${result.error}`);
-    throw new Error(`Unable to find lyrics due to: ${result.error}`);
+    throw new Error(getErrorMsg(trackTitle, artistName));
   }
   return result;
+};
+
+const getErrorMsg = (trackTitle, artistName) => {
+  return `Unable to find lyrics for track [${trackTitle}] for [${artistName}] :(\n\nIs this an instrumental track?`;
 };
 
 const loadLyricsOverlay = () => {
@@ -64,8 +65,8 @@ const doLyricsSuccess = (payload) => {
   return { type: types.FETCH_LYRICS_SUCCESS, payload };
 };
 
-const doLyricsFailure = (payload) => {
-  return { type: types.FETCH_LYRICS_FAILURE, payload };
+const doLyricsFailure = (error) => {
+  return { type: types.FETCH_LYRICS_FAILURE, error };
 };
 
 export const openLyricsOverlay = () => {

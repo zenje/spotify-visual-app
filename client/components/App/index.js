@@ -16,6 +16,7 @@ import { Wrapper } from './style';
 
 const ArtistLoader = loadable(() => import('../loaders/ArtistLoader'));
 const ArtistsGrid = loadable(() => import('../ArtistsGrid'));
+const ErrorDialog = loadable(() => import('../ErrorDialog'));
 const Login = loadable(() => import('../Login'));
 const Main = loadable(() => import('../Main'));
 const TimeRangeWrapper = loadable(() => import('../TimeRangeWrapper'));
@@ -45,6 +46,7 @@ export default function App() {
   return (
     <>
       {isArtistLoading && <ArtistLoader />}
+      <ErrorDialog />
       {transitions.map(({ item: location, props, key }) => (
         <Wrapper style={{ ...props }} key={key}>
           <Switch location={location}>
