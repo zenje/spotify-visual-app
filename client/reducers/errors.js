@@ -14,11 +14,8 @@ export default function reduce(state = initialState, action) {
       isOpen: true,
     };
   } else if (type === types.HIDE_ERROR) {
+    // keep error in state so when ErrorDialog closes, the transition is smooth
     return Object.assign({}, state, { isOpen: false });
-    /*return {
-      error: null,
-      isOpen: false
-    }*/
   }
 
   return state;

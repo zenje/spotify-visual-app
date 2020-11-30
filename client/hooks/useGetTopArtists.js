@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getTopArtists } from '../actions/actions';
+import { getTopArtists } from '../actions/spotifyActions';
 
 export const useGetTopArtists = (timeRange) => {
   const dispatch = useDispatch();

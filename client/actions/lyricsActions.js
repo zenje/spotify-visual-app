@@ -37,9 +37,9 @@ export const getLyrics = (trackTitle, artistName) => {
       if (result && result.lyrics) {
         return onSuccess(result);
       }
-      throw new Error(getErrorMsg(trackTitle, artistName));
+      throw new Error();
     } catch (error) {
-      return onError(error.toString());
+      return onError(getErrorMsg(trackTitle, artistName));
     }
   };
 };
@@ -48,7 +48,7 @@ const fetchLyrics = async (trackTitle, artistName) => {
   const response = await fetch(`/api/genius/${trackTitle}/${artistName}`);
   const result = await response.json();
   if (response.status !== 200) {
-    throw new Error(getErrorMsg(trackTitle, artistName));
+    throw new Error();
   }
   return result;
 };

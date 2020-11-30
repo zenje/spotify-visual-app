@@ -51,7 +51,7 @@ export const getArtistInfo = (
         if (values[0]) {
           result.extract = getSummaryFromArtistData(values[0]);
         } else {
-          throw new Error(`Could not get artist summary`);
+          throw new Error();
         }
         if (values[1]) {
           result.img = values[1].artistImg;
@@ -60,11 +60,8 @@ export const getArtistInfo = (
       });
       return onSuccess(data);
     } catch (error) {
-      console.log(error.toString());
-      onError(error);
+      return onError(getErrorMsg(artistName));
     }
-
-    return onError('Artist info not found');
   };
 };
 
@@ -123,9 +120,13 @@ const fetchArtistFromGenius = async (artistName, trackTitle) => {
   const response = await fetch(apiEndpoint);
   const result = await response.json();
   if (response.status !== 200) {
-    throw new Error(`Unable to find artist due to: ${result.error}`);
+    throw new Error();
   }
   return result;
+};
+
+const getErrorMsg = (artistName) => {
+  return `Could not get artist summary for [${artistName}] :(`;
 };
 
 const loadArtistOverlay = () => {
@@ -136,8 +137,8 @@ const doArtistSuccess = (payload) => {
   return { type: types.FETCH_ARTIST_SUCCESS, payload };
 };
 
-const doArtistFailure = (payload) => {
-  return { type: types.FETCH_ARTIST_FAILURE, payload };
+const doArtistFailure = (error) => {
+  return { type: types.FETCH_ARTIST_FAILURE, error };
 };
 
 export const openArtistOverlay = () => {

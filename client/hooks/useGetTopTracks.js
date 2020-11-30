@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 
-import { getTopTracks } from '../actions/actions';
+import { getTopTracks } from '../actions/spotifyActions';
 
 export const useGetTopTracks = (timeRange) => {
   const dispatch = useDispatch();
