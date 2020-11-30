@@ -14,7 +14,7 @@ import loadable from '@loadable/component';
 import { TOOLTIP_TEXT } from '../../constants';
 import { Wrapper } from './style';
 
-const ArtistLoader = loadable(() => import('../loaders/ArtistLoader'));
+const CircleLoader = loadable(() => import('../loaders/CircleLoader'));
 const ArtistsGrid = loadable(() => import('../ArtistsGrid'));
 const ErrorDialog = loadable(() => import('../ErrorDialog'));
 const Login = loadable(() => import('../Login'));
@@ -35,8 +35,8 @@ export default function App() {
     enter: { opacity: 1, transform: 'translate3d(0, 0%,0)' },
     leave: { opacity: 0, transform: 'translate3d(0, 100%,0)' },
   });
-  const isArtistLoading = useSelector(
-    (state) => state.artistInfo.isArtistLoading
+  const isLoading = useSelector(
+    (state) => state.artistInfo.isLoading || state.lyrics.isLoading
   );
 
   if (location.pathname.startsWith('/user')) {
@@ -45,7 +45,7 @@ export default function App() {
 
   return (
     <>
-      {isArtistLoading && <ArtistLoader />}
+      {isLoading && <CircleLoader />}
       <ErrorDialog />
       {transitions.map(({ item: location, props, key }) => (
         <Wrapper style={{ ...props }} key={key}>

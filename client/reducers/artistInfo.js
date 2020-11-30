@@ -1,7 +1,7 @@
 import * as types from '../actions/actionTypes';
 
 const initialState = {
-  isArtistLoading: false,
+  isLoading: false,
   isArtistOverlayOpen: false,
   selectedArtist: {
     name: null,
@@ -14,12 +14,12 @@ const initialState = {
 export default function reduce(state = initialState, action) {
   switch (action.type) {
     case types.FETCH_ARTIST_BEGIN:
-      return Object.assign({}, state, { isArtistLoading: true });
+      return Object.assign({}, state, { isLoading: true });
 
     case types.FETCH_ARTIST_SUCCESS: {
       const { artistInfo, artistName, extract, img } = action.payload;
       return Object.assign({}, state, {
-        isArtistLoading: false,
+        isLoading: false,
         isArtistOverlayOpen: true,
         selectedArtist: {
           name: artistName,
@@ -33,19 +33,19 @@ export default function reduce(state = initialState, action) {
     case types.FETCH_ARTIST_FAILURE:
       // close overlay, loader
       return Object.assign({}, state, {
-        isArtistLoading: false,
+        isLoading: false,
         isArtistOverlayOpen: false,
       });
 
     case types.FETCH_ARTIST_OPEN:
       return Object.assign({}, state, {
-        isArtistLoading: false,
+        isLoading: false,
         isArtistOverlayOpen: true,
       });
 
     case types.FETCH_ARTIST_CLOSE:
       return Object.assign({}, state, {
-        isArtistLoading: false,
+        isLoading: false,
         isArtistOverlayOpen: false,
       });
 
