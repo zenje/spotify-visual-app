@@ -33,7 +33,3 @@ const AboutOverlay = (props) => {
     </OverlayBase>
   );
 };
-
-Footer.propTypes = {
-  repoLink: PropTypes.string,
-};

@@ -16,7 +16,7 @@ import {
 import BottomMenu from '../BottomMenu';
 import Footer from '../Footer';
 import { useWindowSize } from '../../hooks/useWindowSize';
-import { IS_LT_600W, RECENT_TRACKS_LIMIT, REPO_LINK } from '../../constants';
+import { IS_LT_600W, RECENT_TRACKS_LIMIT } from '../../constants';
 
 export default function Welcome(props) {
   const {

@@ -31,9 +31,15 @@ export const Overlay = styled.div`
     background-color: white;
     border: 0.5rem white solid;
     margin: 1rem;
-    padding: 0 1rem 1rem 1rem;
+    padding: ${(props) => (props.showArrow ? `0 1rem 1rem 1rem` : `1rem`)};
     word-break: break-word;
     text-align: center;
     white-space: pre-wrap; // preserve new lines for paragraphs
   }
+`;
+
+export const ArrowWrapper = styled.div`
+  background-color: white;
+  width: 100%;
+  top: 0%;
 `;

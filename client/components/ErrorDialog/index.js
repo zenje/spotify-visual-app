@@ -4,26 +4,24 @@ import ErrorIcon from '@material-ui/icons/Error';
 
 import * as types from '../../actions/actionTypes';
 import OverlayBase from '../OverlayBase';
-import { Wrapper } from './style';
 
 export default function ErrorDialog() {
   const isOpen = useSelector((state) => state.errors.isOpen);
   const error = useSelector((state) => state.errors.error);
 
   const dispatch = useDispatch();
-
   const handleClose = () => {
     dispatch({ type: types.HIDE_ERROR });
   };
 
   return (
     <OverlayBase open={isOpen} handleClose={handleClose}>
-      <Wrapper>
+      <>
         <div>
           <ErrorIcon />
         </div>
         <div>{error}</div>
-      </Wrapper>
+      </>
     </OverlayBase>
   );
 }

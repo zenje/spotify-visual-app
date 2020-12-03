@@ -4,7 +4,7 @@ import loadable from '@loadable/component';
 
 import OverlayBase from '../OverlayBase';
 import { useWindowSize } from '../../hooks/useWindowSize';
-import { Image, Lyrics, Wrapper } from './style';
+import { Lyrics } from './style';
 
 const ImageLoader = loadable(() => import('../ImageLoader'));
 
@@ -13,10 +13,10 @@ export default function LyricsOverlay(props) {
 
   return (
     <OverlayBase open={open} handleClose={handleClose} slideDirection={'right'}>
-      <Wrapper>
+      <>
         {img ? <ImageLoader img={img} isVisible={open} /> : null}
         <Lyrics textColor={textColor}>{lyrics}</Lyrics>
-      </Wrapper>
+      </>
     </OverlayBase>
   );
 }
