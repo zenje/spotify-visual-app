@@ -50,3 +50,12 @@ export const TOOLTIP_TEXT = {
   TOP_TRACKS: `Your top tracks are updated by Spotify daily, with data being available for three time spans.`,
   TOP_GENRES: `Your top genres are derived directly from the genres Spotify associates to your top artists. Note: This method may not reflect actual listening trends (e.g., for a user who listens to a lot of lo-fi by various artists, this may not be apparent).`,
 };
+
+// FOOTER
+
+export const ABOUT_TEXT = `Thanks for visiting! This is a small, experimental project built on an iPad Pro in 2020, an unusual year when I had a bit too much time on my hands. Let me know if you have any suggestions, or find any bugs :D\n\n- Jessica`;
+
+export const GITHUB_ICON =
+  'https://www.flaticon.com/svg/static/icons/svg/25/25231.svg';
+
+export const REPO_LINK = 'https://github.com/zenje/spotify-visual-app';

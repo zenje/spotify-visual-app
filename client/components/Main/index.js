@@ -2,24 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useWindowSize } from '../../hooks/useWindowSize';
-import { Parallax, ParallaxLayer } from 'react-spring/renderprops-addons';
+import loadable from '@loadable/component';
 
 import {
   getMyInfo,
   getCurrentPlayingTrack,
   getMyRecentlyPlayedTracks,
   setTokens,
-} from '../../actions/actions';
+} from '../../actions/spotifyActions';
 import BottomMenu from '../BottomMenu';
 import InitialLoader from '../loaders/InitialLoader';
-import Welcome from '../Welcome';
 import { StyledContainer, StyledWrapper } from './style';
 import { IS_LT_600W_700H } from '../../constants';
+
+const Welcome = loadable(() => import('../Welcome'));
 
 export default function Main() {
   const { accessToken, refreshToken, setCookies } = useParams();
   const [showLoadingBar, setShowLoadingBar] = useState(true);
-  const [parallax, setParallax] = useState(undefined);
   const size = useWindowSize();
 
   const dispatch = useDispatch();
@@ -63,6 +63,7 @@ export default function Main() {
 
   const { loading, display_name } = user;
   if (loading || showLoadingBar) {
+    Welcome.preload();
     return (
       <StyledContainer>
         <InitialLoader />

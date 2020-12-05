@@ -20,11 +20,12 @@ const fadeInDown = keyframes`
 export const Wrapper = styled.div`
   max-width: ${WRAPPER_MAX_WIDTH};
   margin: 0 auto;
-  height: 100vh;
+  padding-bottom: 2rem;
   display: flex;
   flex-direction: column;
   text-align: center;
   overflow-wrap: break-word;
+  position: relative;
 `;
 
 export const WelcomeBanner = styled.div`
@@ -144,4 +145,12 @@ export const StyledRecentTracks = styled(RecentTracks)`
 
 export const BottomMenuWrapper = styled.div`
   animation: ${fadeInUp} 2s ease-in-out;
+`;
+
+export const FooterWrapper = styled.div`
+  // stick footer at the bottom of page (within relatively positioned element with padding)
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: 2rem;
 `;

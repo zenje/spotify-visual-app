@@ -1,20 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTheme } from '@material-ui/core/styles';
 import useMediaQuery from '@material-ui/core/useMediaQuery';
 import VisibilitySensor from 'react-visibility-sensor';
 import Container from '@material-ui/core/Container';
+import loadable from '@loadable/component';
 
 import { closeArtistOverlay, getArtistInfo } from '../../actions/artistActions';
 import { useWindowSize } from '../../hooks/useWindowSize';
 import { useGetTopArtists } from '../../hooks/useGetTopArtists';
-import ArtistOverlay from '../ArtistOverlay';
 import {
   StyledGridList,
   StyledGridListTile,
   StyledGridListTileBar,
   TileWrapper,
 } from './style';
+
+const ArtistOverlay = loadable(() => import('../ArtistOverlay'));
+
 //import testData from './artistsTestData';
 
 /*const tileData = testData.items.map((item, idx) => ({
@@ -85,6 +88,9 @@ export default function ArtistsGrid(props) {
   const colsRows = getGridListColsRows(screenLarge, screenMedium);
   const cellHeight = size.height / 8;
 
+  const [hasArtistOverlayBeenOpened, setHasArtistOverlayBeenOpened] = useState(
+    false
+  );
   const handleArtistClose = () => {
     dispatch(closeArtistOverlay());
   };
@@ -110,6 +116,7 @@ export default function ArtistsGrid(props) {
                   tile.featured ? colsRows.tileRowsFeatured : colsRows.tileRows
                 }
                 onClick={() => {
+                  setHasArtistOverlayBeenOpened(true);
                   dispatch(getArtistInfo(tile.title, index, timeRange));
                 }}
                 index={index}
@@ -126,11 +133,13 @@ export default function ArtistsGrid(props) {
           </StyledGridList>
         )}
       </VisibilitySensor>
-      <ArtistOverlay
-        open={isArtistOverlayOpen}
-        handleClose={handleArtistClose}
-        artist={selectedArtist}
-      />
+      {hasArtistOverlayBeenOpened && (
+        <ArtistOverlay
+          open={isArtistOverlayOpen}
+          handleClose={handleArtistClose}
+          artist={selectedArtist}
+        />
+      )}
     </Container>
   );
 }

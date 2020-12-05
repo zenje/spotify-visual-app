@@ -3,10 +3,11 @@ import PropTypes from 'prop-types';
 
 import Backdrop from '@material-ui/core/Backdrop';
 import Slide from '@material-ui/core/Slide';
-import { Overlay, StyledModal as Modal } from './style';
+import UpArrow from '@material-ui/icons/KeyboardArrowUp';
+import { ArrowWrapper, Overlay, StyledModal as Modal } from './style';
 
 export default function OverlayBase(props) {
-  let { children, handleClose, slideDirection, open } = props;
+  let { children, handleClose, showArrow, slideDirection, open } = props;
 
   return (
     <Modal
@@ -27,8 +28,17 @@ export default function OverlayBase(props) {
         mountOnEnter
         unmountOnExit
       >
-        <Overlay>
-          <div className="overlay-wrapper">{children}</div>
+        <Overlay showArrow={showArrow}>
+          <div className="overlay-wrapper">
+            {showArrow && (
+              <ArrowWrapper>
+                <a onClick={handleClose} style={{ cursor: 'pointer' }}>
+                  <UpArrow style={{ verticalAlign: 'middle' }} />
+                </a>
+              </ArrowWrapper>
+            )}
+            {children}
+          </div>
         </Overlay>
       </Slide>
     </Modal>
@@ -38,6 +48,7 @@ export default function OverlayBase(props) {
 OverlayBase.propTypes = {
   children: PropTypes.node,
   handleClose: PropTypes.func.isRequired,
+  showArrow: PropTypes.bool,
   slideDirection: PropTypes.oneOf(['down', 'left', 'right', 'up']),
   open: PropTypes.bool.isRequired,
 };

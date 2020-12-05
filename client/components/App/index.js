@@ -9,16 +9,19 @@ import {
 } from 'react-router-dom';
 import { useTransition } from 'react-spring';
 import Cookies from 'js-cookie';
+import loadable from '@loadable/component';
 
-import ArtistLoader from '../loaders/ArtistLoader';
-import ArtistsGrid from '../ArtistsGrid';
-import Login from '../Login';
-import Main from '../Main';
-import TimeRangeWrapper from '../TimeRangeWrapper';
 import { TOOLTIP_TEXT } from '../../constants';
-import TopGenres from '../TopGenres';
-import TopTracks from '../TopTracks';
 import { Wrapper } from './style';
+
+const CircleLoader = loadable(() => import('../loaders/CircleLoader'));
+const ArtistsGrid = loadable(() => import('../ArtistsGrid'));
+const ErrorDialog = loadable(() => import('../ErrorDialog'));
+const Login = loadable(() => import('../Login'));
+const Main = loadable(() => import('../Main'));
+const TimeRangeWrapper = loadable(() => import('../TimeRangeWrapper'));
+const TopGenres = loadable(() => import('../TopGenres'));
+const TopTracks = loadable(() => import('../TopTracks'));
 
 export default function App() {
   const accessToken = Cookies.get('spotifyAccessToken');
@@ -32,13 +35,18 @@ export default function App() {
     enter: { opacity: 1, transform: 'translate3d(0, 0%,0)' },
     leave: { opacity: 0, transform: 'translate3d(0, 100%,0)' },
   });
-  const isArtistLoading = useSelector(
-    (state) => state.artistInfo.isArtistLoading
+  const isLoading = useSelector(
+    (state) => state.artistInfo.isLoading || state.lyrics.isLoading
   );
+
+  if (location.pathname.startsWith('/user')) {
+    TimeRangeWrapper.preload();
+  }
 
   return (
     <>
-      {isArtistLoading && <ArtistLoader />}
+      {isLoading && <CircleLoader />}
+      <ErrorDialog />
       {transitions.map(({ item: location, props, key }) => (
         <Wrapper style={{ ...props }} key={key}>
           <Switch location={location}>

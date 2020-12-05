@@ -5,6 +5,7 @@ import { ParallaxLayer } from 'react-spring/renderprops-addons';
 import {
   BottomMenuWrapper,
   CurrentTrackShadow,
+  FooterWrapper,
   getWelcomeAnimation,
   Sparkle,
   StyledCurrentTrack as CurrentTrack,
@@ -13,8 +14,9 @@ import {
   Wrapper,
 } from './style';
 import BottomMenu from '../BottomMenu';
+import Footer from '../Footer';
 import { useWindowSize } from '../../hooks/useWindowSize';
-import { RECENT_TRACKS_LIMIT, IS_LT_600W } from '../../constants';
+import { IS_LT_600W, RECENT_TRACKS_LIMIT } from '../../constants';
 
 export default function Welcome(props) {
   const {
@@ -47,6 +49,9 @@ export default function Welcome(props) {
       <BottomMenuWrapper>
         <BottomMenu />
       </BottomMenuWrapper>
+      <FooterWrapper>
+        <Footer />
+      </FooterWrapper>
     </Wrapper>
   );
 }

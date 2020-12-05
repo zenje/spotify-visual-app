@@ -2,12 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSpring, animated, config } from 'react-spring';
 import parse from 'html-react-parser';
+import loadable from '@loadable/component';
 
-import ImageLoader from '../ImageLoader';
 import OverlayBase from '../OverlayBase';
-import UpArrow from '@material-ui/icons/KeyboardArrowUp';
 import { useWindowSize } from '../../hooks/useWindowSize';
-import { ArrowWrapper, Extract, Image } from './style';
+import { Extract } from './style';
+
+const ImageLoader = loadable(() => import('../ImageLoader'));
 
 export default function ArtistOverlay(props) {
   let { artist, handleClose, open } = props;
@@ -19,13 +20,8 @@ export default function ArtistOverlay(props) {
   }
 
   return (
-    <OverlayBase open={open} handleClose={handleClose}>
+    <OverlayBase open={open} handleClose={handleClose} showArrow={true}>
       <>
-        <ArrowWrapper>
-          <a onClick={handleClose} style={{ cursor: 'pointer' }}>
-            <UpArrow style={{ verticalAlign: 'middle' }} />
-          </a>
-        </ArrowWrapper>
         {img ? <ImageLoader img={img} isVisible={open} /> : null}
         <div>
           <h2 id="modal-title">{name}</h2>
