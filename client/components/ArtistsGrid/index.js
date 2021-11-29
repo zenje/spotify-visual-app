@@ -5,6 +5,7 @@ import useMediaQuery from '@material-ui/core/useMediaQuery';
 import VisibilitySensor from 'react-visibility-sensor';
 import Container from '@material-ui/core/Container';
 import loadable from '@loadable/component';
+import PLACEHOLDER_IMG from '../../assets/solid-black-placeholder.jpg';
 
 import { closeArtistOverlay, getArtistInfo } from '../../actions/artistActions';
 import { useWindowSize } from '../../hooks/useWindowSize';
@@ -70,6 +71,14 @@ const getGridListColsRows = (screenLarge, screenMedium) => {
   return values;
 };
 
+const renderImg = (tile) => {
+  return tile.img ? (
+    <img src={tile.img} alt={tile.title} />
+  ) : (
+    <img src={PLACEHOLDER_IMG} alt={tile.title} />
+  );
+};
+
 export default function ArtistsGrid(props) {
   const dispatch = useDispatch();
   const timeRange = props.timeRange;
@@ -80,6 +89,7 @@ export default function ArtistsGrid(props) {
     (state) => state.artistInfo.selectedArtist
   );
   const tileData = useGetTopArtists(timeRange);
+  console.log('tileData', tileData);
 
   const theme = useTheme();
   const size = useWindowSize();
@@ -108,7 +118,7 @@ export default function ArtistsGrid(props) {
             {tileData.map((tile, index) => (
               <StyledGridListTile
                 align="center"
-                key={tile.img}
+                key={`${index}-${tile.title}`}
                 cols={
                   tile.featured ? colsRows.tileColsFeatured : colsRows.tileCols
                 }
@@ -122,7 +132,7 @@ export default function ArtistsGrid(props) {
                 index={index}
                 $isVisible={isVisible}
               >
-                <img src={tile.img} alt={tile.title} />
+                {renderImg(tile)}
                 <StyledGridListTileBar
                   title={tile.title}
                   titlePosition="bottom"

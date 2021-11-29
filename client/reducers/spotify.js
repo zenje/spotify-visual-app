@@ -24,7 +24,7 @@ const initialState = {
 const extractArtistData = (artistData) => {
   if (artistData && artistData.length > 0) {
     let tileData = artistData.map((item, idx) => ({
-      img: item.images ? item.images[0].url : undefined,
+      img: item.images && item.images.length ? item.images[0].url : undefined,
       title: item.name,
       featured: idx < 12,
       href: item.href,
