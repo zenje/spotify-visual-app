@@ -21,13 +21,15 @@
     "build": {
       "command": "webpack --config webpack/prod.config.js --progress --colors",
       "env": {
-        "NODE_ENV": "production"
+        "NODE_ENV": "production",
+        "NODE_OPTIONS": "--openssl-legacy-provider"
       }
     },
     "start": {
       "command": "node --openssl-legacy-provider server/app.js",
       "env": {
-        "NODE_ENV": "production"
+        "NODE_ENV": "production",
+        "NODE_OPTIONS": "--openssl-legacy-provider"
       }
     },
     "dev": {
