@@ -10,9 +10,9 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "better-npm-run --openssl-legacy-provider start",
+    "start": "better-npm-run start",
     "predeploy": "better-npm-run build",
-    "build": "better-npm-run --openssl-legacy-provider build",
+    "build": "better-npm-run build",
     "dev": "better-npm-run dev",
     "lint": "eslint --ignore-path .gitignore .;exit 0",
     "format": "npx prettier --write ."
@@ -25,7 +25,7 @@
       }
     },
     "start": {
-      "command": "node server/app.js",
+      "command": "node --openssl-legacy-provider server/app.js",
       "env": {
         "NODE_ENV": "production"
       }
