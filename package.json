@@ -10,9 +10,9 @@
   },
   "license": "MIT",
   "scripts": {
-    "start": "better-npm-run start",
+    "start": "better-npm-run --openssl-legacy-provider start",
     "predeploy": "better-npm-run build",
-    "build": "better-npm-run build",
+    "build": "better-npm-run --openssl-legacy-provider build",
     "dev": "better-npm-run dev",
     "lint": "eslint --ignore-path .gitignore .;exit 0",
     "format": "npx prettier --write ."
