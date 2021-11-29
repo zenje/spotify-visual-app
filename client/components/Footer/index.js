@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import MusicIcon from '@material-ui/icons/MusicNoteOutlined';
 import OverlayBase from '../OverlayBase';
-import { ABOUT_TEXT, GITHUB_ICON, REPO_LINK } from '../../constants';
+import { ABOUT_TEXT, REPO_LINK } from '../../constants';
+import GITHUB_ICON from '../../assets/github-icon.png';
 import { Icon, Wrapper } from './style';
 
 export default function Footer(props) {

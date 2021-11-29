@@ -13,6 +13,15 @@ module.exports = {
     rules: [
       { test: /\.svg$/, loaders: ['raw-loader'] },
       {
+        test: /\.(jpg|png)$/,
+        use: {
+          loader: 'url-loader',
+          options: {
+            limit: 25000,
+          },
+        },
+      },
+      {
         test: /\.s[ac]ss$/i,
         use: ['style-loader', 'css-loader', 'sass-loader'],
       },

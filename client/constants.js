@@ -55,7 +55,4 @@ export const TOOLTIP_TEXT = {
 
 export const ABOUT_TEXT = `Thanks for visiting! This is a small, experimental project built on an iPad Pro in 2020, an unusual year when I had a bit too much time on my hands. Let me know if you have any suggestions, or find any bugs :D\n\n- Jessica`;
 
-export const GITHUB_ICON =
-  'https://www.flaticon.com/svg/static/icons/svg/25/25231.svg';
-
 export const REPO_LINK = 'https://github.com/zenje/spotify-visual-app';

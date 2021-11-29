@@ -14,7 +14,8 @@
     "predeploy": "better-npm-run build",
     "build": "better-npm-run build",
     "dev": "better-npm-run dev",
-    "lint": "eslint --ignore-path .gitignore .;exit 0"
+    "lint": "eslint --ignore-path .gitignore .;exit 0",
+    "format": "npx prettier --write ."
   },
   "betterScripts": {
     "build": {
@@ -71,7 +72,8 @@
     "regenerator-runtime": "^0.13.7",
     "spotify-web-api-js": "^1.5.0",
     "spotify-web-api-node": "^4.0.0",
-    "styled-components": "^5.1.1"
+    "styled-components": "^5.1.1",
+    "url-loader": "^4.1.1"
   },
   "devDependencies": {
     "@babel/core": "^7.11.0",
